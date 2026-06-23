@@ -1,0 +1,360 @@
+// =====================================================================================
+// VEIXON — PostgreSQL TARGET schema (Phase 2 consolidation).
+// Single source of truth. Replaces SQLite + the dead Mongo file (lib/db.js).
+// Differences vs current schema.prisma:
+//   • datasource: sqlite → postgresql
+//   • JSON-as-text (String) → native Json (jsonb)  [requires the server-store patch in the runbook]
+//   • soft delete (deletedAt) + optimistic concurrency (version) on aggregates
+//   • Audit log + RBAC (Role/Permission) tables
+//   • Tighter indexing for hot paths
+// DO NOT point the app at this until you've followed docs/MIGRATION-POSTGRES.md.
+// =====================================================================================
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Startup {
+  id                 String   @id @default(cuid())
+  userId             String
+  ideaText           String?
+  targetCustomer     String?
+  problem            String?
+  scorecardJson      Json?
+  warPlanJson        Json?
+  devilsAdvocateJson Json?
+  failureProbability Float?
+  survivalEdge       String?
+  founderDNA         Json?
+
+  completedTasks     CompletedTask[]
+  taskEdits          TaskEdit[]
+  tractionDetails    TractionDetail[]
+  introRequests      IntroRequest[]
+
+  shareCardsGenerated Int      @default(0)
+  pivotAlerts        PivotAlert[]
+  subscriptionTier   String   @default("free")
+  accountabilityScore Float    @default(0)
+  taskCompletionRate Float     @default(0)
+  vaultUnlocked      Boolean  @default(false)
+  oath               String?
+  oathDate           DateTime?
+  stressTestResponse String?
+  tractionProof      Boolean  @default(false)
+  burnRate           Float?
+  cashInBank         Float?
+  monthlyRevenue     Float?
+  vznVoice           String?
+
+  marketIntelligence         Json?
+  competitorAwarenessAnswers Json?
+  trackedCompetitors         Json?
+
+  competitorNotes    CompetitorNote[]
+  dayDebriefs        DayDebrief[]
+  weekAnalyses       WeekAnalysis[]
+  decisionFollowUps  DecisionFollowUp[]
+  weekUnlockStatus   WeekUnlockStatus[]
+  workspaces         Workspace[]
+  decisions          Decision[]
+
+  version            Int      @default(1)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  deletedAt          DateTime?
+
+  @@index([userId])
+  @@index([userId, createdAt])
+}
+
+model CompletedTask {
+  id          String   @id @default(cuid())
+  taskId      String
+  completedAt DateTime
+  startup     Startup  @relation(fields: [startupId], references: [id], onDelete: Cascade)
+  startupId   String
+  @@index([startupId])
+}
+
+model TaskEdit {
+  id         String   @id @default(cuid())
+  taskId     String
+  original   String?
+  edited     String?
+  vznComment String?
+  editedAt   DateTime
+  startup    Startup  @relation(fields: [startupId], references: [id], onDelete: Cascade)
+  startupId  String
+  @@index([startupId])
+}
+
+model TractionDetail {
+  id        String   @id @default(cuid())
+  type      String?
+  value     String?
+  loggedAt  DateTime
+  startup   Startup  @relation(fields: [startupId], references: [id], onDelete: Cascade)
+  startupId String
+  @@index([startupId])
+}
+
+model IntroRequest {
+  id          String   @id @default(cuid())
+  vcName      String?
+  requestedAt DateTime
+  startup     Startup  @relation(fields: [startupId], references: [id], onDelete: Cascade)
+  startupId   String
+  @@index([startupId])
+}
+
+model PivotAlert {
+  id          String   @id @default(cuid())
+  triggeredAt DateTime
+  signals     Json?
+  message     String?
+  dismissedAt DateTime?
+  startup     Startup  @relation(fields: [startupId], references: [id], onDelete: Cascade)
+  startupId   String
+  @@index([startupId])
+}
+
+model CompetitorNote {
+  id             String   @id @default(cuid())
+  competitorName String?
+  week           Int?
+  notes          String?
+  date           DateTime?
+  startup        Startup  @relation(fields: [startupId], references: [id], onDelete: Cascade)
+  startupId      String
+  @@index([startupId])
+}
+
+model DayDebrief {
+  id                 String   @id @default(cuid())
+  week               Int?
+  day                Int?
+  prepAnswers        Json?
+  prepFeedback       String?
+  executionCount     Int?
+  executionNotes     Json?
+  subStepsCompleted  Json?
+  timeSpentMinutes   Int?
+  debrief            Json?
+  vznResponse        String?
+  patternFlag        String?
+  urgencyLevel       String?
+  competitiveInsight String?
+  tomorrowSuggestion String?
+  completedAt        DateTime?
+  dayCardShared      Boolean?
+  startup            Startup  @relation(fields: [startupId], references: [id], onDelete: Cascade)
+  startupId          String
+  @@unique([startupId, week, day])
+  @@index([startupId])
+}
+
+model WeekAnalysis {
+  id            String   @id @default(cuid())
+  week          Int?
+  patterns      Json?
+  warnings      Json?
+  strengths     Json?
+  weekScore     Float?
+  nextWeekFocus String?
+  vznVerdict    String?
+  generatedAt   DateTime?
+  startup       Startup  @relation(fields: [startupId], references: [id], onDelete: Cascade)
+  startupId     String
+  @@index([startupId])
+}
+
+model DecisionFollowUp {
+  id            String   @id @default(cuid())
+  decisionId    String?
+  dueDate       DateTime?
+  completedAt   DateTime?
+  actualOutcome String?
+  vznAccuracy   String?
+  vznAutopsy    String?
+  startup       Startup  @relation(fields: [startupId], references: [id], onDelete: Cascade)
+  startupId     String
+  @@index([startupId])
+}
+
+model WeekUnlockStatus {
+  id         String   @id @default(cuid())
+  week       Int?
+  unlocked   Boolean?
+  unlockedAt DateTime?
+  startup    Startup  @relation(fields: [startupId], references: [id], onDelete: Cascade)
+  startupId  String
+  @@index([startupId])
+}
+
+model User {
+  id                      String    @id @default(cuid())
+  email                   String    @unique
+  name                    String?
+  image                   String?
+  googleId                String?
+  githubId                String?
+  subscriptionTier        String    @default("free")
+  stripeCustomerId        String?
+  lastActiveDate          DateTime?
+  streakCount             Int       @default(0)
+  accountabilityScore     Float     @default(0)
+  taskCompletionRate      Float     @default(0)
+  vaultUnlocked           Boolean   @default(false)
+  oath                    String?
+  oathDate                DateTime?
+  stressTestResponse      String?
+  tractionProof           Boolean   @default(false)
+  burnRate                Float?
+  cashInBank              Float?
+  monthlyRevenue          Float?
+  fcmToken                String?
+  notificationsEnabled    Boolean   @default(false)
+  fcmTokenUpdatedAt       DateTime?
+  notificationPreferences Json?
+
+  roles                   UserRole[]
+
+  version                 Int       @default(1)
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
+  deletedAt               DateTime?
+
+  @@index([email])
+}
+
+model Checkin {
+  id        String   @id @default(cuid())
+  userId    String
+  startupId String
+  week      Int
+  status    String
+  tasksJson Json?
+  notes     String?
+  version   Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+  @@index([userId])
+  @@index([startupId])
+  @@index([userId, createdAt])
+}
+
+model Decision {
+  id          String   @id @default(cuid())
+  context     String?
+  optionsJson Json?
+  vznVerdict  String?
+  startup     Startup  @relation(fields: [startupId], references: [id], onDelete: Cascade)
+  startupId   String
+  version     Int      @default(1)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  deletedAt   DateTime?
+  @@index([startupId])
+  @@index([startupId, createdAt])
+}
+
+model Workspace {
+  id            String     @id @default(cuid())
+  startup       Startup    @relation(fields: [startupId], references: [id], onDelete: Cascade)
+  startupId     String
+  status        String     @default("planning")
+  contextObject Json?
+  artifacts     Artifact[]
+  agentJobs     AgentJob[]
+  version       Int        @default(1)
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  deletedAt     DateTime?
+  @@index([startupId])
+}
+
+model AgentJob {
+  id          String    @id @default(cuid())
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  workspaceId String
+  agentRole   String
+  status      String    @default("pending")
+  logs        Json?
+  startedAt   DateTime?
+  completedAt DateTime?
+  error       String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  @@index([workspaceId])
+}
+
+model Artifact {
+  id            String    @id @default(cuid())
+  workspace     Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  workspaceId   String
+  artifactType  String
+  content       Json?
+  version       Int       @default(1)
+  isApproved    Boolean   @default(false)
+  humanFeedback String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  @@index([workspaceId])
+}
+
+// ---------------- Audit & RBAC (new) ----------------
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  actorId   String?
+  action    String
+  entity    String
+  entityId  String?
+  before    Json?
+  after     Json?
+  ip        String?
+  userAgent String?
+  createdAt DateTime @default(now())
+  @@index([entity, entityId])
+  @@index([actorId, createdAt])
+}
+
+model Role {
+  id          String           @id @default(cuid())
+  name        String           @unique
+  description String?
+  users       UserRole[]
+  permissions RolePermission[]
+  createdAt   DateTime         @default(now())
+}
+
+model Permission {
+  id          String           @id @default(cuid())
+  key         String           @unique
+  description String?
+  roles       RolePermission[]
+}
+
+model RolePermission {
+  roleId       String
+  permissionId String
+  role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+  @@id([roleId, permissionId])
+}
+
+model UserRole {
+  userId String
+  roleId String
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role   Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  @@id([userId, roleId])
+  @@index([userId])
+}

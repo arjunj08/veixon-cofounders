@@ -1,0 +1,279 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Startup {
+  id                 String   @id @default(cuid())
+  userId             String
+  ideaText           String?
+  targetCustomer     String?
+  problem            String?
+  scorecardJson      String?  // JSON string
+  warPlanJson        String?  // JSON string
+  devilsAdvocateJson String?  // JSON string
+  failureProbability Float?
+  survivalEdge       String?
+  founderDNA         String?  // JSON string
+  
+  completedTasks     CompletedTask[]
+  taskEdits          TaskEdit[]
+  tractionDetails    TractionDetail[]
+  introRequests      IntroRequest[]
+  
+  shareCardsGenerated Int      @default(0)
+  pivotAlerts        PivotAlert[]
+  subscriptionTier   String   @default("free")
+  accountabilityScore Float    @default(0)
+  taskCompletionRate Float    @default(0)
+  vaultUnlocked      Boolean  @default(false)
+  oath               String?
+  oathDate           DateTime?
+  stressTestResponse String?
+  tractionProof      Boolean  @default(false)
+  burnRate           Float?
+  cashInBank         Float?
+  monthlyRevenue     Float?
+  vznVoice           String?
+
+  marketIntelligence         String?  // JSON string representing MarketIntelligence object
+  competitorAwarenessAnswers String?  // JSON string array
+  trackedCompetitors         String?  // JSON string array
+  
+  competitorNotes    CompetitorNote[]
+  dayDebriefs        DayDebrief[]
+  weekAnalyses       WeekAnalysis[]
+  decisionFollowUps  DecisionFollowUp[]
+  weekUnlockStatus   WeekUnlockStatus[]
+  
+  workspaces         Workspace[]
+  decisions          Decision[]
+
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model CompletedTask {
+  id          String   @id @default(cuid())
+  taskId      String
+  completedAt DateTime
+  startup     Startup  @relation(fields: [startupId], references: [id], onDelete: Cascade)
+  startupId   String
+}
+
+model TaskEdit {
+  id          String   @id @default(cuid())
+  taskId      String
+  original    String?
+  edited      String?
+  vznComment  String?
+  editedAt    DateTime
+  startup     Startup  @relation(fields: [startupId], references: [id], onDelete: Cascade)
+  startupId   String
+}
+
+model TractionDetail {
+  id          String   @id @default(cuid())
+  type        String?
+  value       String?
+  loggedAt    DateTime
+  startup     Startup  @relation(fields: [startupId], references: [id], onDelete: Cascade)
+  startupId   String
+}
+
+model IntroRequest {
+  id          String   @id @default(cuid())
+  vcName      String?
+  requestedAt DateTime
+  startup     Startup  @relation(fields: [startupId], references: [id], onDelete: Cascade)
+  startupId   String
+}
+
+model PivotAlert {
+  id          String   @id @default(cuid())
+  triggeredAt DateTime
+  signals     String?  // JSON string array
+  message     String?
+  dismissedAt DateTime?
+  startup     Startup  @relation(fields: [startupId], references: [id], onDelete: Cascade)
+  startupId   String
+}
+
+model CompetitorNote {
+  id             String   @id @default(cuid())
+  competitorName String?
+  week           Int?
+  notes          String?
+  date           DateTime?
+  startup        Startup  @relation(fields: [startupId], references: [id], onDelete: Cascade)
+  startupId      String
+}
+
+model DayDebrief {
+  id                  String   @id @default(cuid())
+  week                Int?
+  day                 Int?
+  prepAnswers         String?  // JSON string array
+  prepFeedback        String?
+  executionCount      Int?
+  executionNotes      String?  // JSON string array
+  subStepsCompleted   String?  // JSON string array
+  timeSpentMinutes    Int?
+  debrief             String?  // JSON string object
+  vznResponse         String?
+  patternFlag         String?
+  urgencyLevel        String?
+  competitiveInsight  String?
+  tomorrowSuggestion  String?
+  completedAt         DateTime?
+  dayCardShared       Boolean?
+  startup             Startup  @relation(fields: [startupId], references: [id], onDelete: Cascade)
+  startupId           String
+}
+
+model WeekAnalysis {
+  id             String   @id @default(cuid())
+  week           Int?
+  patterns       String?  // JSON string array
+  warnings       String?  // JSON string array
+  strengths      String?  // JSON string array
+  weekScore      Float?
+  nextWeekFocus  String?
+  vznVerdict     String?
+  generatedAt    DateTime?
+  startup        Startup  @relation(fields: [startupId], references: [id], onDelete: Cascade)
+  startupId      String
+}
+
+model DecisionFollowUp {
+  id             String   @id @default(cuid())
+  decisionId     String?
+  dueDate        DateTime?
+  completedAt    DateTime?
+  actualOutcome  String?
+  vznAccuracy    String?
+  vznAutopsy     String?
+  startup        Startup  @relation(fields: [startupId], references: [id], onDelete: Cascade)
+  startupId      String
+}
+
+model WeekUnlockStatus {
+  id          String   @id @default(cuid())
+  week        Int?
+  unlocked    Boolean?
+  unlockedAt  DateTime?
+  startup     Startup  @relation(fields: [startupId], references: [id], onDelete: Cascade)
+  startupId   String
+}
+
+// User Profile
+model User {
+  id                   String   @id @default(cuid())
+  email                String   @unique
+  name                 String?
+  image                String?
+  googleId             String?
+  subscriptionTier     String   @default("free")
+  stripeCustomerId     String?
+  lastActiveDate       DateTime?
+  streakCount          Int      @default(0)
+  accountabilityScore  Float    @default(0)
+  taskCompletionRate   Float    @default(0)
+  vaultUnlocked        Boolean  @default(false)
+  oath                 String?
+  oathDate             DateTime?
+  stressTestResponse   String?
+  tractionProof        Boolean  @default(false)
+  burnRate             Float?
+  cashInBank           Float?
+  monthlyRevenue       Float?
+  fcmToken             String?
+  notificationsEnabled Boolean  @default(false)
+  fcmTokenUpdatedAt    DateTime?
+  notificationPreferences String? // JSON object
+
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+}
+
+// Checkin
+model Checkin {
+  id          String   @id @default(cuid())
+  userId      String
+  startupId   String
+  week        Int
+  status      String   
+  tasksJson   String?  // JSON string
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([userId])
+  @@index([startupId])
+}
+
+// Decision
+model Decision {
+  id             String   @id @default(cuid())
+  context        String?
+  optionsJson    String?  // JSON string
+  vznVerdict     String?
+  
+  startup        Startup  @relation(fields: [startupId], references: [id], onDelete: Cascade)
+  startupId      String
+  
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([startupId])
+}
+
+// Builder AI Models
+model Workspace {
+  id            String   @id @default(cuid())
+  startup       Startup  @relation(fields: [startupId], references: [id], onDelete: Cascade)
+  startupId     String
+  status        String   @default("planning") // planning, building, complete, failed
+  contextObject String?  // JSON string
+  
+  artifacts     Artifact[]
+  agentJobs     AgentJob[]
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model AgentJob {
+  id            String   @id @default(cuid())
+  workspace     Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  workspaceId   String
+  agentRole     String
+  status        String   @default("pending") // pending, running, completed, failed
+  logs          String?  // JSON string array
+  startedAt     DateTime?
+  completedAt   DateTime?
+  error         String?
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Artifact {
+  id            String   @id @default(cuid())
+  workspace     Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  workspaceId   String
+  artifactType  String   // prd, schema, api, ui, code, roadmap, deployment
+  content       String?  // JSON String or raw string depending on type
+  version       Int      @default(1)
+  isApproved    Boolean  @default(false)
+  humanFeedback String?
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
