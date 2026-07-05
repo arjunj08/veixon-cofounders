@@ -65,7 +65,7 @@ export default function CosmicBackdrop() {
         isGas?: boolean
         bands?: number[][]
       }) {
-        const S = 512
+        const S = 128
         const canvas = document.createElement('canvas')
         canvas.width = canvas.height = S
         const ctx = canvas.getContext('2d')!
@@ -83,7 +83,7 @@ export default function CosmicBackdrop() {
           const tl = rn(xi, yi)
           const tr = rn(xi + 1, yi)
           const bl = rn(xi, yi + 1)
-          const br = rn(xi + 1, yi + 1)
+          const br = rn(xi + 1, yi+1)
           const u = xf * xf * (3 - 2 * xf)
           const v = yf * yf * (3 - 2 * yf)
           return tl * (1 - u) * (1 - v) + tr * u * (1 - v) + bl * (1 - u) * v + br * u * v
@@ -111,12 +111,12 @@ export default function CosmicBackdrop() {
             for (let x = 0; x < S; x++) {
               const n = fb(x / S * 9, y / S * 9, 6)
               const crater = fb(x / S * 18 + 1.3, y / S * 18 + 2.1, 4)
-              let base = lerp(80, 145, n)
-              if (crater > 0.6) base -= (crater - 0.6) * 200
+              let base = lerp(90, 160, n)
+              if (crater > 0.6) base -= (crater - 0.6) * 180
               const i = (y * S + x) * 4
-              d[i] = clamp(base + 5)
-              d[i + 1] = clamp(base)
-              d[i + 2] = clamp(base - 8)
+              d[i] = clamp(base + 25)
+              d[i + 1] = clamp(base + 12)
+              d[i + 2] = clamp(base - 10)
               d[i + 3] = 255
               bd[i] = bd[i + 1] = bd[i + 2] = clamp(crater * 180 + n * 60)
               bd[i + 3] = 255
@@ -127,9 +127,9 @@ export default function CosmicBackdrop() {
             for (let x = 0; x < S; x++) {
               const n = fb(x / S * 5, y / S * 5, 6)
               const swirl = fb(x / S * 12 + n * 0.3, y / S * 4, 3)
-              const r = clamp(lerp(200, 240, n) + swirl * 20)
-              const g = clamp(lerp(140, 185, n) + swirl * 10)
-              const bv = clamp(lerp(30, 60, n))
+              const r = clamp(lerp(220, 255, n) + swirl * 20)
+              const g = clamp(lerp(150, 210, n) + swirl * 15)
+              const bv = clamp(lerp(40, 80, n))
               const i = (y * S + x) * 4
               d[i] = r
               d[i + 1] = g
@@ -148,36 +148,36 @@ export default function CosmicBackdrop() {
               const polar = lat > 0.82
               let r = 0, g = 0, b = 0, h = 0
               if (polar && lat > 0.88 + n * 0.04) {
-                r = 240
-                g = 245
+                r = 245
+                g = 250
                 b = 255
               } else if (n > 0.47) {
                 const altitude = (n - 0.47) * 3.5
                 if (altitude < 0.4) {
-                  r = clamp(30 + altitude * 50)
-                  g = clamp(110 + altitude * 30)
-                  b = clamp(40 + altitude * 20)
+                  r = clamp(20 + altitude * 40)
+                  g = clamp(190 + altitude * 30)
+                  b = clamp(50 + altitude * 20)
                 } else if (altitude < 0.75) {
-                  r = clamp(130 + altitude * 60)
-                  g = clamp(105 + altitude * 40)
-                  b = clamp(60 + altitude * 30)
+                  r = clamp(160 + altitude * 50)
+                  g = clamp(135 + altitude * 35)
+                  b = clamp(70 + altitude * 25)
                 } else {
-                  r = clamp(190 + altitude * 40)
-                  g = clamp(180 + altitude * 35)
-                  b = clamp(170 + altitude * 30)
+                  r = clamp(210 + altitude * 30)
+                  g = clamp(195 + altitude * 25)
+                  b = clamp(180 + altitude * 20)
                 }
                 h = clamp((n - 0.47) * 2.5 * 255)
               } else {
                 const depth = (0.47 - n) * 4
-                r = clamp(lerp(0, 28, depth))
-                g = clamp(lerp(100, 45, depth))
-                b = clamp(lerp(180, 130, depth))
+                r = clamp(lerp(0, 10, depth))
+                g = clamp(lerp(90, 40, depth))
+                b = clamp(lerp(255, 190, depth))
               }
               if (cloud > 0.52 && !polar) {
                 const cl = Math.min(1, (cloud - 0.52) * 4.5)
-                r = clamp(lerp(r, 240, cl))
-                g = clamp(lerp(g, 242, cl))
-                b = clamp(lerp(b, 248, cl))
+                r = clamp(lerp(r, 245, cl))
+                g = clamp(lerp(g, 248, cl))
+                b = clamp(lerp(b, 255, cl))
               }
               const i = (y * S + x) * 4
               d[i] = r
@@ -197,17 +197,17 @@ export default function CosmicBackdrop() {
               const canyon = y > S * 0.42 && y < S * 0.58 && fb(x / S * 4, y / S * 40, 3) > 0.55
               let r = 0, g = 0, b = 0, h = 0
               if (lat > 0.84 && n > 0.42) {
-                r = 245
-                g = 248
+                r = 250
+                g = 252
                 b = 255
               } else if (canyon) {
-                r = clamp(120 - dust * 20)
-                g = clamp(55 - dust * 15)
-                b = clamp(35 - dust * 10)
+                r = clamp(140 - dust * 20)
+                g = clamp(45 - dust * 15)
+                b = clamp(20 - dust * 10)
               } else {
-                r = clamp(lerp(170, 210, n) + dust * 25)
-                g = clamp(lerp(68, 92, n) + dust * 12)
-                b = clamp(lerp(38, 55, n) + dust * 8)
+                r = clamp(lerp(210, 250, n) + dust * 20)
+                g = clamp(lerp(60, 100, n) + dust * 10)
+                b = clamp(lerp(25, 45, n) + dust * 5)
               }
               h = clamp(n * 200)
               const i = (y * S + x) * 4
@@ -235,16 +235,15 @@ export default function CosmicBackdrop() {
               const c1 = bands[Math.min(bands.length - 1, bi + 1)]
               const polar = Math.max(0, lat - 0.75) * 4
               const i = (y * S + x) * 4
-              d[i] = clamp((c0[0] + (c1[0] - c0[0]) * bf) * lerp(1, 0.7, polar))
-              d[i + 1] = clamp((c0[1] + (c1[1] - c0[1]) * bf) * lerp(1, 0.7, polar))
-              d[i + 2] = clamp((c0[2] + (c1[2] - c0[2]) * bf) * lerp(1, 0.65, polar))
+              d[i] = clamp((c0[0] + (c1[0] - c0[0]) * bf) * lerp(1, 0.75, polar))
+              d[i + 1] = clamp((c0[1] + (c1[1] - c0[1]) * bf) * lerp(1, 0.75, polar))
+              d[i + 2] = clamp((c0[2] + (c1[2] - c0[2]) * bf) * lerp(1, 0.7, polar))
               d[i + 3] = 255
               bd[i] = bd[i + 1] = bd[i + 2] = 0
               bd[i + 3] = 255
             }
           }
           if (p.type === 'jupiter') {
-            // Great Red Spot
             for (let y = 0; y < S; y++) {
               for (let x = 0; x < S; x++) {
                 const gx = (x / S - 0.55) * 2.8
@@ -252,9 +251,9 @@ export default function CosmicBackdrop() {
                 const grs = Math.max(0, 1 - Math.sqrt(gx * gx + gy * gy))
                 if (grs > 0) {
                   const i = (y * S + x) * 4
-                  d[i] = clamp(lerp(d[i], 195, grs * 0.7))
-                  d[i + 1] = clamp(lerp(d[i + 1], 60, grs * 0.7))
-                  d[i + 2] = clamp(lerp(d[i + 2], 40, grs * 0.7))
+                  d[i] = clamp(lerp(d[i], 225, grs * 0.85))
+                  d[i + 1] = clamp(lerp(d[i + 1], 40, grs * 0.85))
+                  d[i + 2] = clamp(lerp(d[i + 2], 20, grs * 0.85))
                 }
               }
             }
@@ -266,14 +265,14 @@ export default function CosmicBackdrop() {
               const storm = fb(x / S * 14 + 1.8, y / S * 14 + 0.8, 4)
               const band = Math.sin(y / S * Math.PI * 10) * 0.04
               const i = (y * S + x) * 4
-              d[i] = clamp(28 + n * 35 + band * 30)
-              d[i + 1] = clamp(60 + n * 55 + band * 25)
-              d[i + 2] = clamp(180 + n * 60 + band * 20)
+              d[i] = clamp(15 + n * 30 + band * 20)
+              d[i + 1] = clamp(60 + n * 45 + band * 15)
+              d[i + 2] = 255
               if (storm > 0.68) {
                 const sc = (storm - 0.68) * 3.5
-                d[i] = clamp(d[i] + sc * 80)
-                d[i + 1] = clamp(d[i + 1] + sc * 80)
-                d[i + 2] = clamp(d[i + 2] + sc * 60)
+                d[i] = clamp(d[i] + sc * 90)
+                d[i + 1] = clamp(d[i + 1] + sc * 90)
+                d[i + 2] = clamp(d[i + 2] + sc * 50)
               }
               d[i + 3] = 255
               bd[i] = bd[i + 1] = bd[i + 2] = clamp(n * 180)
@@ -281,7 +280,6 @@ export default function CosmicBackdrop() {
             }
           }
         } else {
-          // Generic rocky fallback
           const col = p.color || [128, 128, 128]
           for (let y = 0; y < S; y++) {
             for (let x = 0; x < S; x++) {
@@ -401,22 +399,22 @@ export default function CosmicBackdrop() {
       corona.scale.setScalar(1.65)
       solarG.add(corona)
 
-      /* ── scaled-down planet parameters (so they fit on screen beautifully) ── */
+      /* ── scaled-down planet parameters with high color saturation ── */
       const PLAN = [
-        { r: 1.8, s: 0.08, color: [152, 143, 131], rough: 0.55, seed: 1, spd: 0.50, bumpScale: 0.04, type: 'mercury' },
-        { r: 2.4, s: 0.12, color: [224, 184, 120], rough: 0.25, seed: 2, spd: 0.37, bumpScale: 0.02, type: 'venus' },
+        { r: 1.8, s: 0.08, color: [220, 110, 50], rough: 0.55, seed: 1, spd: 0.50, bumpScale: 0.04, type: 'mercury' },
+        { r: 2.4, s: 0.12, color: [255, 180, 40], rough: 0.25, seed: 2, spd: 0.37, bumpScale: 0.02, type: 'venus' },
         { r: 3.0, s: 0.14, isEarth: true, seed: 3, spd: 0.31, type: 'earth' },
-        { r: 3.6, s: 0.10, color: [202, 92, 55], rough: 0.55, seed: 4, spd: 0.25, bumpScale: 0.05, type: 'mars' },
+        { r: 3.6, s: 0.10, color: [240, 65, 30], rough: 0.55, seed: 4, spd: 0.25, bumpScale: 0.05, type: 'mars' },
         {
           r: 4.8,
           s: 0.32,
           isGas: true,
           bands: [
-            [210, 180, 140],
-            [150, 100, 70],
-            [225, 200, 165],
-            [140, 95, 65],
-            [205, 165, 120],
+            [235, 140, 60],
+            [170, 70, 40],
+            [250, 210, 150],
+            [140, 50, 30],
+            [220, 160, 90],
           ],
           seed: 11,
           spd: 0.14,
@@ -427,9 +425,9 @@ export default function CosmicBackdrop() {
           s: 0.26,
           isGas: true,
           bands: [
-            [228, 208, 158],
-            [205, 180, 125],
-            [232, 216, 176],
+            [245, 200, 100],
+            [215, 150, 60],
+            [255, 225, 150],
           ],
           seed: 12,
           spd: 0.10,
@@ -441,9 +439,9 @@ export default function CosmicBackdrop() {
           s: 0.18,
           isGas: true,
           bands: [
-            [150, 215, 228],
-            [180, 228, 238],
-            [160, 218, 230],
+            [50, 220, 200],
+            [100, 240, 220],
+            [30, 200, 180],
           ],
           seed: 13,
           spd: 0.075,
@@ -452,14 +450,15 @@ export default function CosmicBackdrop() {
         { r: 8.0, s: 0.18, seed: 14, spd: 0.058, type: 'neptune' },
       ]
 
-      const planets: { orb: THREE.Group; spd: number; mesh: THREE.Mesh }[] = []
+      const planets: { orb: THREE.Group; spd: number; mesh: THREE.Mesh; startAngle: number }[] = []
       const orbitMaterials: THREE.LineBasicMaterial[] = []
 
       PLAN.forEach((p) => {
         const orb = new THREE.Group()
         // Inclined orbits for depth
         orb.rotation.x = (Math.random() - 0.5) * 0.08
-        orb.rotation.y = Math.random() * Math.PI * 2
+        const startAngle = Math.random() * Math.PI * 2
+        orb.rotation.y = startAngle
 
         const maps = makePlanetMaps(p)
         const pl = new THREE.Mesh(
@@ -482,7 +481,7 @@ export default function CosmicBackdrop() {
         if (p.ring) {
           const rg = new THREE.Mesh(
             new THREE.RingGeometry(p.s * 1.45, p.s * 2.5, 72),
-            new THREE.MeshBasicMaterial({ color: 0xe6d3a0, transparent: true, opacity: 0.7, side: THREE.DoubleSide })
+            new THREE.MeshBasicMaterial({ color: 0xffcc44, transparent: true, opacity: 0.75, side: THREE.DoubleSide })
           )
           rg.rotation.x = Math.PI / 2.3
           rg.position.x = p.r
@@ -498,7 +497,7 @@ export default function CosmicBackdrop() {
         orb.add(new THREE.LineLoop(og, orbitMat))
 
         solarG.add(orb)
-        planets.push({ orb, spd: p.spd, mesh: pl })
+        planets.push({ orb, spd: p.spd, mesh: pl, startAngle })
       })
 
       /* ── asteroid belt ── */
@@ -530,7 +529,8 @@ export default function CosmicBackdrop() {
       solarG.add(asteroidG)
 
       /* ── lights ── */
-      solarG.add(new THREE.AmbientLight(0x7080a0, 0.65))
+      // Bright neutral white ambient light so that shadowing doesn't look dull or dark grey
+      solarG.add(new THREE.AmbientLight(0xffffff, 0.85))
       const sunLight = new THREE.PointLight(0xfff2d6, 3.2, 320)
       solarG.add(sunLight)
 
@@ -566,6 +566,28 @@ export default function CosmicBackdrop() {
       }
       window.addEventListener('mousemove', onMouse)
 
+      /* ── MutationObserver (to dynamically swap theme assets cleanly without render loop polling) ── */
+      let isDarkTheme = !document.documentElement.classList.contains('light')
+      const applyThemeState = (dark: boolean) => {
+        isDarkTheme = dark
+        starPoints.visible = dark
+        dustPoints.visible = dark
+        asteroidG.visible = dark
+        orbitMaterials.forEach((m) => {
+          m.color.setHex(dark ? 0xbcd0ea : 0x534ab7)
+          m.opacity = dark ? 0.18 : 0.42
+        })
+      }
+      applyThemeState(isDarkTheme)
+
+      const observer = new MutationObserver(() => {
+        const dark = !document.documentElement.classList.contains('light')
+        if (dark !== isDarkTheme) {
+          applyThemeState(dark)
+        }
+      })
+      observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
+
       /* ── render loop ── */
       let raf: number
       const clock = new THREE.Clock()
@@ -577,30 +599,22 @@ export default function CosmicBackdrop() {
         sunMat.uniforms.uTime.value = t
         sun.rotation.y = t * 0.05
 
-        // Check active theme in real-time
-        const isDarkTheme = !document.documentElement.classList.contains('light')
-        starPoints.visible = isDarkTheme
-        dustPoints.visible = isDarkTheme
-        asteroidG.visible = isDarkTheme
-
-        // Dynamically adjust orbit lines based on theme
-        orbitMaterials.forEach((m) => {
-          m.color.setHex(isDarkTheme ? 0xbcd0ea : 0x534ab7) // Beautiful purple orbits in light mode
-          m.opacity = isDarkTheme ? 0.18 : 0.34
-        })
-
-        // Orbit and spin planets
+        // Absolute time-dependent planet orbit positions to guarantee absolute 60fps smoothing
         planets.forEach((p) => {
-          p.orb.rotation.y += p.spd * 0.002
-          p.mesh.rotation.y += 0.008
+          p.orb.rotation.y = p.startAngle + t * p.spd * 0.08
+          p.mesh.rotation.y = t * 0.35
         })
 
         // Slowly rotate stardust points
-        dustPoints.rotation.y = t * 0.015
+        if (isDarkTheme) {
+          dustPoints.rotation.y = t * 0.015
+        }
 
-        // Smooth camera parallax
-        cam.position.x += (ptr.x * 1.8 - cam.position.x) * 0.02
-        cam.position.y += (ptr.y * 1.2 + 5.5 - cam.position.y) * 0.02
+        // Highly responsive, stutter-free floating camera interpolation
+        const targetX = ptr.x * 1.6
+        const targetY = ptr.y * 1.0 + 5.5
+        cam.position.x += (targetX - cam.position.x) * 0.05
+        cam.position.y += (targetY - cam.position.y) * 0.05
         cam.lookAt(0, 0, 0)
 
         renderer.render(scene, cam)
@@ -610,6 +624,7 @@ export default function CosmicBackdrop() {
       cleanup = () => {
         cancelled = true
         cancelAnimationFrame(raf)
+        observer.disconnect()
         window.removeEventListener('resize', onResize)
         window.removeEventListener('mousemove', onMouse)
         renderer.dispose()
