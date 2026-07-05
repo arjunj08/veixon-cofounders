@@ -7,8 +7,9 @@ import { motion } from 'framer-motion'
 import { AlertTriangle, Check, ChevronDown, ChevronRight, Loader2, Pencil, Share2 } from 'lucide-react'
 import VZNAvatar from '@/components/ui/VZNAvatar'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
-import MarketIntelligenceDisplay from '@/app/components/results/MarketIntelligenceDisplay'
-import IdeaAlreadyExistsWarning from '@/app/components/results/IdeaAlreadyExistsWarning'
+import MarketIntelligenceDisplay from '@/components/results/MarketIntelligenceDisplay'
+import IdeaAlreadyExistsWarning from '@/components/results/IdeaAlreadyExistsWarning'
+import ScorecardMesh from '@/components/results/ScorecardMesh'
 import type { MarketIntelligence } from '@/lib/types'
 import AppShell from '@/components/AppShell'
 
@@ -89,25 +90,36 @@ function Scorecard({ data }: { data: any }) {
         </div>
         <VZNAvatar size="sm" />
       </div>
-      <div className="grid gap-5 md:grid-cols-2">
-        {Object.entries(data || {}).map(([key, value]: any, index) => (
-          <div key={key}>
-            <div className="mb-1 flex items-center justify-between">
-              <span className="text-sm font-medium">{scoreLabels[key] || key}</span>
-              <span className="text-sm font-bold">{value.score}/10</span>
+      
+      <div className="grid gap-8 lg:grid-cols-12">
+        {/* Left Side: 2D metrics bars */}
+        <div className="lg:col-span-7 grid gap-5 sm:grid-cols-2">
+          {Object.entries(data || {}).map(([key, value]: any, index) => (
+            <div key={key} className="flex flex-col justify-between">
+              <div>
+                <div className="mb-1 flex items-center justify-between">
+                  <span className="text-sm font-medium">{scoreLabels[key] || key}</span>
+                  <span className="text-sm font-bold">{value.score}/10</span>
+                </div>
+                <div className="h-2 overflow-hidden rounded-full" style={{ background: 'var(--border)' }}>
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: `${Number(value.score || 0) * 10}%` }}
+                    transition={{ delay: index * 0.1 }}
+                    className="h-full rounded-full"
+                    style={{ background: key === 'executionRisk' ? 'var(--red)' : 'var(--purple)' }}
+                  />
+                </div>
+              </div>
+              <p className="mt-2 text-xs leading-relaxed" style={{ color: 'var(--text-muted)' }}>{value.explanation}</p>
             </div>
-            <div className="h-2 overflow-hidden rounded-full" style={{ background: 'var(--border)' }}>
-              <motion.div
-                initial={{ width: 0 }}
-                animate={{ width: `${Number(value.score || 0) * 10}%` }}
-                transition={{ delay: index * 0.1 }}
-                className="h-full rounded-full"
-                style={{ background: key === 'executionRisk' ? 'var(--red)' : 'var(--purple)' }}
-              />
-            </div>
-            <p className="mt-2 text-xs leading-relaxed" style={{ color: 'var(--text-muted)' }}>{value.explanation}</p>
-          </div>
-        ))}
+          ))}
+        </div>
+
+        {/* Right Side: Interactive 3D Mesh */}
+        <div className="lg:col-span-5 flex flex-col justify-center items-center h-[320px]">
+          <ScorecardMesh data={data} />
+        </div>
       </div>
     </motion.section>
   )

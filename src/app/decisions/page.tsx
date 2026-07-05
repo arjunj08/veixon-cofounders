@@ -4,6 +4,7 @@ import { FormEvent, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import AppShell from '@/components/AppShell'
 import VZNAvatar from '@/components/ui/VZNAvatar'
+import VznMatrixCore from '@/components/dashboard/VznMatrixCore'
 
 const types = ['pricing', 'hiring', 'pivot', 'fundraising', 'product', 'go-to-market']
 
@@ -70,7 +71,17 @@ export default function DecisionsPage() {
         </form>
 
         <section className="vzn-panel rounded-[1.5rem] p-6">
-          {!result ? (
+          {loading ? (
+            <div className="grid h-full min-h-[420px] place-items-center text-center">
+              <div>
+                <div className="scale-125 mb-4">
+                  <VznMatrixCore />
+                </div>
+                <p className="mt-4 text-sm text-[var(--purple)] font-mono tracking-widest animate-pulse">RUNNING MONTE CARLO SCENARIO ANALYSIS...</p>
+                <p className="text-xs text-[var(--text-muted)] mt-1.5">VZN is evaluating pricing, GTM, and hiring vectors...</p>
+              </div>
+            </div>
+          ) : !result ? (
             <div className="grid h-full min-h-[420px] place-items-center text-center" style={{ color: 'var(--text-muted)' }}>
               <div>
                 <VZNAvatar size="lg" className="mx-auto mb-5" />

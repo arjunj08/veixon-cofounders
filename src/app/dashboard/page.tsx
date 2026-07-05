@@ -11,7 +11,8 @@ import TaskList from '@/components/dashboard/TaskList'
 import DecisionTable from '@/components/dashboard/DecisionTable'
 import BurnClock from '@/components/dashboard/BurnClock'
 import VZNAvatar from '@/components/ui/VZNAvatar'
-import NotificationPermission from '@/app/components/ui/NotificationPermission'
+import VznMatrixCore from '@/components/dashboard/VznMatrixCore'
+import NotificationPermission from '@/components/ui/NotificationPermission'
 import AnimatedNumber from '@/components/ui/motion/AnimatedNumber'
 import { DashboardSkeleton } from '@/components/ui/motion/Skeleton'
 
@@ -223,7 +224,7 @@ export default function DashboardPage() {
               </section>
               <section className="vzn-panel veixon-lift veixon-rise rounded-[1.5rem] p-6 lg:col-span-4" style={{ ['--d' as any]: '0.08s' }}>
                 <h2 className="mb-6 text-lg font-bold">VZN Insights</h2>
-                <VZNAvatar size="lg" />
+                <VznMatrixCore />
                 <p className="mt-6 text-lg font-medium leading-snug">&quot;{data.insight}&quot;</p>
                 <button onClick={() => router.push('/dashboard#checkins')} className="vzn-button-primary mt-6 w-full rounded-xl px-4 py-3 text-sm font-semibold">
                   Run check-in

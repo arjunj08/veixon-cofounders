@@ -6,7 +6,8 @@
 <title>VEIXON — Your AI Co-Founder from Day One</title>
 <style>
   :root{ --bg:#000; --txt:#fff; --muted:rgba(255,255,255,.58); --border:rgba(255,255,255,.13); --card:rgba(255,255,255,.045); --accent:#fff; --inv:#000; --red:#ff6b6b; }
-  body.light{ --bg:#070b1a; --txt:#eaeefb; --muted:rgba(234,238,251,.64); --border:rgba(255,255,255,.16); --card:rgba(255,255,255,.06); --accent:#ffd28a; --inv:#0a0a0a; --red:#ff8a8a; }
+  body.light{ --bg:#f8fafc; --txt:#0f172a; --muted:#475569; --border:rgba(15,23,42,0.08); --card:rgba(255,255,255,0.75); --accent:#6366f1; --inv:#fff; --red:#ef4444; }
+  body.light #vignette{background:radial-gradient(130% 90% at 50% 30%,transparent 60%,rgba(241,245,249,0.5) 100%)}
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
   body{background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background .6s,color .6s}
@@ -15,6 +16,7 @@
   /* fixed layers */
   #bg{position:fixed;inset:0;z-index:0}
   #vignette{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(130% 90% at 50% 30%,transparent 42%,rgba(4,6,14,.72) 100%)}
+  #grid{position:fixed;inset:0;z-index:1;pointer-events:none;background-image:linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);background-size:46px 46px;mask-image:radial-gradient(120% 90% at 50% 18%, #000 40%, transparent 85%);-webkit-mask-image:radial-gradient(120% 90% at 50% 18%, #000 40%, transparent 85%);opacity:0.4;}
   #grain{position:fixed;inset:-50%;z-index:3;pointer-events:none;opacity:.045;mix-blend-mode:overlay;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");animation:grain .6s steps(4) infinite}
   @keyframes grain{0%{transform:translate(0,0)}25%{transform:translate(-3%,2%)}50%{transform:translate(2%,-3%)}75%{transform:translate(-2%,-2%)}100%{transform:translate(3%,3%)}}
   /* custom cursor */
@@ -70,8 +72,57 @@
   .bignum{font-size:clamp(48px,9vw,64px);font-weight:800;color:var(--red);line-height:1}
   .tpill{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:5px 11px;font-size:11px;font-weight:700;margin-top:8px}
   .eyebrow{color:var(--muted);font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase}
-  .bar{height:6px;border-radius:99px;background:color-mix(in srgb,var(--txt) 12%,transparent);overflow:hidden}
-  .bar i{display:block;height:100%;border-radius:99px;width:0;transition:width 1s cubic-bezier(.22,1,.36,1)}
+  .bar{
+    height:12px;
+    border-radius:99px;
+    background:linear-gradient(to bottom, rgba(255,255,255,0.02), rgba(255,255,255,0.06));
+    border:1px solid rgba(255,255,255,0.07);
+    box-shadow:inset 0 2px 4px rgba(0,0,0,0.5);
+    overflow:hidden;
+    position:relative;
+  }
+
+  .bar i{
+    display:block;
+    height:100%;
+    border-radius:99px;
+    width:0;
+    transition:width 1s cubic-bezier(.22,1,.36,1), box-shadow 0.3s ease, filter 0.3s ease;
+    background-image: 
+      radial-gradient(circle at 15% 30%, rgba(255,255,255,0.85) 1px, transparent 1px),
+      radial-gradient(circle at 55% 70%, rgba(255,255,255,0.85) 1.2px, transparent 1.2px),
+      radial-gradient(circle at 85% 25%, rgba(255,255,255,0.9) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0) 30%, rgba(0,0,0,0.25) 100%),
+      var(--bar-color, var(--accent));
+    background-size: 80px 100%, 70px 100%, 90px 100%, 100% 100%, 100% 100%;
+    background-repeat: repeat-x, repeat-x, repeat-x, no-repeat, no-repeat;
+    animation: stardust-drift 5s linear infinite;
+    box-shadow:0 0 10px var(--bar-glow, var(--accent));
+  }
+  @keyframes stardust-drift {
+    0% { background-position: 0px 0, 0px 0, 0px 0, 0 0, 0 0; }
+    100% { background-position: 80px 0, -70px 0, 90px 0, 0 0, 0 0; }
+  }
+  .row{
+    transition:transform 0.3s cubic-bezier(.25,0.8,.25,1);
+  }
+  .row .lab, .row .v{
+    transition:color 0.3s ease, font-weight 0.3s ease;
+  }
+  .row:hover{
+    transform:translateX(6px);
+  }
+  .row:hover .lab{
+    color:var(--accent) !important;
+    font-weight:700;
+  }
+  .row:hover .v{
+    color:var(--accent);
+  }
+  .row:hover .bar i{
+    box-shadow:0 0 18px var(--bar-glow, var(--accent));
+    filter:brightness(1.25);
+  }
   .warn{display:flex;gap:8px;align-items:flex-start;border:1px solid var(--border);border-radius:12px;padding:12px 15px;font-size:14px;color:var(--muted)}
   /* marquee */
   .marquee{overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:22px 0;white-space:nowrap;mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
@@ -98,7 +149,24 @@
   .card .num{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;border:1.5px solid var(--accent);color:var(--txt);font-weight:800;margin-bottom:18px}
   .card h3{font-size:19px;font-weight:700;letter-spacing:-.01em}
   .card p{color:var(--muted);font-size:14px;line-height:1.65;margin-top:10px}
-  .card .ic{font-size:26px;margin-bottom:16px;display:block;filter:grayscale(1)}
+  .card .ic{
+    font-size:26px;
+    margin-bottom:20px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:52px;
+    height:52px;
+    border-radius:14px;
+    border:1px solid var(--ic-border, var(--border));
+    background:var(--ic-bg, var(--card));
+    box-shadow:0 0 12px var(--ic-glow, transparent);
+    transition:transform 0.3s cubic-bezier(.25,0.8,.25,1), box-shadow 0.3s ease;
+  }
+  .card:hover .ic{
+    transform:scale(1.15) rotate(4deg);
+    box-shadow:0 0 20px var(--ic-glow, transparent);
+  }
   .reveal{opacity:0;transform:translateY(40px);filter:blur(10px);transition:opacity .9s cubic-bezier(.22,1,.36,1),transform .9s cubic-bezier(.22,1,.36,1),filter .9s}
   .reveal.in{opacity:1;transform:none;filter:none}
   .pills{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:34px}
@@ -107,7 +175,7 @@
   .manifesto .hl{color:var(--txt)}.manifesto .dm{color:color-mix(in srgb,var(--txt) 28%,transparent)}
   .avatar{width:90px;height:90px;border-radius:50%;margin:0 auto 26px;background:radial-gradient(circle at 32% 28%,var(--txt),var(--muted));opacity:.92}
   .scorecard{border:1px solid var(--border);background:var(--card);backdrop-filter:blur(16px);border-radius:22px;padding:30px}
-  .row{display:grid;grid-template-columns:120px 1fr 46px;align-items:center;gap:14px;margin-bottom:15px}
+  .row{display:grid;grid-template-columns:120px 1fr 64px;align-items:center;gap:14px;margin-bottom:15px}
   .row .lab{font-size:13px;color:var(--muted)} .row .v{text-align:right;font-size:13px;font-weight:800}
   .two{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;margin-top:52px}
   @media(max-width:900px){.two{grid-template-columns:1fr}}
@@ -127,6 +195,7 @@
 <body>
 <canvas id="bg"></canvas>
 <div id="vignette"></div>
+<div id="grid"></div>
 <div id="grain"></div>
 <div id="ring"></div><div id="dot"></div>
 
@@ -189,25 +258,26 @@
 <section class="sec" id="features"><div class="wrap">
   <div class="center reveal"><h2>Built for founders who hate fluff.</h2><p class="lead" style="margin-left:auto;margin-right:auto">Everything your co-founder should be.</p></div>
   <div class="grid g2">
-    <div class="card reveal"><div class="spot"></div><span class="ic">💡</span><h3>AI Ideation Engine</h3><p>6-dimension scorecard, devil&rsquo;s advocate, failure probability, Founder DNA profile.</p></div>
-    <div class="card reveal"><div class="spot"></div><span class="ic">📈</span><h3>Decision Simulator</h3><p>3 scenarios: best/worst/most likely with 30, 90, 180-day projections.</p></div>
-    <div class="card reveal"><div class="spot"></div><span class="ic">📡</span><h3>Pivot Radar</h3><p>VEIXON watches weekly patterns and alerts you before you realise you are failing.</p></div>
-    <div class="card reveal"><div class="spot"></div><span class="ic">🎯</span><h3>Accountability Score</h3><p>Your follow-through rate. Tracked every week. The number VCs will ask to see.</p></div>
+    <div class="card reveal"><div class="spot"></div><span class="ic" style="--ic-bg: linear-gradient(135deg, rgba(250,204,21,0.14), rgba(250,204,21,0.02)); --ic-border: rgba(250,204,21,0.3); --ic-glow: rgba(250,204,21,0.22);">💡</span><h3>AI Ideation Engine</h3><p>6-dimension scorecard, devil&rsquo;s advocate, failure probability, Founder DNA profile.</p></div>
+    <div class="card reveal"><div class="spot"></div><span class="ic" style="--ic-bg: linear-gradient(135deg, rgba(16,185,129,0.14), rgba(16,185,129,0.02)); --ic-border: rgba(16,185,129,0.3); --ic-glow: rgba(16,185,129,0.22);">📈</span><h3>Decision Simulator</h3><p>3 scenarios: best/worst/most likely with 30, 90, 180-day projections.</p></div>
+    <div class="card reveal"><div class="spot"></div><span class="ic" style="--ic-bg: linear-gradient(135deg, rgba(99,102,241,0.14), rgba(99,102,241,0.02)); --ic-border: rgba(99,102,241,0.3); --ic-glow: rgba(99,102,241,0.22);">📡</span><h3>Pivot Radar</h3><p>VEIXON watches weekly patterns and alerts you before you realise you are failing.</p></div>
+    <div class="card reveal"><div class="spot"></div><span class="ic" style="--ic-bg: linear-gradient(135deg, rgba(239,68,68,0.14), rgba(239,68,68,0.02)); --ic-border: rgba(239,68,68,0.3); --ic-glow: rgba(239,68,68,0.22);">🎯</span><h3>Accountability Score</h3><p>Your follow-through rate. Tracked every week. The number VCs will ask to see.</p></div>
   </div>
 </div></section>
 
 <section class="sec" id="proof"><div class="wrap">
   <h2 class="center reveal">See what VEIXON sees in your idea.</h2>
   <div class="two">
-    <div class="scorecard reveal">
+    <div class="scorecard reveal card">
+      <div class="spot"></div>
       <div style="margin-bottom:22px"><div style="font-weight:800;font-size:14px">VEIXON Analysis</div><div style="color:var(--muted);font-size:12px">Scorecard preview</div></div>
       <div id="scores"></div>
       <div class="warn" style="margin-top:20px">⚠&nbsp;<span>Distribution risk is not a side quest. Prove you can reach buyers early.</span></div>
     </div>
-    <div class="notes">
-      <div class="note reveal"><div class="eyebrow">Failure mode</div><h3>Distribution risk is not a side quest.</h3><p>The first 30 days are about proving you can reach buyers without burning founder energy on fake momentum.</p></div>
-      <div class="note reveal"><div class="eyebrow">Survival edge</div><h3>Your first wedge must feel narrow.</h3><p>If everyone is your customer, VEIXON will treat that as avoidance, not ambition.</p></div>
-      <div class="note reveal"><div class="eyebrow">War plan</div><h3>Every mission is falsifiable.</h3><p>Tasks are written so you can either complete them or admit you dodged them.</p></div>
+    <div class="notes" style="display: flex; flex-direction: column; gap: 20px;">
+      <div class="note reveal card" style="margin-bottom:0;"><div class="spot"></div><div class="eyebrow">Failure mode</div><h3>Distribution risk is not a side quest.</h3><p>The first 30 days are about proving you can reach buyers without burning founder energy on fake momentum.</p></div>
+      <div class="note reveal card" style="margin-bottom:0;"><div class="spot"></div><div class="eyebrow">Survival edge</div><h3>Your first wedge must feel narrow.</h3><p>If everyone is your customer, VEIXON will treat that as avoidance, not ambition.</p></div>
+      <div class="note reveal card" style="margin-bottom:0;"><div class="spot"></div><div class="eyebrow">War plan</div><h3>Every mission is falsifiable.</h3><p>Tasks are written so you can either complete them or admit you dodged them.</p></div>
     </div>
   </div>
 </div></section>
@@ -251,7 +321,7 @@ function setHeight(){document.body.style.height=smooth.scrollHeight+'px';}
 new ResizeObserver(setHeight).observe(smooth);setHeight();addEventListener('load',setHeight);
 addEventListener('scroll',()=>{tgtY=scrollY;},{passive:true});
 (function sraf(){curY+=(tgtY-curY)*0.085;smooth.style.transform='translate3d(0,'+(-curY)+'px,0)';requestAnimationFrame(sraf);})();
-document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();scrollTo({top:t.getBoundingClientRect().top+scrollY-curY+ (smooth.style.transform?0:0),behavior:'smooth'});}}));
+document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();scrollTo({top:t.offsetTop,behavior:'smooth'});}}));
 
 /* ---------- char reveal ---------- */
 function split(el,text,base){[...text].forEach((ch,i)=>{const s=document.createElement('span');s.className='char';s.textContent=ch===' '?'\u00A0':ch;el.appendChild(s);setTimeout(()=>{s.style.transition='opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)';s.style.opacity=1;s.style.transform='none';},base+i*32);});}
@@ -261,11 +331,38 @@ setTimeout(()=>{split(document.getElementById('l1'),'Your AI Co-Founder',2500);s
 (function(){const items=['Brutal scorecard','90-day war plan','Devil’s advocate','Decision simulator','Pivot radar','Founder DNA','VC vault','Accountability score'];const html=items.map(i=>'<span>'+i+' <b>/</b></span>').join('');document.getElementById('mtrack').innerHTML=html+html;})();
 
 /* ---------- scorecard + reveals + counters ---------- */
-const SC=[['Market',8],['Moat',6],['Timing',9],['Founder Fit',7],['Monetisation',7],['Execution Risk',5,'var(--red)']];
+const SC=[['Market',82],['Moat',64],['Timing',91],['Founder Fit',73],['Monetisation',75],['Execution Risk',48]];
 const sb=document.getElementById('scores');
-SC.forEach(([l,v,c])=>{const r=document.createElement('div');r.className='row';r.innerHTML='<span class="lab">'+l+'</span><div class="bar"><i style="background:'+(c||'var(--accent)')+'" data-w="'+(v*10)+'"></i></div><span class="v">'+v+'/10</span>';sb.appendChild(r);});
+SC.forEach(([l,v])=>{
+  const r=document.createElement('div');
+  r.className='row';
+  let gradient, glow;
+  if(v>=80) {
+    gradient = 'linear-gradient(90deg, #10b981, #064e3b)';
+    glow = '#10b981';
+  } else if(v>=60) {
+    gradient = 'linear-gradient(90deg, #ff9a9e, #f59e0b)';
+    glow = '#ff9a9e';
+  } else {
+    gradient = 'linear-gradient(90deg, #ff758c, #ef4444)';
+    glow = '#ff758c';
+  }
+  r.innerHTML='<span class="lab">'+l+'</span><div class="bar"><i style="--bar-color:'+gradient+'; --bar-glow:'+glow+'" data-w="'+v+'"></i></div><span class="v" data-score="'+v+'">0/100</span>';
+  sb.appendChild(r);
+});
 function countTo(el,to){let st=performance.now();(function tk(n){const t=Math.min(1,(n-st)/1500);el.textContent=Math.round((1-Math.pow(1-t,3))*to);if(t<1)requestAnimationFrame(tk);})(performance.now());}
-const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');if(e.target.querySelector&&e.target.querySelector('#scores')){e.target.querySelectorAll('.bar i').forEach(b=>b.style.width=b.dataset.w+'%');}const cn=e.target.querySelector?e.target.querySelector('[data-count]'):null;if(cn)countTo(cn,+cn.dataset.count);io.unobserve(e.target);}});},{threshold:.2});
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');if(e.target.querySelector&&e.target.querySelector('#scores')){
+  e.target.querySelectorAll('.bar i').forEach(b=>b.style.width=b.dataset.w+'%');
+  e.target.querySelectorAll('.v[data-score]').forEach(span=>{
+    const targetScore=parseInt(span.dataset.score);
+    let st=performance.now();
+    (function tk(n){
+      const t=Math.min(1,(n-st)/1500);
+      span.textContent=Math.round((1-Math.pow(1-t,3))*targetScore)+'/100';
+      if(t<1)requestAnimationFrame(tk);
+    })(performance.now());
+  });
+}const cn=e.target.querySelector?e.target.querySelector('[data-count]'):null;if(cn)countTo(cn,+cn.dataset.count);io.unobserve(e.target);}});},{threshold:.2});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
 /* ---------- magnetic + card spotlight/tilt ---------- */
@@ -287,7 +384,7 @@ function runTeaser(){const idea=document.getElementById('ideaIn').value.trim();i
   const comp=Math.round(scores.reduce((a,b)=>a+b[1],0)/scores.length),fail=Math.max(58,Math.min(92,100-comp*8)),ten=sc(5,6)>=6,dv=DEVILS[h%3];
   document.getElementById('consoleHint').style.display='none';
   const t=document.getElementById('teaser');
-  t.innerHTML='<div class="tcard"><div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;align-items:end"><div><div class="eyebrow">The brutal number</div><div class="bignum" id="bn">0%</div><div style="color:var(--muted);font-size:13px">probability you fail if nothing changes</div></div><div style="text-align:right"><div style="font-size:32px;font-weight:800">'+comp+'<span style="color:var(--muted);font-size:15px">/10</span></div><div style="color:var(--muted);font-size:12px">composite</div><div class="tpill" style="border-color:'+(ten?'var(--accent)':'var(--red)')+';color:'+(ten?'var(--txt)':'var(--red)')+'">$10M test: '+(ten?'plausible':'at risk')+'</div></div></div><div class="grid" style="grid-template-columns:1fr 1fr;margin-top:20px;gap:14px">'+scores.map(function(p){var l=p[0],v=p[1];return '<div><div style="color:var(--muted);font-size:12px">'+l+'</div><div class="bar" style="margin-top:6px"><i style="width:0;background:'+(v>=7?'var(--accent)':v>=5?'var(--muted)':'var(--red)')+'" data-w="'+(v*10)+'"></i></div></div>';}).join('')+'</div><div class="warn" style="margin-top:20px"><span style="color:var(--txt);font-weight:700">'+dv.t+'.</span>&nbsp;<span>'+dv.e+'</span></div><div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-top:24px"><span style="color:var(--muted);font-size:13px;max-width:300px">Full scorecard, Lean Canvas &amp; 90-day war plan unlock on signup.</span><span class="magnetic"><a class="btn primary" href="#top">Unlock my full war plan →</a></span></div></div>';
+  t.innerHTML='<div class="tcard"><div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;align-items:end"><div><div class="eyebrow">The brutal number</div><div class="bignum" id="bn">0%</div><div style="color:var(--muted);font-size:13px">probability you fail if nothing changes</div></div><div style="text-align:right"><div style="font-size:32px;font-weight:800">'+(comp*10)+'<span style="color:var(--muted);font-size:15px">/100</span></div><div style="color:var(--muted);font-size:12px">composite</div><div class="tpill" style="border-color:'+(ten?'var(--accent)':'var(--red)')+';color:'+(ten?'var(--txt)':'var(--red)')+'">$10M test: '+(ten?'plausible':'at risk')+'</div></div></div><div class="grid" style="grid-template-columns:1fr 1fr;margin-top:20px;gap:14px">'+scores.map(function(p){var l=p[0],v=p[1]*10;var gradient,glow;if(v>=80){gradient='linear-gradient(90deg, #10b981, #064e3b)';glow='#10b981';}else if(v>=60){gradient='linear-gradient(90deg, #ff9a9e, #f59e0b)';glow='#ff9a9e';}else{gradient='linear-gradient(90deg, #ff758c, #ef4444)';glow='#ff758c';}return '<div><div style="display:flex;justify-content:space-between"><div style="color:var(--muted);font-size:12px">'+l+'</div><div style="font-size:12px;font-weight:700">'+v+'/100</div></div><div class="bar" style="margin-top:6px"><i style="width:0;--bar-color:'+gradient+'; --bar-glow:'+glow+'" data-w="'+v+'"></i></div></div>';}).join('')+'</div><div class="warn" style="margin-top:20px"><span style="color:var(--txt);font-weight:700">'+dv.t+'.</span>&nbsp;<span>'+dv.e+'</span></div><div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-top:24px"><span style="color:var(--muted);font-size:13px;max-width:300px">Full scorecard, Lean Canvas &amp; 90-day war plan unlock on signup.</span><span class="magnetic"><a class="btn primary" href="#top">Unlock my full war plan →</a></span></div></div>';
   countPct(document.getElementById('bn'),fail);
   setTimeout(function(){t.querySelectorAll('.bar i').forEach(function(b){b.style.width=b.dataset.w+'%';});bindMag(t);setHeight();},120);
 }
@@ -339,40 +436,205 @@ const spinG=new THREE.Group();galaxyG.add(spinG);
  const pts=new THREE.Points(g,m);spinG.add(pts);galaxyG.userData.mat=m;})();
 // ---------- realistic solar system ----------
 function _rn(seed){return function(a,b){const n=Math.sin((a*127.1+b*311.7+seed)*1.0)*43758.5453;return n-Math.floor(n);};}
-function _fbmTex(make){const S=256,c=document.createElement('canvas');c.width=c.height=S;const x=c.getContext('2d'),img=x.createImageData(S,S);make(img.data,S);x.putImageData(img,0,0);const t=new THREE.CanvasTexture(c);return t;}
-function rockTex(r,g,bl,rough,seed){const rn=_rn(seed||0);function vv(a,b){const ai=Math.floor(a),bi=Math.floor(b),af=a-ai,bf=b-bi;const tl=rn(ai,bi),tr=rn(ai+1,bi),blq=rn(ai,bi+1),br=rn(ai+1,bi+1);const u=af*af*(3-2*af),v=bf*bf*(3-2*bf);return tl*(1-u)*(1-v)+tr*u*(1-v)+blq*(1-u)*v+br*u*v;}function fb(a,b){let s=0,am=0.5,fr=1;for(let o=0;o<5;o++){s+=am*vv(a*fr,b*fr);fr*=2;am*=0.5;}return s;}
- return _fbmTex((d,S)=>{for(let y=0;y<S;y++)for(let xx=0;xx<S;xx++){const n=fb(xx/S*6,y/S*6),sh=(n-0.5)*rough*150,i=(y*S+xx)*4;d[i]=Math.max(0,Math.min(255,r+sh));d[i+1]=Math.max(0,Math.min(255,g+sh));d[i+2]=Math.max(0,Math.min(255,bl+sh));d[i+3]=255;}});}
-function gasTex(bands,seed){const rn=_rn(seed||7);function vv(a,b){const ai=Math.floor(a),bi=Math.floor(b),af=a-ai,bf=b-bi;const tl=rn(ai,bi),tr=rn(ai+1,bi),blq=rn(ai,bi+1),br=rn(ai+1,bi+1);const u=af*af*(3-2*af),v=bf*bf*(3-2*bf);return tl*(1-u)*(1-v)+tr*u*(1-v)+blq*(1-u)*v+br*u*v;}
- return _fbmTex((d,S)=>{for(let y=0;y<S;y++){const wob=Math.sin(y/S*Math.PI*14)*0.015;for(let xx=0;xx<S;xx++){let t=y/S+wob+vv(xx/S*3,y/S*22)*0.04;t=Math.max(0,Math.min(0.999,t));const fp=t*(bands.length-1),bi=Math.floor(fp),bf=fp-bi,c0=bands[bi],c1=bands[Math.min(bands.length-1,bi+1)],st=(vv(xx/S*8,y/S*40)-0.5)*30,i=(y*S+xx)*4;d[i]=Math.max(0,Math.min(255,c0[0]+(c1[0]-c0[0])*bf+st));d[i+1]=Math.max(0,Math.min(255,c0[1]+(c1[1]-c0[1])*bf+st));d[i+2]=Math.max(0,Math.min(255,c0[2]+(c1[2]-c0[2])*bf+st));d[i+3]=255;}}});}
+function makePlanetMaps(p) {
+  const S = 256;
+  const canvas = document.createElement('canvas'); canvas.width = canvas.height = S;
+  const ctx = canvas.getContext('2d');
+  const bumpCanvas = document.createElement('canvas'); bumpCanvas.width = bumpCanvas.height = S;
+  const bCtx = bumpCanvas.getContext('2d');
+  
+  const rn = _rn(p.seed || 1);
+  function vv(x, y) {
+    const xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi;
+    const tl = rn(xi, yi), tr = rn(xi + 1, yi), bl = rn(xi, yi + 1), br = rn(xi + 1, yi + 1);
+    const u = xf * xf * (3 - 2 * xf), v = yf * yf * (3 - 2 * yf);
+    return tl * (1 - u) * (1 - v) + tr * u * (1 - v) + bl * (1 - u) * v + br * u * v;
+  }
+  function fb(x, y, octs) {
+    let val = 0, am = 0.5, fr = 1;
+    for (let o = 0; o < octs; o++) {
+      val += am * vv(x * fr, y * fr);
+      fr *= 2.0; am *= 0.5;
+    }
+    return val;
+  }
+
+  const img = ctx.createImageData(S, S), d = img.data;
+  const bImg = bCtx.createImageData(S, S), bd = bImg.data;
+
+  if (p.isEarth) {
+    for (let y = 0; y < S; y++) {
+      for (let x = 0; x < S; x++) {
+        const n = fb(x / S * 7, y / S * 7, 5);
+        const cloud = fb(x / S * 11 + 2.5, y / S * 11 + 1.5, 4);
+        let r = 24, g = 74, b = 154; // ocean
+        let h = 0;
+        if (n > 0.47) {
+          r = 45; g = 112; b = 52; // land
+          h = Math.floor((n - 0.47) * 2.8 * 255);
+        }
+        if (cloud > 0.54) {
+          const cl = Math.min(1.0, (cloud - 0.54) * 3.0);
+          r = Math.floor(r * (1 - cl) + 240 * cl);
+          g = Math.floor(g * (1 - cl) + 240 * cl);
+          b = Math.floor(b * (1 - cl) + 245 * cl);
+        }
+        const i = (y * S + x) * 4;
+        d[i] = r; d[i+1] = g; d[i+2] = b; d[i+3] = 255;
+        bd[i] = bd[i+1] = bd[i+2] = h; bd[i+3] = 255;
+      }
+    }
+  } else if (p.isGas) {
+    for (let y = 0; y < S; y++) {
+      const wob = Math.sin(y / S * Math.PI * 12) * 0.015;
+      for (let x = 0; x < S; x++) {
+        let t = y / S + wob + vv(x / S * 3, y / S * 18) * 0.035;
+        t = Math.max(0, Math.min(0.999, t));
+        const fp = t * (p.bands.length - 1), bi = Math.floor(fp), bf = fp - bi;
+        const c0 = p.bands[bi], c1 = p.bands[Math.min(p.bands.length - 1, bi + 1)];
+        const st = (vv(x / S * 8, y / S * 32) - 0.5) * 22;
+        const i = (y * S + x) * 4;
+        d[i] = Math.max(0, Math.min(255, c0[0] + (c1[0] - c0[0]) * bf + st));
+        d[i+1] = Math.max(0, Math.min(255, c0[1] + (c1[1] - c0[1]) * bf + st));
+        d[i+2] = Math.max(0, Math.min(255, c0[2] + (c1[2] - c0[2]) * bf + st));
+        d[i+3] = 255;
+        bd[i] = bd[i+1] = bd[i+2] = 0; bd[i+3] = 255;
+      }
+    }
+  } else {
+    for (let y = 0; y < S; y++) {
+      for (let x = 0; x < S; x++) {
+        const n = fb(x / S * 6, y / S * 6, 5);
+        const sh = (n - 0.5) * p.rough * 140;
+        const i = (y * S + x) * 4;
+        d[i] = Math.max(0, Math.min(255, p.color[0] + sh));
+        d[i+1] = Math.max(0, Math.min(255, p.color[1] + sh));
+        d[i+2] = Math.max(0, Math.min(255, p.color[2] + sh));
+        d[i+3] = 255;
+        
+        const val = Math.floor(n * 255);
+        bd[i] = bd[i+1] = bd[i+2] = val; bd[i+3] = 255;
+      }
+    }
+  }
+
+  ctx.putImageData(img, 0, 0);
+  bCtx.putImageData(bImg, 0, 0);
+  return {
+    map: new THREE.CanvasTexture(canvas),
+    bumpMap: new THREE.CanvasTexture(bumpCanvas)
+  };
+}
 const solarG=new THREE.Group();solarG.position.set(0,0.4,FAR);solarG.rotation.x=0.42;scene.add(solarG);solarG.visible=false;
-// --- bright glowing sun: hot core + layered additive bloom ---
 function sunGlow(rgb,size,op){const S=256,c=document.createElement('canvas');c.width=c.height=S;const x=c.getContext('2d');const g=x.createRadialGradient(S/2,S/2,0,S/2,S/2,S/2);g.addColorStop(0,'rgba('+rgb+','+op+')');g.addColorStop(0.22,'rgba('+rgb+','+(op*0.55)+')');g.addColorStop(1,'rgba('+rgb+',0)');x.fillStyle=g;x.fillRect(0,0,S,S);const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),blending:THREE.AdditiveBlending,depthWrite:false,transparent:true}));sp.scale.set(size,size,1);return sp;}
-const sun=new THREE.Mesh(new THREE.SphereGeometry(1.4,64,64),new THREE.MeshBasicMaterial({color:0xffbf38}));solarG.add(sun);
+const sunMat=new THREE.ShaderMaterial({
+  uniforms:{
+    uTime:{value:0},
+    uLightMode:{value:0}
+  },
+  vertexShader:`
+    varying vec2 vUv;
+    void main(){
+      vUv=uv;
+      gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);
+    }
+  `,
+  fragmentShader:`
+    uniform float uTime;
+    uniform float uLightMode;
+    varying vec2 vUv;
+    float noise(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453123);}
+    float smoothNoise(vec2 p){
+      vec2 i=floor(p),f=fract(p);
+      f=f*f*(3.0-2.0*f);
+      return mix(mix(noise(i),noise(i+vec2(1.0,0.0)),f.x),mix(noise(i+vec2(0.0,1.0)),noise(i+vec2(1.0,1.0)),f.x),f.y);
+    }
+    float fbm(vec2 p){
+      float v=0.0,a=0.5;
+      for(int i=0;i<4;i++){v+=a*smoothNoise(p);p*=2.0;a*=0.5;}
+      return v;
+    }
+    void main(){
+      vec2 uv1=vec2(vUv.x*12.0+uTime*0.12,vUv.y*6.0);
+      vec2 uv2=vec2(vUv.x*6.0-uTime*0.08,vUv.y*12.0+uTime*0.08);
+      float base=mix(fbm(uv1),fbm(uv2),0.5);
+      vec3 col;
+      if(uLightMode > 0.5) {
+        vec3 deepViolet=vec3(0.31,0.22,0.9);
+        vec3 brightCyan=vec3(0.02,0.72,0.85);
+        vec3 softBlue=vec3(0.2,0.5,0.95);
+        col=mix(deepViolet,softBlue,smoothstep(0.18,0.42,base));
+        col=mix(col,brightCyan,smoothstep(0.42,0.88,base));
+      } else {
+        vec3 red=vec3(0.9,0.15,0.0),orange=vec3(1.0,0.5,0.0),yellow=vec3(1.0,0.85,0.1),white=vec3(1.0,1.0,0.95);
+        col=mix(red,orange,smoothstep(0.18,0.42,base));
+        col=mix(col,yellow,smoothstep(0.42,0.68,base));
+        col=mix(col,white,smoothstep(0.68,0.88,base));
+      }
+      gl_FragColor=vec4(col,1.0);
+    }
+  `
+});
+const sun=new THREE.Mesh(new THREE.SphereGeometry(1.4,64,64),sunMat);solarG.add(sun);
 solarG.add(new THREE.Mesh(new THREE.SphereGeometry(0.92,48,48),new THREE.MeshBasicMaterial({color:0xfff4d6})));
 solarG.add(sunGlow('255,238,185',3.6,1.0));
 solarG.add(sunGlow('255,172,58',6.4,0.7));
 solarG.add(sunGlow('255,112,30',12.5,0.4));
 const corona=new THREE.Mesh(new THREE.SphereGeometry(1.4,48,48),new THREE.ShaderMaterial({transparent:true,side:THREE.BackSide,depthWrite:false,blending:THREE.AdditiveBlending,uniforms:{uC:{value:new THREE.Color(0xffb347)}},vertexShader:'varying vec3 vN;varying vec3 vV;void main(){vN=normalize(normalMatrix*normal);vec4 mv=modelViewMatrix*vec4(position,1.0);vV=normalize(-mv.xyz);gl_Position=projectionMatrix*mv;}',fragmentShader:'uniform vec3 uC;varying vec3 vN;varying vec3 vV;void main(){float f=pow(1.0-max(dot(vN,vV),0.0),1.5);gl_FragColor=vec4(uC,f);}'}));corona.scale.setScalar(1.75);solarG.add(corona);
 const sunLight=new THREE.PointLight(0xfff2d6,3.0,320);solarG.add(sunLight);scene.add(new THREE.AmbientLight(0x8098b8,0.65));
-// --- realistic planets: Mercury, Venus, Earth, Mars, Jupiter, Saturn(+ring), Uranus, Neptune ---
 const PLAN=[
- {r:2.5,s:0.15,tex:rockTex(152,143,131,0.55,1),spd:0.50},
- {r:3.2,s:0.26,tex:rockTex(224,184,120,0.30,2),spd:0.37},
- {r:4.0,s:0.28,tex:gasTex([[40,90,200],[60,140,210],[235,240,245],[45,110,180]],3),spd:0.31},
- {r:4.9,s:0.20,tex:rockTex(202,92,55,0.55,4),spd:0.25},
- {r:6.9,s:0.74,tex:gasTex([[210,180,140],[150,100,70],[225,200,165],[140,95,65],[205,165,120]],11),spd:0.14},
- {r:8.7,s:0.62,tex:gasTex([[228,208,158],[205,180,125],[232,216,176]],12),spd:0.10,ring:true},
- {r:10.2,s:0.42,tex:gasTex([[150,215,228],[180,228,238],[160,218,230]],13),spd:0.075},
- {r:11.6,s:0.42,tex:gasTex([[52,92,210],[74,116,232],[46,82,196]],14),spd:0.058}
+  {r:2.5,s:0.15,color:[152,143,131],rough:0.55,seed:1,spd:0.50,bumpScale:0.04,metal:0.1},
+  {r:3.2,s:0.26,color:[224,184,120],rough:0.25,seed:2,spd:0.37,bumpScale:0.02,metal:0.1},
+  {r:4.0,s:0.28,isEarth:true,seed:3,spd:0.31,bumpScale:0.03,metal:0.05},
+  {r:4.9,s:0.20,color:[202,92,55],rough:0.55,seed:4,spd:0.25,bumpScale:0.05,metal:0.1},
+  {r:6.9,s:0.74,isGas:true,bands:[[210,180,140],[150,100,70],[225,200,165],[140,95,65],[205,165,120]],seed:11,spd:0.14,metal:0.05},
+  {r:8.7,s:0.62,isGas:true,bands:[[228,208,158],[205,180,125],[232,216,176]],seed:12,spd:0.10,ring:true,metal:0.05},
+  {r:10.2,s:0.42,isGas:true,bands:[[150,215,228],[180,228,238],[160,218,230]],seed:13,spd:0.075,metal:0.05},
+  {r:11.6,s:0.42,isGas:true,bands:[[52,92,210],[74,116,232],[46,82,196]],seed:14,spd:0.058,metal:0.05}
 ];
 const planets=[];
+const orbitMaterials=[];
 PLAN.forEach(p=>{const orb=new THREE.Group();orb.rotation.x=(Math.random()-.5)*0.08;orb.rotation.y=Math.random()*6.28;
- const pl=new THREE.Mesh(new THREE.SphereGeometry(p.s,40,40),new THREE.MeshStandardMaterial({map:p.tex,roughness:0.9,metalness:0.04,emissive:new THREE.Color(0x10141a),emissiveIntensity:0.22}));pl.position.x=p.r;pl.rotation.z=0.25;orb.add(pl);
+ const maps=makePlanetMaps(p);
+ const pl=new THREE.Mesh(new THREE.SphereGeometry(p.s,40,40),new THREE.MeshStandardMaterial({
+   map:maps.map,
+   bumpMap:p.isGas?null:maps.bumpMap,
+   bumpScale:p.isGas?0:p.bumpScale,
+   roughness:p.isGas?0.9:p.rough,
+   metalness:p.metal||0.04,
+   emissive:new THREE.Color(0x0a0c10),
+   emissiveIntensity:0.15
+ }));pl.position.x=p.r;pl.rotation.z=0.25;orb.add(pl);
  if(p.ring){const rg=new THREE.Mesh(new THREE.RingGeometry(p.s*1.45,p.s*2.5,72),new THREE.MeshBasicMaterial({color:0xe6d3a0,transparent:true,opacity:0.7,side:THREE.DoubleSide}));rg.rotation.x=Math.PI/2.3;rg.position.x=p.r;orb.add(rg);}
- const oc=new THREE.EllipseCurve(0,0,p.r,p.r,0,Math.PI*2),op=oc.getPoints(180).map(q=>new THREE.Vector3(q.x,0,q.y)),og=new THREE.BufferGeometry().setFromPoints(op);orb.add(new THREE.LineLoop(og,new THREE.LineBasicMaterial({color:0xbcd0ea,transparent:true,opacity:0.22})));
+ const oc=new THREE.EllipseCurve(0,0,p.r,p.r,0,Math.PI*2),op=oc.getPoints(180).map(q=>new THREE.Vector3(q.x,0,q.y)),og=new THREE.BufferGeometry().setFromPoints(op);
+ const orbitMat=new THREE.LineBasicMaterial({color:0xbcd0ea,transparent:true,opacity:0.22});
+ orbitMaterials.push(orbitMat);
+ orb.add(new THREE.LineLoop(og,orbitMat));
  solarG.add(orb);planets.push({orb,spd:p.spd,mesh:pl});});
 function belt(rad,count,spread){const pos=new Float32Array(count*3);for(let i=0;i<count;i++){const a=Math.random()*6.2831,rr=rad+(Math.random()-.5)*spread;pos[i*3]=Math.cos(a)*rr;pos[i*3+1]=(Math.random()-.5)*spread*0.5;pos[i*3+2]=Math.sin(a)*rr;}const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(pos,3));const pts=new THREE.Points(g,new THREE.PointsMaterial({color:0xcdb78a,size:0.055,transparent:true,opacity:0.9,sizeAttenuation:true}));solarG.add(pts);return pts;}
 const belt1=belt(5.8,1200,0.55);
+const dustCount = 800;
+const dustPos = new Float32Array(dustCount * 3);
+for(let i=0; i<dustCount; i++) {
+  const r = 2.2 + Math.random() * 11.0;
+  const theta = Math.random() * Math.PI * 2;
+  const phi = Math.acos(Math.random() * 2 - 1);
+  dustPos[i*3] = r * Math.sin(phi) * Math.cos(theta);
+  dustPos[i*3+1] = r * Math.sin(phi) * Math.sin(theta) * 0.45;
+  dustPos[i*3+2] = r * Math.cos(phi);
+}
+const dustGeom = new THREE.BufferGeometry();
+dustGeom.setAttribute('position', new THREE.BufferAttribute(dustPos, 3));
+const dustMat = new THREE.PointsMaterial({
+  color: 0xffa834,
+  size: 0.05,
+  transparent: true,
+  opacity: 0.75,
+  blending: THREE.AdditiveBlending,
+  sizeAttenuation: true
+});
+const dustPoints = new THREE.Points(dustGeom, dustMat);
+solarG.add(dustPoints);
 const spaceBg=new THREE.Group();spaceBg.position.z=FAR;scene.add(spaceBg);spaceBg.visible=false;
 (function(){const SN=1600,sp=new Float32Array(SN*3);for(let i=0;i<SN;i++){const r=20+Math.random()*40,th=Math.random()*6.2831,ph=Math.acos(Math.random()*2-1);sp[i*3]=r*Math.sin(ph)*Math.cos(th);sp[i*3+1]=r*Math.sin(ph)*Math.sin(th);sp[i*3+2]=r*Math.cos(ph);}const sg=new THREE.BufferGeometry();sg.setAttribute('position',new THREE.BufferAttribute(sp,3));spaceBg.add(new THREE.Points(sg,new THREE.PointsMaterial({color:0xffffff,size:0.12,transparent:true,opacity:0.85,sizeAttenuation:true})));
  const NN=700,np=new Float32Array(NN*3),nc=new Float32Array(NN*3),ns=new Float32Array(NN),cols=[new THREE.Color(0x1f6b5a),new THREE.Color(0x214a8f),new THREE.Color(0x4a2c7a)];for(let i=0;i<NN;i++){const r=8+Math.random()*30,th=Math.random()*6.2831,ph=Math.acos(Math.random()*2-1);np[i*3]=r*Math.sin(ph)*Math.cos(th);np[i*3+1]=r*Math.sin(ph)*Math.sin(th)*0.5;np[i*3+2]=-4-Math.random()*24;const cc=cols[i%3];nc[i*3]=cc.r;nc[i*3+1]=cc.g;nc[i*3+2]=cc.b;ns[i]=300+Math.random()*500;}const ng=new THREE.BufferGeometry();ng.setAttribute('position',new THREE.BufferAttribute(np,3));ng.setAttribute('aColor',new THREE.BufferAttribute(nc,3));ng.setAttribute('aS',new THREE.BufferAttribute(ns,1));
@@ -389,11 +651,23 @@ function loop(){requestAnimationFrame(loop);const dt=Math.min(clock.getDelta(),.
   cloudMat.uniforms.uOp.value=0.62*(1-Math.min(1,prog/0.3));
   const dark=!isLight;
   galaxyG.visible=dark;solarG.visible=!dark;sunLight.visible=!dark;
+  sunMat.uniforms.uTime.value=t;
+  sunMat.uniforms.uLightMode.value=0.0;
   if(dark){galaxyG.userData.mat.uniforms.uTime.value=t;spinG.rotation.y+=dt*0.045;
     galaxyG.rotation.x+=(0.95+ptr.y*0.1-galaxyG.rotation.x)*Math.min(1,dt*2);galaxyG.rotation.z+=(ptr.x*0.1-galaxyG.rotation.z)*Math.min(1,dt*2);}
-  else{planets.forEach(p=>{p.orb.rotation.y+=p.spd*dt;p.mesh.rotation.y+=dt*0.3;});belt1.rotation.y+=dt*0.02;solarG.rotation.y+=dt*0.02;
+  else{planets.forEach(p=>{p.orb.rotation.y+=p.spd*dt;p.mesh.rotation.y+=dt*0.3;});belt1.rotation.y+=dt*0.02;solarG.rotation.y+=dt*0.02;dustPoints.rotation.y+=dt*0.04;
     solarG.rotation.x+=(0.42+ptr.y*0.06-solarG.rotation.x)*Math.min(1,dt*2);solarG.rotation.z+=(ptr.x*0.06-solarG.rotation.z)*Math.min(1,dt*2);}
-  if(dark!==lastDark){lastDark=dark;scene.background=new THREE.Color(dark?0x05030f:0x070b1a);spaceBg.visible=!dark;}
+  if(dark!==lastDark){
+    lastDark=dark;
+    scene.background=new THREE.Color(dark?0x05030f:0xf8fafc);
+    spaceBg.visible=dark;
+    dustMat.color.setHex(0xffa834);
+    dustMat.opacity=dark?0.75:0.65;
+    orbitMaterials.forEach(m=>{
+      m.color.setHex(dark?0xbcd0ea:0xffa04d);
+      m.opacity=dark?0.22:0.24;
+    });
+  }
   renderer.render(scene,cam);}
 loop();
 /* sparkle stars (CSS) */

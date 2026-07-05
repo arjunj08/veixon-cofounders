@@ -3,6 +3,7 @@
 import { FormEvent, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import VZNAvatar from '@/components/ui/VZNAvatar'
+import OathPortal from '@/components/oath/OathPortal'
 import AppShell from '@/components/AppShell'
 
 export default function OathPage() {
@@ -45,7 +46,7 @@ export default function OathPage() {
     <AppShell title="Founder Oath" subtitle="Make the commitment before execution starts.">
       <div className="vzn-page-pad grid min-h-[calc(100vh-120px)] place-items-center text-center">
       <form onSubmit={submit} className="vzn-panel-strong veixon-rise w-full max-w-[680px] rounded-[1.5rem] p-6 md:p-10">
-        <VZNAvatar size="lg" className="mx-auto" />
+        <OathPortal oathLength={oath.length} />
         <div className="vzn-section-label mt-7">Commitment Lock</div>
         <h1 className="mt-3 text-3xl font-bold md:text-4xl">VZN has given you everything.</h1>
         <p className="mt-3 text-base md:text-lg" style={{ color: 'var(--text-muted)' }}>Now you make a commitment.</p>

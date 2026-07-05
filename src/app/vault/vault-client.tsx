@@ -4,6 +4,7 @@ import { useState } from 'react'
 import AppShell from '@/components/AppShell'
 import VZNAvatar from '@/components/ui/VZNAvatar'
 import VaultProgress from '@/components/dashboard/VaultProgress'
+import VaultLockMesh from '@/components/vault/VaultLockMesh'
 import { Download, Loader2, Lock, Mail, X } from 'lucide-react'
 
 const vcs = [
@@ -100,7 +101,13 @@ export default function VaultClient({ startup, initialUnlocked, progress }: { st
         {!unlocked ? (
           <div className="grid min-h-[70vh] place-items-center text-center">
             <div className="vzn-panel-strong w-full max-w-[560px] rounded-[1.5rem] p-6 md:p-10">
-              <Lock className="mx-auto h-16 w-16 text-[var(--purple)]" />
+              <div className="relative mx-auto flex justify-center items-center h-[240px] w-[240px]">
+                <VaultLockMesh 
+                  taskCompletion={progress.taskCompletionRate} 
+                  accountability={progress.accountabilityScore} 
+                  traction={progress.tractionProof} 
+                />
+              </div>
               <VZNAvatar size="lg" className="mx-auto my-6" />
               <h2 className="text-3xl font-bold">The vault is locked.</h2>
               <p className="mt-3" style={{ color: 'var(--text-muted)' }}>

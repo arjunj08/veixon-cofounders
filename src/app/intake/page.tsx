@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import { ArrowRight } from 'lucide-react'
 import VZNAvatar from '@/components/ui/VZNAvatar'
+import VznMatrixCore from '@/components/dashboard/VznMatrixCore'
 import AppShell from '@/components/AppShell'
 
 export default function IntakePage() {
@@ -79,7 +80,9 @@ export default function IntakePage() {
       <AppShell title="Idea Intake" subtitle="Scorecard, Founder DNA, failure probability, war plan.">
         <div className="vzn-page-pad grid min-h-[calc(100vh-120px)] place-items-center text-center">
           <div className="vzn-panel-strong w-full max-w-[560px] rounded-[1.5rem] p-8 md:p-10">
-          <VZNAvatar size="lg" className="mx-auto" />
+          <div className="scale-125 mb-4">
+            <VznMatrixCore />
+          </div>
           <h1 className="mt-8 text-2xl font-bold">VZN is analysing your idea...</h1>
             <p className="mt-2 text-sm" style={{ color: 'var(--text-muted)' }}>This usually takes a moment while the backend assembles the full founder report.</p>
             <div className="mt-8 h-2 overflow-hidden rounded-full border" style={{ background: 'var(--border)', borderColor: 'var(--border)' }}>
