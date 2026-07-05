@@ -16,22 +16,28 @@ export async function POST(req: Request) {
       result = fallbackDecision()
     }
     const id = newId('decision')
-    await saveDecision({
-      id,
-      userId: body.userId || 'anonymous',
-      startupId: body.startupId || null,
-      description: body.description || '',
-      decisionType: body.decisionType || body.type || 'strategy',
-      scenariosJson: {
-        bestCase: result.bestCase,
-        worstCase: result.worstCase,
-        mostLikely: result.mostLikely,
-      },
-      recommendation: result.recommendation,
-      reasoning: result.reasoning,
-      vznVoice: result.vzn_voice,
-      createdAt: new Date().toISOString(),
-    })
+    let dbFallback = false
+    try {
+      await saveDecision({
+        id,
+        userId: body.userId || 'anonymous',
+        startupId: body.startupId || null,
+        description: body.description || '',
+        decisionType: body.decisionType || body.type || 'strategy',
+        scenariosJson: {
+          bestCase: result.bestCase,
+          worstCase: result.worstCase,
+          mostLikely: result.mostLikely,
+        },
+        recommendation: result.recommendation,
+        reasoning: result.reasoning,
+        vznVoice: result.vzn_voice,
+        createdAt: new Date().toISOString(),
+      })
+    } catch (err) {
+      console.error('Failed to save decision to DB:', err)
+      dbFallback = true
+    }
 
     // Email the founder a summary of the decision VZN just ran.
     if (body.email) {
@@ -49,7 +55,7 @@ export async function POST(req: Request) {
       }
     }
 
-    return Response.json({ id, ...result })
+    return Response.json({ id, dbFallback, ...result })
   } catch {
     return Response.json({ error: 'AI unavailable', fallback: true }, { status: 500 })
   }

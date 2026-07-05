@@ -14,26 +14,38 @@ export default function DecisionsPage() {
   const [decisionType, setDecisionType] = useState(types[0])
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState<any>(null)
+  const [error, setError] = useState('')
   const user = session?.user as any
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     if (!description.trim()) return
     setLoading(true)
-    const response = await fetch('/api/ai/decision', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        description,
-        decisionType,
-        startupId: window.localStorage.getItem('visionix_active_startup_id'),
-        userId: user?.id || user?.email || 'anonymous',
-        email: user?.email,
-        name: user?.name,
-      }),
-    })
-    setResult(await response.json())
-    setLoading(false)
+    setError('')
+    try {
+      const response = await fetch('/api/ai/decision', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          description,
+          decisionType,
+          startupId: window.localStorage.getItem('visionix_active_startup_id'),
+          userId: user?.id || user?.email || 'anonymous',
+          email: user?.email,
+          name: user?.name,
+        }),
+      })
+      const data = await response.json()
+      if (!response.ok || data.error) {
+        throw new Error(data.error || 'Failed to simulate decision')
+      }
+      setResult(data)
+    } catch (err: any) {
+      console.error(err)
+      setError(err.message || 'VZN simulation failed. Try again.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -79,6 +91,14 @@ export default function DecisionsPage() {
                 </div>
                 <p className="mt-4 text-sm text-[var(--purple)] font-mono tracking-widest animate-pulse">RUNNING MONTE CARLO SCENARIO ANALYSIS...</p>
                 <p className="text-xs text-[var(--text-muted)] mt-1.5">VZN is evaluating pricing, GTM, and hiring vectors...</p>
+              </div>
+            </div>
+          ) : error ? (
+            <div className="grid h-full min-h-[420px] place-items-center text-center text-[var(--red)]">
+              <div>
+                <VZNAvatar size="lg" mood="warning" className="mx-auto mb-5" />
+                <p className="font-bold text-lg">Simulation failed</p>
+                <p className="text-sm mt-1.5" style={{ color: 'var(--text-muted)' }}>{error}</p>
               </div>
             </div>
           ) : !result ? (

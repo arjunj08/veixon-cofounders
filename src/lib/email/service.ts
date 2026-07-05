@@ -83,6 +83,34 @@ export async function dispatchEmail(args: {
     return { sent: false, reason: 'already sent' }
   }
 
+  // Primary: Try Resend if API key is provided
+  if (process.env.RESEND_API_KEY) {
+    try {
+      const { Resend } = await import('resend')
+      const resend = new Resend(process.env.RESEND_API_KEY)
+      await resend.emails.send({
+        from: FROM,
+        to: recipients.join(', '),
+        subject,
+        html,
+      })
+      
+      try {
+        await Promise.all(
+          recipients.map((email) =>
+            (prisma as any).emailLog.create({ data: { type, email, userId: userId || undefined, refId: refId || undefined } })
+          )
+        )
+      } catch {
+        /* best-effort logging */
+      }
+      return { sent: true }
+    } catch (error: any) {
+      console.error('[email] Resend delivery failed, falling back to SMTP:', error)
+    }
+  }
+
+  // Fallback: SMTP transporter
   const transporter = await getTransporter()
   if (!transporter) {
     console.warn(`[email] SMTP not ready - would send "${type}" to ${recipients.join(', ')}`)
@@ -103,7 +131,7 @@ export async function dispatchEmail(args: {
     return { sent: true }
   } catch (error: any) {
     const message = error?.message || String(error)
-    console.error('[email] send failed:', message)
+    console.error('[email] SMTP send failed:', message)
     return { sent: false, reason: process.env.NODE_ENV === 'production' ? 'send error' : `send error: ${message}` }
   }
 }
