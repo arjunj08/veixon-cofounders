@@ -435,7 +435,196 @@ const spinG=new THREE.Group();galaxyG.add(spinG);
   fragmentShader:'varying vec3 vC;varying float vTw;varying float vT;void main(){vec2 c=gl_PointCoord-0.5;float d=length(c);if(d>0.5)discard;float a=vT>0.5?smoothstep(0.5,0.0,d)*0.12:pow(smoothstep(0.5,0.0,d),1.6);gl_FragColor=vec4(vC,a*vTw);}'});
  const pts=new THREE.Points(g,m);spinG.add(pts);galaxyG.userData.mat=m;})();
 // ---------- realistic solar system ----------
-function _rn(seed){return function(a,b){const n=Math.sin((a*127.1+b*311.7+seed)*1.0)*43758.5453;return n-Math.floor(n);};}
+function _rn(seed){return function(a,b){const n=Math.sin((a*127.1+b*311.7+seed)*1.0)*43758.5453;return n-Math.floor(n);};};
+function makePlanetMaps(p) {
+  const S = 512;
+  const canvas = document.createElement('canvas'); canvas.width = canvas.height = S;
+  const ctx = canvas.getContext('2d');
+  const bumpCanvas = document.createElement('canvas'); bumpCanvas.width = bumpCanvas.height = S;
+  const bCtx = bumpCanvas.getContext('2d');
+  const rn = _rn(p.seed || 1);
+  function vv(x, y) {
+    const xi=Math.floor(x),yi=Math.floor(y),xf=x-xi,yf=y-yi;
+    const tl=rn(xi,yi),tr=rn(xi+1,yi),bl=rn(xi,yi+1),br=rn(xi+1,yi+1);
+    const u=xf*xf*(3-2*xf),v=yf*yf*(3-2*yf);
+    return tl*(1-u)*(1-v)+tr*u*(1-v)+bl*(1-u)*v+br*u*v;
+  }
+  function fb(x,y,octs){let val=0,am=0.5,fr=1;for(let o=0;o<octs;o++){val+=am*vv(x*fr,y*fr);fr*=2.0;am*=0.5;}return val;}
+  const img=ctx.createImageData(S,S),d=img.data;
+  const bImg=bCtx.createImageData(S,S),bd=bImg.data;
+  function clamp(v){return Math.max(0,Math.min(255,Math.round(v)));}
+  function lerp(a,b,t){return a+(b-a)*t;}
+
+  if (p.type === 'mercury') {
+    // Mercury: grey, heavily cratered, no atmosphere
+    for (let y=0;y<S;y++) for (let x=0;x<S;x++) {
+      const n=fb(x/S*9,y/S*9,6);
+      const crater=fb(x/S*18+1.3,y/S*18+2.1,4);
+      let base=lerp(80,145,n);
+      if (crater > 0.6) base -= (crater-0.6)*200; // dark crater floors
+      const i=(y*S+x)*4;
+      d[i]=clamp(base+5);d[i+1]=clamp(base);d[i+2]=clamp(base-8);d[i+3]=255;
+      bd[i]=bd[i+1]=bd[i+2]=clamp(crater*180+n*60);bd[i+3]=255;
+    }
+  } else if (p.type === 'venus') {
+    // Venus: sickly yellow-orange sulfuric clouds, volcanic highlands
+    for (let y=0;y<S;y++) for (let x=0;x<S;x++) {
+      const n=fb(x/S*5,y/S*5,6);
+      const swirl=fb(x/S*12+n*0.3,y/S*4,3);
+      const r=clamp(lerp(200,240,n)+swirl*20);
+      const g=clamp(lerp(140,185,n)+swirl*10);
+      const bv=clamp(lerp(30,60,n));
+      const i=(y*S+x)*4;
+      d[i]=r;d[i+1]=g;d[i+2]=bv;d[i+3]=255;
+      bd[i]=bd[i+1]=bd[i+2]=clamp(n*220);bd[i+3]=255;
+    }
+  } else if (p.type === 'earth') {
+    // Earth: realistic ocean/land/cloud/polar ice
+    for (let y=0;y<S;y++) {
+      const lat=Math.abs(y/S-0.5)*2; // 0=equator, 1=pole
+      for (let x=0;x<S;x++) {
+        const n=fb(x/S*7,y/S*7,7);
+        const cloud=fb(x/S*11+2.5,y/S*11+1.5,4);
+        const polar=lat>0.82;
+        let r,g,b,h=0;
+        if (polar && lat>0.88+n*0.04) {
+          r=240;g=245;b=255; // polar ice cap
+        } else if (n>0.47) {
+          // land: mix of green jungle, yellow savanna, brown mountain
+          const altitude=(n-0.47)*3.5;
+          if (altitude<0.4){r=clamp(30+altitude*50);g=clamp(110+altitude*30);b=clamp(40+altitude*20);}
+          else if (altitude<0.75){r=clamp(130+altitude*60);g=clamp(105+altitude*40);b=clamp(60+altitude*30);}
+          else {r=clamp(190+altitude*40);g=clamp(180+altitude*35);b=clamp(170+altitude*30);}
+          h=clamp((n-0.47)*2.5*255);
+        } else {
+          // ocean: deep blue to turquoise shelf
+          const depth=(0.47-n)*4;
+          r=clamp(lerp(0,28,depth));g=clamp(lerp(100,45,depth));b=clamp(lerp(180,130,depth));
+        }
+        // clouds
+        if (cloud>0.52 && !polar) {
+          const cl=Math.min(1,(cloud-0.52)*4.5);
+          r=clamp(lerp(r,240,cl));g=clamp(lerp(g,242,cl));b=clamp(lerp(b,248,cl));
+        }
+        const i=(y*S+x)*4;
+        d[i]=r;d[i+1]=g;d[i+2]=b;d[i+3]=255;
+        bd[i]=bd[i+1]=bd[i+2]=h;bd[i+3]=255;
+      }
+    }
+  } else if (p.type === 'mars') {
+    // Mars: rusty red, polar ice, Valles Marineris canyon
+    for (let y=0;y<S;y++) {
+      const lat=Math.abs(y/S-0.5)*2;
+      for (let x=0;x<S;x++) {
+        const n=fb(x/S*8,y/S*8,6);
+        const dust=fb(x/S*18+3,y/S*18+2,4);
+        const canyon=y>S*0.42&&y<S*0.58&&fb(x/S*4,y/S*40,3)>0.55;
+        let r,g,b,h;
+        if (lat>0.84&&n>0.42) {r=245;g=248;b=255;} // polar ice
+        else if (canyon) {r=clamp(120-dust*20);g=clamp(55-dust*15);b=clamp(35-dust*10);}
+        else {
+          r=clamp(lerp(170,210,n)+dust*25);
+          g=clamp(lerp(68,92,n)+dust*12);
+          b=clamp(lerp(38,55,n)+dust*8);
+        }
+        h=clamp(n*200);
+        const i=(y*S+x)*4;
+        d[i]=r;d[i+1]=g;d[i+2]=b;d[i+3]=255;
+        bd[i]=bd[i+1]=bd[i+2]=h;bd[i+3]=255;
+      }
+    }
+  } else if (p.type === 'jupiter') {
+    // Jupiter: swirling storm bands + Great Red Spot
+    const bands=[[210,168,105],[175,120,72],[230,198,145],[148,92,60],[215,172,112],[185,135,80],[225,195,140]];
+    for (let y=0;y<S;y++) {
+      const wob=Math.sin(y/S*Math.PI*18)*0.018+Math.sin(y/S*Math.PI*7)*0.008;
+      for (let x=0;x<S;x++) {
+        const turb=vv(x/S*5,y/S*28)*0.04+vv(x/S*12,y/S*55)*0.018;
+        let t=((y/S)+wob+turb);t=((t%1)+1)%1;
+        const fp=t*(bands.length-1),bi=Math.floor(fp),bf=fp-bi;
+        const c0=bands[bi],c1=bands[Math.min(bands.length-1,bi+1)];
+        // Great Red Spot around (x≈0.55, y≈0.46)
+        const gx=(x/S-0.55)*2.8,gy=(y/S-0.46)*4.5;
+        const grs=Math.max(0,1-Math.sqrt(gx*gx+gy*gy));
+        const i=(y*S+x)*4;
+        d[i]=clamp(lerp(c0[0]+(c1[0]-c0[0])*bf,195,grs*0.7));
+        d[i+1]=clamp(lerp(c0[1]+(c1[1]-c0[1])*bf,60,grs*0.7));
+        d[i+2]=clamp(lerp(c0[2]+(c1[2]-c0[2])*bf,40,grs*0.7));
+        d[i+3]=255;bd[i]=bd[i+1]=bd[i+2]=0;bd[i+3]=255;
+      }
+    }
+  } else if (p.type === 'saturn') {
+    // Saturn: warm golden bands, polar hexagon hint
+    const bands=[[232,210,155],[210,182,120],[240,220,168],[198,168,108],[228,205,148]];
+    for (let y=0;y<S;y++) {
+      const lat=Math.abs(y/S-0.5)*2;
+      const wob=Math.sin(y/S*Math.PI*14)*0.014;
+      for (let x=0;x<S;x++) {
+        const turb=vv(x/S*4,y/S*22)*0.03;
+        let t=((y/S)+wob+turb);t=((t%1)+1)%1;
+        const fp=t*(bands.length-1),bi=Math.floor(fp),bf=fp-bi;
+        const c0=bands[bi],c1=bands[Math.min(bands.length-1,bi+1)];
+        const polar=Math.max(0,lat-0.75)*4;
+        const i=(y*S+x)*4;
+        d[i]=clamp((c0[0]+(c1[0]-c0[0])*bf)*lerp(1,0.7,polar));
+        d[i+1]=clamp((c0[1]+(c1[1]-c0[1])*bf)*lerp(1,0.7,polar));
+        d[i+2]=clamp((c0[2]+(c1[2]-c0[2])*bf)*lerp(1,0.65,polar));
+        d[i+3]=255;bd[i]=bd[i+1]=bd[i+2]=0;bd[i+3]=255;
+      }
+    }
+  } else if (p.type === 'uranus') {
+    // Uranus: pale aquamarine ice giant, subtle banding
+    for (let y=0;y<S;y++) for (let x=0;x<S;x++) {
+      const n=fb(x/S*3,y/S*3,4)*0.07;
+      const band=Math.sin(y/S*Math.PI*12)*0.03+n;
+      const i=(y*S+x)*4;
+      d[i]=clamp(155+band*120);d[i+1]=clamp(210+band*80);d[i+2]=clamp(225+band*50);d[i+3]=255;
+      bd[i]=bd[i+1]=bd[i+2]=0;bd[i+3]=255;
+    }
+  } else if (p.type === 'neptune') {
+    // Neptune: deep cobalt blue with white storm streaks
+    for (let y=0;y<S;y++) for (let x=0;x<S;x++) {
+      const n=fb(x/S*6,y/S*6,5);
+      const storm=fb(x/S*14+1.8,y/S*14+0.8,4);
+      const band=Math.sin(y/S*Math.PI*10)*0.04;
+      const i=(y*S+x)*4;
+      d[i]=clamp(28+n*35+band*30);
+      d[i+1]=clamp(60+n*55+band*25);
+      d[i+2]=clamp(180+n*60+band*20);
+      if (storm>0.68){const sc=(storm-0.68)*3.5;d[i]=clamp(d[i]+sc*80);d[i+1]=clamp(d[i+1]+sc*80);d[i+2]=clamp(d[i+2]+sc*60);}
+      d[i+3]=255;bd[i]=bd[i+1]=bd[i+2]=clamp(n*180);bd[i+3]=255;
+    }
+  } else {
+    // Generic rocky fallback
+    for (let y=0;y<S;y++) for (let x=0;x<S;x++) {
+      const n=fb(x/S*6,y/S*6,5);
+      const sh=(n-0.5)*(p.rough||0.5)*140;
+      const i=(y*S+x)*4;
+      d[i]=clamp((p.color[0]||128)+sh);d[i+1]=clamp((p.color[1]||128)+sh);d[i+2]=clamp((p.color[2]||128)+sh);d[i+3]=255;
+      const val=Math.floor(n*255);bd[i]=bd[i+1]=bd[i+2]=val;bd[i+3]=255;
+    }
+  }
+
+  ctx.putImageData(img,0,0);bCtx.putImageData(bImg,0,0);
+  return {map:new THREE.CanvasTexture(canvas),bumpMap:new THREE.CanvasTexture(bumpCanvas)};
+}
+const solarG=new THREE.Group();solarG.position.set(0,0.4,FAR);solarG.rotation.x=0.42;scene.add(solarG);solarG.visible=false;
+function sunGlow(rgb,size,op){const S=256,c=document.createElement('canvas');c.width=c.height=S;const x=c.getContext('2d');const g=x.createRadialGradient(S/2,S/2,0,S/2,S/2,S/2);g.addColorStop(0,'rgba('+rgb+','+op+')');g.addColorStop(0.22,'rgba('+rgb+','+(op*0.55)+')');g.addColorStop(1,'rgba('+rgb+',0)');x.fillStyle=g;x.fillRect(0,0,S,S);const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),blending:THREE.AdditiveBlending,depthWrite:false,transparent:true}));sp.scale.set(size,size,1);return sp;}
+const sunMat=new THREE.ShaderMaterial({uniforms:{uTime:{value:0},uLightMode:{value:0}},vertexShader:`varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`,fragmentShader:`uniform float uTime;uniform float uLightMode;varying vec2 vUv;float noise(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453123);}float smoothNoise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.0-2.0*f);return mix(mix(noise(i),noise(i+vec2(1.0,0.0)),f.x),mix(noise(i+vec2(0.0,1.0)),noise(i+vec2(1.0,1.0)),f.x),f.y);}float fbm(vec2 p){float v=0.0,a=0.5;for(int i=0;i<4;i++){v+=a*smoothNoise(p);p*=2.0;a*=0.5;}return v;}void main(){vec2 uv1=vec2(vUv.x*12.0+uTime*0.12,vUv.y*6.0);vec2 uv2=vec2(vUv.x*6.0-uTime*0.08,vUv.y*12.0+uTime*0.08);float base=mix(fbm(uv1),fbm(uv2),0.5);vec3 col;if(uLightMode>0.5){vec3 deepViolet=vec3(0.31,0.22,0.9);vec3 brightCyan=vec3(0.02,0.72,0.85);vec3 softBlue=vec3(0.2,0.5,0.95);col=mix(deepViolet,softBlue,smoothstep(0.18,0.42,base));col=mix(col,brightCyan,smoothstep(0.42,0.88,base));}else{vec3 red=vec3(0.9,0.15,0.0),orange=vec3(1.0,0.5,0.0),yellow=vec3(1.0,0.85,0.1),white=vec3(1.0,1.0,0.95);col=mix(red,orange,smoothstep(0.18,0.42,base));col=mix(col,yellow,smoothstep(0.42,0.68,base));col=mix(col,white,smoothstep(0.68,0.88,base));}gl_FragColor=vec4(col,1.0);}` });
+const sun=new THREE.Mesh(new THREE.SphereGeometry(1.4,64,64),sunMat);solarG.add(sun);
+solarG.add(new THREE.Mesh(new THREE.SphereGeometry(0.92,48,48),new THREE.MeshBasicMaterial({color:0xfff4d6})));
+solarG.add(sunGlow('255,238,185',3.6,1.0));solarG.add(sunGlow('255,172,58',6.4,0.7));solarG.add(sunGlow('255,112,30',12.5,0.4));
+const corona=new THREE.Mesh(new THREE.SphereGeometry(1.4,48,48),new THREE.ShaderMaterial({transparent:true,side:THREE.BackSide,depthWrite:false,blending:THREE.AdditiveBlending,uniforms:{uC:{value:new THREE.Color(0xffb347)}},vertexShader:'varying vec3 vN;varying vec3 vV;void main(){vN=normalize(normalMatrix*normal);vec4 mv=modelViewMatrix*vec4(position,1.0);vV=normalize(-mv.xyz);gl_Position=projectionMatrix*mv;}',fragmentShader:'uniform vec3 uC;varying vec3 vN;varying vec3 vV;void main(){float f=pow(1.0-max(dot(vN,vV),0.0),1.5);gl_FragColor=vec4(uC,f);}'}));corona.scale.setScalar(1.75);solarG.add(corona);
+const sunLight=new THREE.PointLight(0xfff2d6,3.0,320);solarG.add(sunLight);scene.add(new THREE.AmbientLight(0x8098b8,0.65));
+const PLAN=[
+  {r:2.5,s:0.12,type:'mercury',rough:0.85,seed:1,spd:0.50,bumpScale:0.06,metal:0.12},
+  {r:3.3,s:0.22,type:'venus',  rough:0.30,seed:2,spd:0.37,bumpScale:0.03,metal:0.08},
+  {r:4.2,s:0.26,type:'earth',  rough:0.55,seed:3,spd:0.31,bumpScale:0.03,metal:0.05},
+  {r:5.2,s:0.18,type:'mars',   rough:0.80,seed:4,spd:0.25,bumpScale:0.06,metal:0.08},
+  {r:7.2,s:0.74,type:'jupiter',rough:0.90,seed:11,spd:0.14,bumpScale:0.0,metal:0.05},
+  {r:9.0,s:0.62,type:'saturn', rough:0.85,seed:12,spd:0.10,bumpScale:0.0,metal:0.05,ring:true},
+  {r:10.6,s:0.42,type:'uranus',rough:0.40,seed:13,spd:0.075,bumpScale:0.0,metal:0.04},
+  {r:12.0,s:0.40,type:'neptune',rough:0.45,seed:14,spd:0.058,bumpScale:0.0,metal:0.04}
 function makePlanetMaps(p) {
   const S = 256;
   const canvas = document.createElement('canvas'); canvas.width = canvas.height = S;
