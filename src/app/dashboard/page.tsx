@@ -72,7 +72,7 @@ export default function DashboardPage() {
         return res.json()
       })
       .then((payload) => {
-        if (payload.error) throw new Error()
+        if (payload.error || payload.dbFallback) throw new Error()
         
         if (payload.startup?.id) {
           window.localStorage.setItem('visionix_active_startup_id', payload.startup.id)

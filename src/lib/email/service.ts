@@ -2,6 +2,14 @@ import prisma from '@/lib/prisma'
 
 const FROM = process.env.EMAIL_FROM || 'VZN <vzn@visionixfounders.com>'
 
+function parseSender(senderStr: string) {
+  const match = senderStr.match(/^(.*?)\s*<(.*?)>$/)
+  if (match) {
+    return { name: match[1].trim(), email: match[2].trim() }
+  }
+  return { email: senderStr.trim() }
+}
+
 export const IDEA_SUBMISSION_RECIPIENTS = (
   process.env.IDEA_SUBMISSION_RECIPIENTS ||
   'abhinavrishisaka@gmail.com,saisiddardh10@gmail.com,dayzeroworks@gmail.com'
@@ -83,7 +91,46 @@ export async function dispatchEmail(args: {
     return { sent: false, reason: 'already sent' }
   }
 
-  // Primary: Try Resend if API key is provided
+  // Primary: Try Brevo if API key is provided
+  if (process.env.BREVO_API_KEY) {
+    try {
+      const senderObj = parseSender(FROM)
+      const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+        method: 'POST',
+        headers: {
+          'api-key': process.env.BREVO_API_KEY,
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          sender: senderObj,
+          to: recipients.map((email) => ({ email })),
+          subject,
+          htmlContent: html,
+        }),
+      })
+
+      if (!response.ok) {
+        const errorText = await response.text()
+        throw new Error(`Brevo HTTP error ${response.status}: ${errorText}`)
+      }
+
+      try {
+        await Promise.all(
+          recipients.map((email) =>
+            (prisma as any).emailLog.create({ data: { type, email, userId: userId || undefined, refId: refId || undefined } })
+          )
+        )
+      } catch {
+        /* best-effort logging */
+      }
+      return { sent: true }
+    } catch (error: any) {
+      console.error('[email] Brevo API delivery failed, falling back:', error)
+    }
+  }
+
+  // Secondary: Try Resend if API key is provided
   if (process.env.RESEND_API_KEY) {
     try {
       const { Resend } = await import('resend')

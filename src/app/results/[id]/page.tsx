@@ -394,7 +394,7 @@ export default function ResultsPage({ params }: { params: { id: string } }) {
     fetch(`/api/startups/${id}`)
       .then((res) => res.json())
       .then((data) => {
-        if (data.error) {
+        if (data.error || data.dbFallback) {
           const local = window.localStorage.getItem(`veixon_startup_${id}`)
           if (local) {
             const parsed = JSON.parse(local)
@@ -404,9 +404,12 @@ export default function ResultsPage({ params }: { params: { id: string } }) {
               setMarketIntelligence(parsed.marketIntelligence)
             }
             setMarketIntelligenceLoaded(true)
-          } else {
-            setError(data.error)
+            return
           }
+        }
+
+        if (data.error) {
+          setError(data.error)
         } else {
           setStartup(data)
           setStressDone(!!data.stressTestResponse)
