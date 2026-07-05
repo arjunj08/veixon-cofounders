@@ -15,7 +15,13 @@ export async function POST(req: Request) {
     } catch {
       result = fallbackFounderDNA()
     }
-    if (body.startupId) await updateStartup(body.startupId, { founderDNA: result })
+    if (body.startupId) {
+      try {
+        await updateStartup(body.startupId, { founderDNA: result })
+      } catch (dbErr) {
+        console.warn('Founder DNA DB update bypassed:', dbErr)
+      }
+    }
     return Response.json(result)
   } catch {
     return Response.json({ error: 'AI unavailable', fallback: true }, { status: 500 })

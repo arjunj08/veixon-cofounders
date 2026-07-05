@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
@@ -24,6 +25,11 @@ const scoreLabels: Record<string, string> = {
 
 function StressTestOverlay({ startupId, onDone }: { startupId: string; onDone: () => void }) {
   const [hesitated, setHesitated] = useState(false)
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   async function record(response: string) {
     await fetch(`/api/startups/${startupId}`, {
@@ -33,18 +39,21 @@ function StressTestOverlay({ startupId, onDone }: { startupId: string; onDone: (
     }).catch(() => {})
   }
 
+  if (!mounted) return null
+
   if (hesitated) {
-    return (
+    return createPortal(
       <motion.div className="fixed inset-0 z-50 grid place-items-center bg-[var(--bg-primary)]/95 px-6 text-center backdrop-blur-sm">
         <div className="max-w-[620px]">
           <VZNAvatar size="lg" mood="warning" className="mx-auto" />
           <p className="mt-8 text-2xl font-bold text-[var(--amber)]">That hesitation is your first data point. Most founders who click that button quit by month 4.</p>
         </div>
-      </motion.div>
+      </motion.div>,
+      document.body
     )
   }
 
-  return (
+  return createPortal(
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -76,7 +85,8 @@ function StressTestOverlay({ startupId, onDone }: { startupId: string; onDone: (
           </button>
         </div>
       </div>
-    </motion.div>
+    </motion.div>,
+    document.body
   )
 }
 
@@ -132,7 +142,7 @@ function FounderDNA({ startupId, startup }: { startupId: string; startup: any })
   const ref = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
-    if (dna) return
+    if (dna && dna.founderType) return
     fetch('/api/ai/founder-dna', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -143,9 +153,29 @@ function FounderDNA({ startupId, startup }: { startupId: string; startup: any })
         problem: startup.problem,
       }),
     })
-      .then((res) => res.json())
-      .then((data) => setDna(data))
-      .catch(() => {})
+      .then((res) => {
+        if (!res.ok) throw new Error('DNA load failed')
+        return res.json()
+      })
+      .then((data) => {
+        if (data.error || !data.founderType) throw new Error(data.error || 'Invalid DNA data')
+        setDna(data)
+      })
+      .catch((err) => {
+        console.warn('Founder DNA API check failed, applying client fallback:', err)
+        setDna({
+          founderType: 'Executor',
+          traits: {
+            visionaryVsExecutor: 60,
+            riskAppetite: 65,
+            clarityOfThinking: 70,
+            emotionalAttachment: 45,
+          },
+          vznVerdict: 'Focus on execution constraints. VZN is tracking your pattern.',
+          dangerLine: 'You may confuse intensity with actual evidence. Keep the proof moving.',
+          fallback: true,
+        })
+      })
   }, [dna, startup, startupId])
 
   async function share() {
@@ -158,9 +188,16 @@ function FounderDNA({ startupId, startup }: { startupId: string; startup: any })
       const link = document.createElement('a')
       link.download = 'veixon-founder-dna.png'
       link.href = canvas.toDataURL('image/png')
+      document.body.appendChild(link)
       link.click()
-      await navigator.clipboard?.writeText(`VZN classified my founder DNA as ${dna?.founderType}. VEIXON Co-founders, a product by @VEIXON Tech.`)
-    } catch {
+      document.body.removeChild(link)
+      try {
+        await navigator.clipboard?.writeText(`VZN classified my founder DNA as ${dna?.founderType}. VEIXON Co-founders, a product by @VEIXON Tech.`)
+      } catch (clipErr) {
+        console.warn('Clipboard write blocked, proceeding with download:', clipErr)
+      }
+    } catch (err) {
+      console.error('Share generation failed:', err)
       setShareError('Could not generate the image. Try again.')
     } finally {
       setSharing(false)

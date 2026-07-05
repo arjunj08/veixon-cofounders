@@ -35,8 +35,8 @@ export default async function RoutingPage() {
       target = startup.oath ? '/dashboard' : '/oath'
     }
   } catch (error) {
-    console.error('Routing DB check failed/slow; defaulting to intake:', error)
-    target = '/intake'
+    console.error('Routing DB check failed/slow; defaulting to dashboard:', error)
+    target = '/dashboard'
   }
 
   redirect(target)

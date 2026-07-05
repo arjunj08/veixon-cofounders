@@ -36,9 +36,34 @@ export async function GET(_req: Request) {
     const userId = (session?.user as any)?.id
     if (!userId) return Response.json(EMPTY)
 
-    const startup = await getLatestStartup(userId)
-    const checkin = await getLatestCheckin(userId)
-    const decisions = await listDecisions(userId)
+    let startup: any = null
+    let checkin: any = null
+    let decisions: any[] = []
+
+    try {
+      startup = await getLatestStartup(userId)
+      checkin = await getLatestCheckin(userId)
+      decisions = await listDecisions(userId)
+    } catch (dbErr) {
+      console.warn('Dashboard Prisma query failed, returning fallback stats:', dbErr)
+      return Response.json({
+        startup: null,
+        checkin: null,
+        decisions: [],
+        tasks: [],
+        insight: 'Database is offline, running in offline recovery mode.',
+        stats: {
+          startupHealth: 50,
+          accountability: 50,
+          decisionsThisMonth: 0,
+          pivotStatus: 'AMBER',
+          completedCount: 0,
+          totalTasks: 90,
+          taskProgress: 0,
+        },
+        dbFallback: true,
+      })
+    }
     const tasks = checkin?.tasksJson || startup?.warPlanJson?.[0]?.dailyTasks || []
     const totalTasks = totalPlanTasks(startup)
     const completedCount = startup?.completedTasks?.length || 0

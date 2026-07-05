@@ -132,13 +132,14 @@ export default function DayPage({ params }: DayPageProps) {
   const effectiveDebrief = debriefMode === 'quick' ? expandOneLine(oneLine) : debrief
 
   const handleDebriefSubmit = async () => {
-    if (!debriefComplete || !seed || !startup?.id) return
+    const startupId = startup?.id || (typeof window !== 'undefined' ? window.localStorage.getItem('visionix_active_startup_id') : null) || 'anonymous'
+    if (!debriefComplete || !seed || !startupId) return
     setDebriefLoading(true)
     const taskId = `wk${week}-day${day}`
     
     try {
       if (typeof window !== 'undefined') {
-        const local = window.localStorage.getItem(`veixon_completed_tasks_${startup.id}`)
+        const local = window.localStorage.getItem(`veixon_completed_tasks_${startupId}`)
         let ids = [taskId]
         if (local) {
           try {
@@ -148,7 +149,7 @@ export default function DayPage({ params }: DayPageProps) {
             }
           } catch {}
         }
-        window.localStorage.setItem(`veixon_completed_tasks_${startup.id}`, JSON.stringify(ids))
+        window.localStorage.setItem(`veixon_completed_tasks_${startupId}`, JSON.stringify(ids))
       }
 
       const response = await fetch('/api/ai/debrief-analysis', {
@@ -169,7 +170,7 @@ export default function DayPage({ params }: DayPageProps) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          id: startup.id,
+          id: startupId,
           week,
           day,
           taskLabel,
@@ -186,7 +187,7 @@ export default function DayPage({ params }: DayPageProps) {
       let nextScore = completion.accountabilityScore ?? 0
 
       if (typeof window !== 'undefined') {
-        const local = window.localStorage.getItem(`veixon_completed_tasks_${startup.id}`)
+        const local = window.localStorage.getItem(`veixon_completed_tasks_${startupId}`)
         if (local) {
           try {
             const parsed = JSON.parse(local)
@@ -234,7 +235,7 @@ export default function DayPage({ params }: DayPageProps) {
       let localTasksList: any[] = []
       
       if (typeof window !== 'undefined') {
-        const local = window.localStorage.getItem(`veixon_completed_tasks_${startup.id}`)
+        const local = window.localStorage.getItem(`veixon_completed_tasks_${startupId}`)
         if (local) {
           try {
             const parsed = JSON.parse(local)

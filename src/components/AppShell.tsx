@@ -1,6 +1,7 @@
 'use client'
 
-import { ReactNode, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
+import { usePathname } from 'next/navigation'
 import { Bell, Menu } from 'lucide-react'
 import Sidebar from '@/components/dashboard/Sidebar'
 import AmbientBackdrop from '@/components/dashboard/AmbientBackdrop'
@@ -19,6 +20,30 @@ export default function AppShell({
 }) {
   const [navOpen, setNavOpen] = useState(false)
   const hasHeader = title || subtitle || actions
+  const pathname = usePathname()
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    const handleHashScroll = () => {
+      const hash = window.location.hash
+      if (hash) {
+        const id = hash.replace('#', '')
+        const element = document.getElementById(id)
+        if (element) {
+          setTimeout(() => {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+          }, 150)
+        }
+      }
+    }
+
+    // Run on path change / mount
+    handleHashScroll()
+
+    window.addEventListener('hashchange', handleHashScroll)
+    return () => window.removeEventListener('hashchange', handleHashScroll)
+  }, [pathname])
 
   return (
     <div className="vzn-app-shell relative min-h-screen text-[var(--text-primary)]">

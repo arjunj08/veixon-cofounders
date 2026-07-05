@@ -286,11 +286,13 @@ export default function DashboardPage() {
                 <AnimatedNumber value={data.stats.decisionsThisMonth || 0} className="text-5xl font-bold" />
                 <p className="mt-2 text-xs" style={{ color: 'var(--text-muted)' }}>this month</p>
               </StatCard>
-              <StatCard label="Pivot Radar" index={3}>
-                <span className="inline-flex rounded-full px-3 py-1 text-sm font-bold" style={{ background: 'color-mix(in srgb, var(--purple) 15%, transparent)', color: 'var(--purple)' }}>
-                  {data.stats.pivotStatus}
-                </span>
-              </StatCard>
+              <div id="pivot" className="scroll-mt-24">
+                <StatCard label="Pivot Radar" index={3}>
+                  <span className="inline-flex rounded-full px-3 py-1 text-sm font-bold" style={{ background: 'color-mix(in srgb, var(--purple) 15%, transparent)', color: 'var(--purple)' }}>
+                    {data.stats.pivotStatus}
+                  </span>
+                </StatCard>
+              </div>
             </div>
 
             <div className="mb-6 grid gap-6 lg:grid-cols-12">
@@ -340,6 +342,30 @@ export default function DashboardPage() {
                   <h2 className="text-lg font-bold">Recent decisions</h2>
                 </div>
                 <DecisionTable decisions={data.decisions || []} />
+              </section>
+            </div>
+
+            <div id="share" className="mb-6 scroll-mt-24">
+              <section className="vzn-panel veixon-lift veixon-rise rounded-[1.5rem] p-6">
+                <h2 className="text-lg font-bold mb-2">Share VEIXON Co-Founder OS</h2>
+                <p className="text-sm mb-4" style={{ color: 'var(--text-muted)' }}>
+                  Invite co-founders, investors, or advisors to view your real-time startup progress and VZN diagnostics.
+                </p>
+                <div className="flex flex-wrap items-center gap-3">
+                  <button
+                    onClick={() => {
+                      try {
+                        navigator.clipboard.writeText(window.location.origin);
+                        alert('Workspace link copied to clipboard!');
+                      } catch (err) {
+                        console.error('Clipboard copy failed:', err);
+                      }
+                    }}
+                    className="vzn-button-primary rounded-xl px-4 py-2 text-sm font-semibold inline-flex items-center gap-2"
+                  >
+                    Copy Workspace Invite Link
+                  </button>
+                </div>
               </section>
             </div>
           </>
