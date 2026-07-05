@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { CheckSquare, Square, X } from 'lucide-react'
 import ShareCard from '@/components/dashboard/ShareCard'
 
@@ -28,9 +28,36 @@ export default function TaskList({
   week?: number
   onProgressUpdate?: (progress: TaskProgress) => void
 }) {
-  const [completed, setCompleted] = useState<string[]>(initialCompleted)
+  const [completed, setCompleted] = useState<string[]>(() => {
+    if (typeof window === 'undefined') return initialCompleted
+    const local = window.localStorage.getItem(`veixon_completed_tasks_${startupId}`)
+    if (local) {
+      try {
+        const parsed = JSON.parse(local)
+        if (Array.isArray(parsed)) {
+          return Array.from(new Set([...initialCompleted, ...parsed]))
+        }
+      } catch {}
+    }
+    return initialCompleted
+  })
   const [sharingTask, setSharingTask] = useState<string | null>(null)
   const [progress, setProgress] = useState<TaskProgress | null>(null)
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || !startupId) return
+    const local = window.localStorage.getItem(`veixon_completed_tasks_${startupId}`)
+    if (local) {
+      try {
+        const parsed = JSON.parse(local)
+        if (Array.isArray(parsed)) {
+          setCompleted(Array.from(new Set([...initialCompleted, ...parsed])))
+          return
+        }
+      } catch {}
+    }
+    setCompleted(initialCompleted)
+  }, [initialCompleted, startupId])
 
   const getTaskId = (task: any, index: number) => `wk${task.week || week}-day${task.day || index + 1}`
 
@@ -38,8 +65,13 @@ export default function TaskList({
     const taskId = getTaskId(task, index)
     if (completed.includes(taskId) || completed.includes(task.task)) return
 
-    setCompleted((prev) => [...prev, taskId])
+    const nextCompleted = [...completed, taskId]
+    setCompleted(nextCompleted)
     setSharingTask(taskId)
+
+    if (typeof window !== 'undefined' && startupId) {
+      window.localStorage.setItem(`veixon_completed_tasks_${startupId}`, JSON.stringify(nextCompleted))
+    }
 
     if (!startupId) return
 
@@ -53,6 +85,14 @@ export default function TaskList({
       if (!response.ok) throw new Error('Task update failed')
 
       const result = await response.json()
+      if (Array.isArray(result.completedTasks)) {
+        const ids = result.completedTasks.map((item: any) => item.taskId)
+        setCompleted(ids)
+        if (typeof window !== 'undefined') {
+          window.localStorage.setItem(`veixon_completed_tasks_${startupId}`, JSON.stringify(ids))
+        }
+      }
+
       const nextProgress: TaskProgress = {
         taskId,
         taskCompletionRate: result.taskCompletionRate,
@@ -62,16 +102,41 @@ export default function TaskList({
         totalTasks: result.totalTasks,
       }
 
-      if (Array.isArray(result.completedTasks)) {
-        setCompleted(result.completedTasks.map((item: any) => item.taskId))
-      }
-
       setProgress(nextProgress)
       onProgressUpdate?.(nextProgress)
     } catch (error) {
-      console.error('Failed to complete task', error)
-      setCompleted((prev) => prev.filter((id) => id !== taskId))
-      setSharingTask(null)
+      console.warn('Backend task completion sync failed, using local storage cache:', error)
+      const total = 90
+      const done = nextCompleted.length
+      const rate = done / total
+      const score = Math.round(rate * 100)
+      
+      const localCompletedTasks = nextCompleted.map(id => ({ taskId: id, completedAt: new Date().toISOString() }))
+      
+      const activeId = window.localStorage.getItem('visionix_active_startup_id')
+      if (activeId) {
+        const localRecord = window.localStorage.getItem(`veixon_startup_${activeId}`)
+        if (localRecord) {
+          try {
+            const parsed = JSON.parse(localRecord)
+            parsed.completedTasks = localCompletedTasks
+            parsed.taskCompletionRate = rate
+            parsed.accountabilityScore = score
+            window.localStorage.setItem(`veixon_startup_${activeId}`, JSON.stringify(parsed))
+          } catch {}
+        }
+      }
+
+      const nextProgress: TaskProgress = {
+        taskId,
+        taskCompletionRate: rate,
+        accountabilityScore: score,
+        completedTasks: localCompletedTasks,
+        completedCount: done,
+        totalTasks: total,
+      }
+      setProgress(nextProgress)
+      onProgressUpdate?.(nextProgress)
     }
   }
 

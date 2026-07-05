@@ -73,8 +73,27 @@ export default function DashboardPage() {
       })
       .then((payload) => {
         if (payload.error) throw new Error()
+        
+        if (payload.startup?.id) {
+          window.localStorage.setItem('visionix_active_startup_id', payload.startup.id)
+          const local = window.localStorage.getItem(`veixon_completed_tasks_${payload.startup.id}`)
+          if (local) {
+            try {
+              const parsed = JSON.parse(local)
+              if (Array.isArray(parsed) && parsed.length > (payload.startup.completedTasks?.length || 0)) {
+                payload.startup.completedTasks = parsed.map(id => ({ taskId: id, completedAt: new Date().toISOString() }))
+                payload.startup.taskCompletionRate = parsed.length / 90
+                payload.startup.accountabilityScore = Math.round((parsed.length / 90) * 100)
+                
+                payload.stats.completedCount = parsed.length
+                payload.stats.taskProgress = percentFromRate(payload.startup.taskCompletionRate)
+                payload.stats.accountability = payload.startup.accountabilityScore
+              }
+            } catch {}
+          }
+        }
+
         setData(payload)
-        if (payload.startup?.id) window.localStorage.setItem('visionix_active_startup_id', payload.startup.id)
         setBurnForm({
           burnRate: payload.startup?.burnRate ? String(payload.startup.burnRate) : '',
           cashInBank: payload.startup?.cashInBank ? String(payload.startup.cashInBank) : '',
@@ -87,20 +106,41 @@ export default function DashboardPage() {
           const localRecord = window.localStorage.getItem(`veixon_startup_${activeId}`)
           if (localRecord) {
             const parsed = JSON.parse(localRecord)
+            
+            const localCompleted = window.localStorage.getItem(`veixon_completed_tasks_${activeId}`)
+            let completedTasks = parsed.completedTasks || []
+            let rate = parsed.taskCompletionRate || 0
+            let score = parsed.accountabilityScore || 0
+            if (localCompleted) {
+              try {
+                const parsedCompleted = JSON.parse(localCompleted)
+                if (Array.isArray(parsedCompleted)) {
+                  completedTasks = parsedCompleted.map(id => ({ taskId: id, completedAt: new Date().toISOString() }))
+                  rate = parsedCompleted.length / 90
+                  score = Math.round(rate * 100)
+                }
+              } catch {}
+            }
+
             const fallbackPayload = {
-              startup: parsed,
+              startup: {
+                ...parsed,
+                completedTasks,
+                taskCompletionRate: rate,
+                accountabilityScore: score,
+              },
               checkin: null,
               decisions: [],
               tasks: parsed.warPlanJson?.[0]?.dailyTasks || [],
               insight: parsed.vznVoice || 'Run your first check-in and I will tell you where you are drifting.',
               stats: {
                 startupHealth: 50,
-                accountability: parsed.accountabilityScore || 0,
+                accountability: score,
                 decisionsThisMonth: 0,
                 pivotStatus: 'AMBER',
-                completedCount: parsed.completedTasks?.length || 0,
+                completedCount: completedTasks.length,
                 totalTasks: 90,
-                taskProgress: 0,
+                taskProgress: percentFromRate(rate),
               }
             }
             setData(fallbackPayload)
