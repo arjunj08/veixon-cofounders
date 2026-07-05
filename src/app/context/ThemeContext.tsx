@@ -31,6 +31,7 @@ const darkTheme: Record<string, string> = {
   '--canvas-grid': '#2A2A35',
   '--canvas-fog': '#0D0D0F',
   '--canvas-particle': '#534AB7',
+  '--scrim-bg': 'color-mix(in srgb, var(--bg-primary) 38%, transparent)',
 }
 
 const lightTheme: Record<string, string> = {
@@ -53,6 +54,7 @@ const lightTheme: Record<string, string> = {
   '--canvas-grid': '#D0CCE8',
   '--canvas-fog': '#F8F7FF',
   '--canvas-particle': '#3D35A0',
+  '--scrim-bg': 'color-mix(in srgb, var(--bg-primary) 10%, transparent)',
 }
 
 const STORAGE_KEY = 'visionix_theme'

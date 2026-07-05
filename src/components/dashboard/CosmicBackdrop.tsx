@@ -31,8 +31,8 @@ export default function CosmicBackdrop() {
       const scene = new THREE.Scene()
       const cam = new THREE.PerspectiveCamera(50, container.offsetWidth / container.offsetHeight, 0.1, 400)
       
-      // Position camera so the tilted solar system is centered and fills the screen nicely
-      cam.position.set(0, 7, 17)
+      // Position camera so the tilted solar system is centered and fits the screen nicely
+      cam.position.set(0, 5.5, 11)
       cam.lookAt(0, 0, 0)
 
       /* ── resize ── */
@@ -313,7 +313,8 @@ export default function CosmicBackdrop() {
       for (let i = 0; i < 2400; i++) starPositions[i] = (Math.random() - 0.5) * 350
       starGeo.setAttribute('position', new THREE.BufferAttribute(starPositions, 3))
       const starMat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.16, transparent: true, opacity: 0.65 })
-      scene.add(new THREE.Points(starGeo, starMat))
+      const starPoints = new THREE.Points(starGeo, starMat)
+      scene.add(starPoints)
 
       /* ── solar system group (tilted) ── */
       const solarG = new THREE.Group()
@@ -324,30 +325,37 @@ export default function CosmicBackdrop() {
       /* ── sun ── */
       const sunMat = new THREE.ShaderMaterial({
         uniforms: { uTime: { value: 0 } },
-        vertexShader: `varying vec2 vUv; void main(){ vUv=uv; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }`,
+        vertexShader: `varying vec2 vUv; void main(){ vUv=uv; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }`,
         fragmentShader: `
           uniform float uTime;
           varying vec2 vUv;
           float hash(vec2 p){ return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453); }
-          float noise(vec2 p){ vec2 i=floor(p); vec2 f=fract(p); vec2 u=f*f*(3.-2.*f);
-            return mix(mix(hash(i),hash(i+vec2(1,0)),u.x),mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),u.x),u.y); }
-          float fbm(vec2 p){ float v=0.; float a=.5; for(int i=0;i<5;i++){ v+=a*noise(p); p*=2.1; a*=.5; } return v; }
+          float noise(vec2 p){ vec2 i=floor(p); vec2 f=fract(p); vec2 u=f*f*(3.0-2.0*f);
+            return mix(mix(hash(i),hash(i+vec2(1.0,0.0)),u.x),mix(hash(i+vec2(0.0,1.0)),hash(i+vec2(1.0,1.0)),u.x),u.y); }
+          float fbm(vec2 p){ float v=0.0; float a=0.5; for(int i=0;i<5;i++){ v+=a*noise(p); p*=2.1; a*=0.5; } return v; }
           void main(){
-            vec2 uv=vUv*2.-1.;
+            vec2 uv=vUv*2.0-1.0;
             float d=length(uv);
-            float n=fbm(uv*3.+uTime*.35);
-            float n2=fbm(uv*6.-uTime*.2+n);
-            vec3 hot=vec3(1.,.95,.6);
-            vec3 mid=vec3(1.,.45,.05);
-            vec3 cool=vec3(.7,.1,.0);
+            float n=fbm(uv*3.0+uTime*0.35);
+            float n2=fbm(uv*6.0-uTime*0.2+n);
+            vec3 hot=vec3(1.0,0.95,0.6);
+            vec3 mid=vec3(1.0,0.45,0.05);
+            vec3 cool=vec3(0.7,0.1,0.0);
             vec3 col=mix(cool,mix(mid,hot,n2),n);
-            float edge=1.-smoothstep(.78,.99,d+n2*.18);
+            float edge=1.0-smoothstep(0.78,0.99,d+n2*0.18);
             gl_FragColor=vec4(col*edge*1.3,edge);
           }`,
         transparent: true,
       })
-      const sun = new THREE.Mesh(new THREE.SphereGeometry(1.6, 64, 64), sunMat)
+      const sun = new THREE.Mesh(new THREE.SphereGeometry(0.8, 64, 64), sunMat)
       solarG.add(sun)
+
+      // Solid bright core for sun
+      const sunCore = new THREE.Mesh(
+        new THREE.SphereGeometry(0.55, 48, 48),
+        new THREE.MeshBasicMaterial({ color: 0xfff4d6 })
+      )
+      solarG.add(sunCore)
 
       // Sun glow sprite (dynamic glow)
       function makeSunGlow(rgb: string, size: number, op: number) {
@@ -372,12 +380,12 @@ export default function CosmicBackdrop() {
         sp.scale.set(size, size, 1)
         return sp
       }
-      solarG.add(makeSunGlow('255,172,58', 8.0, 0.65))
-      solarG.add(makeSunGlow('255,112,30', 14.0, 0.35))
+      solarG.add(makeSunGlow('255,172,58', 4.0, 0.65))
+      solarG.add(makeSunGlow('255,112,30', 7.0, 0.35))
 
       // Sun corona
       const corona = new THREE.Mesh(
-        new THREE.SphereGeometry(1.6, 48, 48),
+        new THREE.SphereGeometry(0.8, 48, 48),
         new THREE.ShaderMaterial({
           transparent: true,
           side: THREE.BackSide,
@@ -393,15 +401,15 @@ export default function CosmicBackdrop() {
       corona.scale.setScalar(1.65)
       solarG.add(corona)
 
-      /* ── planets data & generation ── */
+      /* ── scaled-down planet parameters (so they fit on screen beautifully) ── */
       const PLAN = [
-        { r: 2.7, s: 0.16, color: [152, 143, 131], rough: 0.55, seed: 1, spd: 0.50, bumpScale: 0.04, type: 'mercury' },
-        { r: 3.6, s: 0.26, color: [224, 184, 120], rough: 0.25, seed: 2, spd: 0.37, bumpScale: 0.02, type: 'venus' },
-        { r: 4.6, s: 0.29, isEarth: true, seed: 3, spd: 0.31, type: 'earth' },
-        { r: 5.6, s: 0.21, color: [202, 92, 55], rough: 0.55, seed: 4, spd: 0.25, bumpScale: 0.05, type: 'mars' },
+        { r: 1.8, s: 0.08, color: [152, 143, 131], rough: 0.55, seed: 1, spd: 0.50, bumpScale: 0.04, type: 'mercury' },
+        { r: 2.4, s: 0.12, color: [224, 184, 120], rough: 0.25, seed: 2, spd: 0.37, bumpScale: 0.02, type: 'venus' },
+        { r: 3.0, s: 0.14, isEarth: true, seed: 3, spd: 0.31, type: 'earth' },
+        { r: 3.6, s: 0.10, color: [202, 92, 55], rough: 0.55, seed: 4, spd: 0.25, bumpScale: 0.05, type: 'mars' },
         {
-          r: 7.6,
-          s: 0.72,
+          r: 4.8,
+          s: 0.32,
           isGas: true,
           bands: [
             [210, 180, 140],
@@ -415,8 +423,8 @@ export default function CosmicBackdrop() {
           type: 'jupiter',
         },
         {
-          r: 9.6,
-          s: 0.60,
+          r: 6.0,
+          s: 0.26,
           isGas: true,
           bands: [
             [228, 208, 158],
@@ -429,8 +437,8 @@ export default function CosmicBackdrop() {
           type: 'saturn',
         },
         {
-          r: 11.2,
-          s: 0.40,
+          r: 7.0,
+          s: 0.18,
           isGas: true,
           bands: [
             [150, 215, 228],
@@ -441,10 +449,11 @@ export default function CosmicBackdrop() {
           spd: 0.075,
           type: 'uranus',
         },
-        { r: 12.8, s: 0.40, seed: 14, spd: 0.058, type: 'neptune' },
+        { r: 8.0, s: 0.18, seed: 14, spd: 0.058, type: 'neptune' },
       ]
 
       const planets: { orb: THREE.Group; spd: number; mesh: THREE.Mesh }[] = []
+      const orbitMaterials: THREE.LineBasicMaterial[] = []
 
       PLAN.forEach((p) => {
         const orb = new THREE.Group()
@@ -484,7 +493,8 @@ export default function CosmicBackdrop() {
         const oc = new THREE.EllipseCurve(0, 0, p.r, p.r, 0, Math.PI * 2, false, 0)
         const op = oc.getPoints(180).map((q) => new THREE.Vector3(q.x, 0, q.y))
         const og = new THREE.BufferGeometry().setFromPoints(op)
-        const orbitMat = new THREE.LineBasicMaterial({ color: 0xbcd0ea, transparent: true, opacity: 0.18 })
+        const orbitMat = new THREE.LineBasicMaterial({ color: 0x534ab7, transparent: true, opacity: 0.28 })
+        orbitMaterials.push(orbitMat)
         orb.add(new THREE.LineLoop(og, orbitMat))
 
         solarG.add(orb)
@@ -492,6 +502,7 @@ export default function CosmicBackdrop() {
       })
 
       /* ── asteroid belt ── */
+      const asteroidG = new THREE.Group()
       function createAsteroidBelt(rad: number, count: number, spread: number) {
         const pos = new Float32Array(count * 3)
         for (let i = 0; i < count; i++) {
@@ -513,9 +524,10 @@ export default function CosmicBackdrop() {
             sizeAttenuation: true,
           })
         )
-        solarG.add(pts)
+        asteroidG.add(pts)
       }
-      createAsteroidBelt(6.5, 900, 0.45) // Asteroid belt between Mars & Jupiter
+      createAsteroidBelt(4.2, 900, 0.3) // Asteroid belt between Mars & Jupiter
+      solarG.add(asteroidG)
 
       /* ── lights ── */
       solarG.add(new THREE.AmbientLight(0x7080a0, 0.65))
@@ -526,7 +538,7 @@ export default function CosmicBackdrop() {
       const dustCount = 400
       const dustPos = new Float32Array(dustCount * 3)
       for (let i = 0; i < dustCount; i++) {
-        const r = 2.2 + Math.random() * 12.0
+        const r = 1.1 + Math.random() * 6.0
         const theta = Math.random() * Math.PI * 2
         const phi = Math.acos(Math.random() * 2 - 1)
         dustPos[i * 3] = r * Math.sin(phi) * Math.cos(theta)
@@ -565,6 +577,18 @@ export default function CosmicBackdrop() {
         sunMat.uniforms.uTime.value = t
         sun.rotation.y = t * 0.05
 
+        // Check active theme in real-time
+        const isDarkTheme = !document.documentElement.classList.contains('light')
+        starPoints.visible = isDarkTheme
+        dustPoints.visible = isDarkTheme
+        asteroidG.visible = isDarkTheme
+
+        // Dynamically adjust orbit lines based on theme
+        orbitMaterials.forEach((m) => {
+          m.color.setHex(isDarkTheme ? 0xbcd0ea : 0x534ab7) // Beautiful purple orbits in light mode
+          m.opacity = isDarkTheme ? 0.18 : 0.34
+        })
+
         // Orbit and spin planets
         planets.forEach((p) => {
           p.orb.rotation.y += p.spd * 0.002
@@ -575,8 +599,8 @@ export default function CosmicBackdrop() {
         dustPoints.rotation.y = t * 0.015
 
         // Smooth camera parallax
-        cam.position.x += (ptr.x * 2.5 - cam.position.x) * 0.02
-        cam.position.y += (ptr.y * 1.5 + 7 - cam.position.y) * 0.02
+        cam.position.x += (ptr.x * 1.8 - cam.position.x) * 0.02
+        cam.position.y += (ptr.y * 1.2 + 5.5 - cam.position.y) * 0.02
         cam.lookAt(0, 0, 0)
 
         renderer.render(scene, cam)
