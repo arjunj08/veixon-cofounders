@@ -11,13 +11,28 @@ export default async function VaultPage() {
   if (!session) redirect('/auth')
 
   const user = session.user as any
-  const startup = await getLatestStartup(user?.id || user?.email || 'anonymous')
-  const progress = {
-    taskCompletionRate: startup?.taskCompletionRate || 0,
-    accountabilityScore: startup?.accountabilityScore || 0,
-    tractionProof: !!startup?.tractionProof,
+  
+  let startup = null
+  let progress = {
+    taskCompletionRate: 0,
+    accountabilityScore: 0,
+    tractionProof: false,
   }
-  const unlocked = progress.taskCompletionRate >= 0.7 && progress.accountabilityScore >= 60 && progress.tractionProof
+  let unlocked = false
+
+  try {
+    startup = await getLatestStartup(user?.id || user?.email || 'anonymous')
+    if (startup) {
+      progress = {
+        taskCompletionRate: startup.taskCompletionRate || 0,
+        accountabilityScore: startup.accountabilityScore || 0,
+        tractionProof: !!startup.tractionProof,
+      }
+      unlocked = progress.taskCompletionRate >= 0.7 && progress.accountabilityScore >= 60 && progress.tractionProof
+    }
+  } catch (error) {
+    console.error('Vault page failed to load startup from database:', error)
+  }
 
   return <VaultClient startup={startup} initialUnlocked={unlocked} progress={progress} />
 }
