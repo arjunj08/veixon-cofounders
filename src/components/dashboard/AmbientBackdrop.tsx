@@ -2,47 +2,70 @@
 
 import CosmicBackdrop from './CosmicBackdrop'
 
-const NOISE =
-  "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>\")"
-
-// "Mission control" backdrop — deep base, a faint blueprint grid that fades toward the
-// edges, two slow aurora glows, grain, and a readability scrim. Shared by every inner page.
+// "Sun Mode" backdrop — deep space base, faint cosmic grid,
+// subtle aurora glows, and the full 3D solar system WebGL canvas.
+// Shared by every inner app page via AppShell.
 export default function AmbientBackdrop() {
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+      {/* Deep space base */}
       <div className="absolute inset-0" style={{ background: 'var(--bg-primary)' }} />
+
+      {/* Full 3D solar system */}
       <CosmicBackdrop />
 
-      {/* blueprint grid */}
+      {/* Subtle cosmic grid overlay */}
       <div
         className="absolute inset-0"
         style={{
           backgroundImage:
-            'linear-gradient(color-mix(in srgb, var(--purple) 9%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--purple) 9%, transparent) 1px, transparent 1px)',
-          backgroundSize: '46px 46px',
-          maskImage: 'radial-gradient(120% 90% at 50% 18%, #000 30%, transparent 78%)',
-          WebkitMaskImage: 'radial-gradient(120% 90% at 50% 18%, #000 30%, transparent 78%)',
+            'linear-gradient(color-mix(in srgb, var(--purple) 5%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--purple) 5%, transparent) 1px, transparent 1px)',
+          backgroundSize: '60px 60px',
+          maskImage: 'radial-gradient(120% 90% at 50% 18%, #000 20%, transparent 70%)',
+          WebkitMaskImage: 'radial-gradient(120% 90% at 50% 18%, #000 20%, transparent 70%)',
         }}
       />
 
-      {/* aurora glows */}
+      {/* Warm amber glow (sun halo feel) — top center */}
       <div
-        className="absolute h-[62vh] w-[62vh] rounded-full"
-        style={{ left: '-14%', top: '-16%', background: 'radial-gradient(circle, color-mix(in srgb, var(--purple) 55%, transparent), transparent 70%)', filter: 'blur(70px)', animation: 'veixon-float1 20s ease-in-out infinite' }}
-      />
-      <div
-        className="absolute h-[55vh] w-[55vh] rounded-full"
-        style={{ right: '-12%', bottom: '-18%', background: 'radial-gradient(circle, color-mix(in srgb, var(--teal) 40%, transparent), transparent 70%)', filter: 'blur(80px)', animation: 'veixon-float2 24s ease-in-out infinite' }}
-      />
-      <div
-        className="absolute left-1/2 top-[-30%] h-[50vh] w-[80vw] -translate-x-1/2 rounded-full"
-        style={{ background: 'radial-gradient(circle, color-mix(in srgb, var(--purple) 22%, transparent), transparent 70%)', filter: 'blur(90px)' }}
+        className="absolute"
+        style={{
+          left: '30%', top: '-20%',
+          width: '40vw', height: '40vw',
+          background: 'radial-gradient(circle, rgba(255,140,30,0.12), transparent 70%)',
+          filter: 'blur(80px)',
+          animation: 'veixon-float1 22s ease-in-out infinite',
+        }}
       />
 
-      <div className="absolute inset-[-50%]" style={{ opacity: 0.05, mixBlendMode: 'overlay', backgroundImage: NOISE, animation: 'veixon-grain .6s steps(4) infinite' }} />
-      {/* readability scrim + edge vignette */}
-      <div className="absolute inset-0" style={{ background: 'color-mix(in srgb, var(--bg-primary) 40%, transparent)' }} />
-      <div className="absolute inset-0" style={{ background: 'radial-gradient(130% 100% at 50% 0%, transparent 45%, color-mix(in srgb, var(--bg-primary) 80%, transparent) 100%)' }} />
+      {/* Purple aurora — bottom right */}
+      <div
+        className="absolute"
+        style={{
+          right: '-10%', bottom: '-15%',
+          width: '50vw', height: '50vh',
+          background: 'radial-gradient(circle, color-mix(in srgb, var(--purple) 30%, transparent), transparent 70%)',
+          filter: 'blur(90px)',
+          animation: 'veixon-float2 26s ease-in-out infinite',
+        }}
+      />
+
+      {/* Teal aurora — left */}
+      <div
+        className="absolute"
+        style={{
+          left: '-12%', bottom: '20%',
+          width: '35vw', height: '35vh',
+          background: 'radial-gradient(circle, color-mix(in srgb, var(--teal) 20%, transparent), transparent 70%)',
+          filter: 'blur(70px)',
+          animation: 'veixon-float1 18s ease-in-out infinite reverse',
+        }}
+      />
+
+      {/* Readability scrim so text stays crisp over the WebGL canvas */}
+      <div className="absolute inset-0" style={{ background: 'color-mix(in srgb, var(--bg-primary) 55%, transparent)' }} />
+      {/* Edge vignette */}
+      <div className="absolute inset-0" style={{ background: 'radial-gradient(130% 100% at 50% 0%, transparent 30%, color-mix(in srgb, var(--bg-primary) 75%, transparent) 100%)' }} />
     </div>
   )
 }
