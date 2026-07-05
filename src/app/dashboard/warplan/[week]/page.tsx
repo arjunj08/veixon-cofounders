@@ -62,6 +62,19 @@ export default function WarPlanWeekPage({ params }: WarPlanWeekPageProps) {
     fetch(`/api/startups/${startupId}`)
       .then((res) => res.json())
       .then((data) => {
+        if (data && startupId) {
+          const local = window.localStorage.getItem(`veixon_completed_tasks_${startupId}`)
+          if (local) {
+            try {
+              const parsed = JSON.parse(local)
+              if (Array.isArray(parsed) && parsed.length > (data.completedTasks?.length || 0)) {
+                data.completedTasks = parsed.map(id => ({ taskId: id, completedAt: new Date().toISOString() }))
+                data.taskCompletionRate = parsed.length / 90
+                data.accountabilityScore = Math.round((parsed.length / 90) * 100)
+              }
+            } catch {}
+          }
+        }
         setStartup(data)
         const warMission = data.warPlanJson?.find((m: any) => m.week === week)
         setMission(warMission || buildSeedMission(week))
@@ -69,7 +82,42 @@ export default function WarPlanWeekPage({ params }: WarPlanWeekPageProps) {
         const analysis = data.weekAnalyses?.find((a: any) => a.week === week)
         setWeekAnalysis(analysis || null)
       })
-      .catch((err) => console.error('Error fetching startup:', err))
+      .catch((err) => {
+        console.warn('Failed to load startup week, trying cache fallback:', err)
+        const activeId = window.localStorage.getItem('visionix_active_startup_id')
+        if (activeId) {
+          const localRecord = window.localStorage.getItem(`veixon_startup_${activeId}`)
+          if (localRecord) {
+            try {
+              const parsed = JSON.parse(localRecord)
+              const localCompleted = window.localStorage.getItem(`veixon_completed_tasks_${activeId}`)
+              let completedTasks = parsed.completedTasks || []
+              let rate = parsed.taskCompletionRate || 0
+              let score = parsed.accountabilityScore || 0
+              if (localCompleted) {
+                const parsedCompleted = JSON.parse(localCompleted)
+                if (Array.isArray(parsedCompleted)) {
+                  completedTasks = parsedCompleted.map(id => ({ taskId: id, completedAt: new Date().toISOString() }))
+                  rate = parsedCompleted.length / 90
+                  score = Math.round(rate * 100)
+                }
+              }
+              const finalData = {
+                ...parsed,
+                completedTasks,
+                taskCompletionRate: rate,
+                accountabilityScore: score,
+              }
+              setStartup(finalData)
+              const warMission = parsed.warPlanJson?.find((m: any) => m.week === week)
+              setMission(warMission || buildSeedMission(week))
+              const analysis = parsed.weekAnalyses?.find((a: any) => a.week === week)
+              setWeekAnalysis(analysis || null)
+              return
+            } catch {}
+          }
+        }
+      })
       .finally(() => setLoading(false))
   }, [session, status, userId, week, router])
 
@@ -96,10 +144,24 @@ export default function WarPlanWeekPage({ params }: WarPlanWeekPageProps) {
     )
   }
 
+  let completedIds: string[] = []
+  if (typeof window !== 'undefined' && startup?.id) {
+    const local = window.localStorage.getItem(`veixon_completed_tasks_${startup.id}`)
+    if (local) {
+      try {
+        const parsed = JSON.parse(local)
+        if (Array.isArray(parsed)) {
+          completedIds = parsed
+        }
+      } catch {}
+    }
+  }
+
   const dailyTasks = mission.dailyTasks || []
   const completedCount = dailyTasks.filter((task: any) => {
     const debrief = startup?.dayDebriefs?.find((d: any) => d.week === week && d.day === task.day)
-    return debrief?.completedAt
+    const isLocalCompleted = completedIds.includes(`wk${week}-day${task.day}`)
+    return debrief?.completedAt || isLocalCompleted
   }).length
   const weekCompletion = dailyTasks.length ? Math.round((completedCount / dailyTasks.length) * 100) : 0
   const hasUnlockData = Array.isArray(startup?.weekUnlockStatus)
@@ -174,7 +236,7 @@ export default function WarPlanWeekPage({ params }: WarPlanWeekPageProps) {
             <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
               {dailyTasks.map((task: any) => {
                 const dayDebrief = startup?.dayDebriefs?.find((d: any) => d.week === week && d.day === task.day)
-                const isCompleted = !!dayDebrief?.completedAt
+                const isCompleted = completedIds.includes(`wk${week}-day${task.day}`) || !!dayDebrief?.completedAt
 
                 return (
                   <Link

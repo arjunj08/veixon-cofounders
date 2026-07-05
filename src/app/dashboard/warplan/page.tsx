@@ -43,8 +43,53 @@ export default function WarPlanPage() {
 
     fetch(`/api/startups/${startupId}`)
       .then((res) => res.json())
-      .then((data) => setStartup(data))
-      .catch((err) => console.error('Failed to load plan:', err))
+      .then((data) => {
+        if (data && startupId) {
+          const local = window.localStorage.getItem(`veixon_completed_tasks_${startupId}`)
+          if (local) {
+            try {
+              const parsed = JSON.parse(local)
+              if (Array.isArray(parsed) && parsed.length > (data.completedTasks?.length || 0)) {
+                data.completedTasks = parsed.map(id => ({ taskId: id, completedAt: new Date().toISOString() }))
+                data.taskCompletionRate = parsed.length / 90
+                data.accountabilityScore = Math.round((parsed.length / 90) * 100)
+              }
+            } catch {}
+          }
+        }
+        setStartup(data)
+      })
+      .catch((err) => {
+        console.warn('Failed to load plan, trying cache fallback:', err)
+        const activeId = window.localStorage.getItem('visionix_active_startup_id')
+        if (activeId) {
+          const localRecord = window.localStorage.getItem(`veixon_startup_${activeId}`)
+          if (localRecord) {
+            try {
+              const parsed = JSON.parse(localRecord)
+              const localCompleted = window.localStorage.getItem(`veixon_completed_tasks_${activeId}`)
+              let completedTasks = parsed.completedTasks || []
+              let rate = parsed.taskCompletionRate || 0
+              let score = parsed.accountabilityScore || 0
+              if (localCompleted) {
+                const parsedCompleted = JSON.parse(localCompleted)
+                if (Array.isArray(parsedCompleted)) {
+                  completedTasks = parsedCompleted.map(id => ({ taskId: id, completedAt: new Date().toISOString() }))
+                  rate = parsedCompleted.length / 90
+                  score = Math.round(rate * 100)
+                }
+              }
+              setStartup({
+                ...parsed,
+                completedTasks,
+                taskCompletionRate: rate,
+                accountabilityScore: score,
+              })
+              return
+            } catch {}
+          }
+        }
+      })
       .finally(() => setLoading(false))
   }, [session, userId, router])
 
