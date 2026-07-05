@@ -14,18 +14,7 @@ export default function AmbientBackdrop() {
       {/* Full 3D solar system */}
       <CosmicBackdrop />
 
-      {/* Subtle cosmic grid overlay */}
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage:
-            'linear-gradient(color-mix(in srgb, var(--purple) 2.5%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--purple) 2.5%, transparent) 1px, transparent 1px)',
-          backgroundSize: '60px 60px',
-          maskImage: 'radial-gradient(120% 90% at 50% 18%, #000 20%, transparent 70%)',
-          WebkitMaskImage: 'radial-gradient(120% 90% at 50% 18%, #000 20%, transparent 70%)',
-          opacity: 0.22,
-        }}
-      />
+
 
       {/* Warm amber glow (sun halo feel) — top center */}
       <div
