@@ -357,8 +357,20 @@ export default function ResultsPage({ params }: { params: { id: string } }) {
     fetch(`/api/startups/${id}`)
       .then((res) => res.json())
       .then((data) => {
-        if (data.error) setError(data.error)
-        else {
+        if (data.error) {
+          const local = window.localStorage.getItem(`veixon_startup_${id}`)
+          if (local) {
+            const parsed = JSON.parse(local)
+            setStartup(parsed)
+            setStressDone(!!parsed.stressTestResponse)
+            if (parsed.marketIntelligence) {
+              setMarketIntelligence(parsed.marketIntelligence)
+            }
+            setMarketIntelligenceLoaded(true)
+          } else {
+            setError(data.error)
+          }
+        } else {
           setStartup(data)
           setStressDone(!!data.stressTestResponse)
           
@@ -382,7 +394,15 @@ export default function ResultsPage({ params }: { params: { id: string } }) {
                   setShowIdeaExistsWarning(true)
                 }
                 
-                // Save to startup
+                // Save to localStorage
+                const local = window.localStorage.getItem(`veixon_startup_${data.id}`)
+                if (local) {
+                  const parsed = JSON.parse(local)
+                  parsed.marketIntelligence = mi
+                  window.localStorage.setItem(`veixon_startup_${data.id}`, JSON.stringify(parsed))
+                }
+                
+                // Save to startup DB best-effort
                 fetch(`/api/startups/${data.id}`, {
                   method: 'PATCH',
                   headers: { 'Content-Type': 'application/json' },
@@ -397,7 +417,20 @@ export default function ResultsPage({ params }: { params: { id: string } }) {
           }
         }
       })
-      .catch(() => setError('VZN is thinking... try again.'))
+      .catch(() => {
+        const local = window.localStorage.getItem(`veixon_startup_${id}`)
+        if (local) {
+          const parsed = JSON.parse(local)
+          setStartup(parsed)
+          setStressDone(!!parsed.stressTestResponse)
+          if (parsed.marketIntelligence) {
+            setMarketIntelligence(parsed.marketIntelligence)
+          }
+          setMarketIntelligenceLoaded(true)
+        } else {
+          setError('VZN is thinking... try again.')
+        }
+      })
   }, [id, router])
 
   if (error) {

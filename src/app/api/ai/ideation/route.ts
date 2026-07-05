@@ -52,7 +52,13 @@ export async function POST(req: Request) {
       vznVoice: result.vzn_voice,
     }
 
-    await saveStartup(record)
+    let dbFallback = false
+    try {
+      await saveStartup(record)
+    } catch (err) {
+      console.error('Database save failed, using local fallback:', err)
+      dbFallback = true
+    }
 
     // Best-effort: persist the founder's email for later triggers (e.g. the inactivity cron).
     if (body.email) {
@@ -107,7 +113,7 @@ export async function POST(req: Request) {
       /* admin email is best-effort */
     }
 
-    return Response.json({ id, ...result })
+    return Response.json({ id, dbFallback, ...result, record })
   } catch {
     return Response.json({ error: 'ideation_failed' }, { status: 500 })
   }

@@ -34,7 +34,6 @@ export default function AmbientBackdrop() {
           width: '40vw', height: '40vw',
           background: 'radial-gradient(circle, rgba(255,140,30,0.12), transparent 70%)',
           filter: 'blur(80px)',
-          animation: 'veixon-float1 22s ease-in-out infinite',
         }}
       />
 
@@ -46,7 +45,6 @@ export default function AmbientBackdrop() {
           width: '50vw', height: '50vh',
           background: 'radial-gradient(circle, color-mix(in srgb, var(--purple) 30%, transparent), transparent 70%)',
           filter: 'blur(90px)',
-          animation: 'veixon-float2 26s ease-in-out infinite',
         }}
       />
 
@@ -58,7 +56,6 @@ export default function AmbientBackdrop() {
           width: '35vw', height: '35vh',
           background: 'radial-gradient(circle, color-mix(in srgb, var(--teal) 20%, transparent), transparent 70%)',
           filter: 'blur(70px)',
-          animation: 'veixon-float1 18s ease-in-out infinite reverse',
         }}
       />
 

@@ -66,6 +66,22 @@ export default function IntakePage() {
       })
       const data = await response.json()
       if (!response.ok || !data.id) throw new Error(data.error || 'VZN is thinking... try again.')
+      
+      const localRecord = {
+        id: data.id,
+        userId: user?.id || user?.email || 'anonymous',
+        ideaText: idea,
+        targetCustomer: targetCustomer,
+        problem: problem,
+        scorecardJson: data.scorecard,
+        warPlanJson: data.warPlan,
+        devilsAdvocateJson: data.devilsAdvocate,
+        failureProbability: data.failureProbability,
+        survivalEdge: data.survivalEdge,
+        vznVoice: data.vzn_voice || data.vznVoice || 'The idea is not the problem. Your proof is.',
+        createdAt: new Date().toISOString(),
+      }
+      window.localStorage.setItem(`veixon_startup_${data.id}`, JSON.stringify(localRecord))
       window.localStorage.setItem('visionix_active_startup_id', data.id)
       setProgress(100)
       router.push(`/results/${data.id}`)

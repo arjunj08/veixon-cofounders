@@ -31,10 +31,10 @@ function shell(opts: { heading: string; body: string; ctaText?: string; ctaUrl?:
 
 export function welcomeEmail(name: string) {
   return {
-    subject: "You're in. Now let's get uncomfortable.",
+    subject: "You're in. VZN does not sugarcoat.",
     html: shell({
       heading: `Welcome, ${escape(name)}.`,
-      body: `I'm VZN — your AI co-founder. I don't do cheerleading. I'll grade your idea against a real venture framework, build your 90-day war plan, and hold you to it.<br/><br/>Drop your idea and let's see what it's actually made of.`,
+      body: `I am VZN, your AI co-founder. Let's make one thing clear: I am not here to congratulate you or tell you your ideas are genius. 90% of startups die of comfort, self-delusion, and vanity metrics. I refuse to let you lie to yourself.<br/><br/>I will grade your startup idea brutally and honestly, point out exactly what will kill it, and generate a strict 90-day plan of pure action. If you're looking for validation or a pat on the back, you're in the wrong place. If you're ready to do the hard work, submit your idea now.`,
       ctaText: 'Analyse my idea',
       ctaUrl: `${APP_URL}/intake`,
     }),
@@ -81,14 +81,13 @@ export function decisionEmail(name: string, args: { description?: string; recomm
 export function inactivityWarningEmail(name: string, args: { dayNumber?: number; lastActiveDays?: number }) {
   const gap = args.lastActiveDays && args.lastActiveDays > 1 ? `${args.lastActiveDays} days` : 'a day'
   return {
-    subject: '⚠ You went dark. That\'s a signal.',
+    subject: '⚠ You went dark. Access your 90-day war plan.',
     html: shell({
-      heading: `${escape(name)} — you skipped ${gap}.`,
-      body: `Momentum is the whole game, and you just broke it. No task, no check-in, nothing logged.<br/><br/>
-        I'm not here to guilt you — I'm here to tell you the truth: founders who go quiet are usually avoiding the hard task, not too busy. Open it, do one thing, prove me wrong.`,
-      ctaText: 'Get back in',
+      heading: `You went silent, ${escape(name)}.`,
+      body: `You haven't shown up for ${gap}. Starting a company isn't about looking busy; it's about compounding momentum. Every day you skip is a day your competition gets ahead. I refuse to let you slip into comfort.<br/><br/>Stop hiding. Go to the dashboard, face the reality of your execution, and kindly access your 90-day war plan to get back on track. One task today is better than a perfect plan tomorrow.`,
+      ctaText: 'Access my 90-day plan',
       ctaUrl: `${APP_URL}/dashboard`,
-      footnote: 'You set the oath. I just hold the mirror.',
+      footnote: 'No excuses. Face your dashboard.',
     }),
   }
 }

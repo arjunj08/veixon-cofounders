@@ -55,11 +55,24 @@ export default function DashboardPage() {
   const user = session?.user as any
   const userId = user?.id || user?.email || 'anonymous'
 
+  const EMPTY_DASHBOARD = {
+    startup: null,
+    checkin: null,
+    decisions: [],
+    tasks: [],
+    insight: 'Sign in and run your first check-in and I will tell you where you are drifting.',
+    stats: { startupHealth: 0, accountability: 0, decisionsThisMonth: 0, pivotStatus: 'AMBER', completedCount: 0, totalTasks: 90, taskProgress: 0 },
+  }
+
   useEffect(() => {
     if (!session) return
     fetch(`/api/dashboard?userId=${encodeURIComponent(userId)}`)
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error()
+        return res.json()
+      })
       .then((payload) => {
+        if (payload.error) throw new Error()
         setData(payload)
         if (payload.startup?.id) window.localStorage.setItem('visionix_active_startup_id', payload.startup.id)
         setBurnForm({
@@ -67,6 +80,39 @@ export default function DashboardPage() {
           cashInBank: payload.startup?.cashInBank ? String(payload.startup.cashInBank) : '',
           monthlyRevenue: payload.startup?.monthlyRevenue ? String(payload.startup.monthlyRevenue) : '',
         })
+      })
+      .catch(() => {
+        const activeId = window.localStorage.getItem('visionix_active_startup_id')
+        if (activeId) {
+          const localRecord = window.localStorage.getItem(`veixon_startup_${activeId}`)
+          if (localRecord) {
+            const parsed = JSON.parse(localRecord)
+            const fallbackPayload = {
+              startup: parsed,
+              checkin: null,
+              decisions: [],
+              tasks: parsed.warPlanJson?.[0]?.dailyTasks || [],
+              insight: parsed.vznVoice || 'Run your first check-in and I will tell you where you are drifting.',
+              stats: {
+                startupHealth: 50,
+                accountability: parsed.accountabilityScore || 0,
+                decisionsThisMonth: 0,
+                pivotStatus: 'AMBER',
+                completedCount: parsed.completedTasks?.length || 0,
+                totalTasks: 90,
+                taskProgress: 0,
+              }
+            }
+            setData(fallbackPayload)
+            setBurnForm({
+              burnRate: parsed.burnRate ? String(parsed.burnRate) : '',
+              cashInBank: parsed.cashInBank ? String(parsed.cashInBank) : '',
+              monthlyRevenue: parsed.monthlyRevenue ? String(parsed.monthlyRevenue) : '',
+            })
+            return
+          }
+        }
+        setData(EMPTY_DASHBOARD)
       })
       .finally(() => setLoading(false))
   }, [session, userId])
