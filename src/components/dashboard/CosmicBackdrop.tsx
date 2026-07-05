@@ -30,7 +30,7 @@ export default function CosmicBackdrop() {
 
       const scene = new THREE.Scene()
       const cam = new THREE.PerspectiveCamera(55, container.offsetWidth / container.offsetHeight, 0.1, 400)
-      cam.position.set(0, 6, 22)
+      cam.position.set(0, 4, 18)
       cam.lookAt(0, 0, 0)
 
       /* ── resize ── */
@@ -42,6 +42,10 @@ export default function CosmicBackdrop() {
       window.addEventListener('resize', onResize)
 
       /* ── star field ── */
+      /* ── helpers ── */
+      const clamp = (v: number) => Math.max(0, Math.min(255, Math.round(v)))
+      const lerp = (a: number, b: number, t: number) => a + (b - a) * t
+
       const starGeo = new THREE.BufferGeometry()
       const starPositions = new Float32Array(2400)
       for (let i = 0; i < 2400; i++) starPositions[i] = (Math.random() - 0.5) * 350
@@ -133,31 +137,77 @@ export default function CosmicBackdrop() {
       sunGlow.scale.setScalar(11)
       scene.add(sunGlow)
 
-      /* ── planets ── */
+      /* ── planets — realistic per-planet colors & sizes ── */
       const planetData = [
-        { r: 0.28, dist: 4.2,  speed: 1.80, seed: 1, color: 0x8c6040 },
-        { r: 0.45, dist: 5.8,  speed: 1.20, seed: 2, color: 0xd4a060 },
-        { r: 0.5,  dist: 7.5,  speed: 0.90, seed: 3, color: 0x2e6baa },
-        { r: 0.35, dist: 9.2,  speed: 0.70, seed: 4, color: 0xb84c30 },
-        { r: 0.9,  dist: 12.0, speed: 0.42, seed: 5, color: 0xc8a050 },
-        { r: 0.78, dist: 14.5, speed: 0.30, seed: 6, color: 0xa0b8c0 },
-        { r: 0.62, dist: 17.0, speed: 0.20, seed: 7, color: 0x6090b0 },
-        { r: 0.55, dist: 19.5, speed: 0.13, seed: 8, color: 0x3050a0 },
+        { r: 0.30, dist: 3.6,  speed: 1.80, seed: 1, type: 'mercury', color: [140,135,128] },
+        { r: 0.55, dist: 5.0,  speed: 1.20, seed: 2, type: 'venus',   color: [220,175,80]  },
+        { r: 0.65, dist: 6.6,  speed: 0.90, seed: 3, type: 'earth',   color: [30,100,180]  },
+        { r: 0.45, dist: 8.2,  speed: 0.70, seed: 4, type: 'mars',    color: [195,75,45]   },
+        { r: 1.15, dist: 10.5, speed: 0.42, seed: 5, type: 'jupiter', color: [210,168,110] },
+        { r: 0.95, dist: 12.8, speed: 0.30, seed: 6, type: 'saturn',  color: [228,205,148] },
+        { r: 0.72, dist: 14.8, speed: 0.20, seed: 7, type: 'uranus',  color: [155,215,228] },
+        { r: 0.70, dist: 16.5, speed: 0.13, seed: 8, type: 'neptune', color: [38,70,192]   },
       ]
 
       const planets = planetData.map((pd) => {
+        // Build a realistic per-planet canvas texture
+        const S = 256
+        const tc = document.createElement('canvas'); tc.width = tc.height = S
+        const tx = tc.getContext('2d')!
+        const imgd = tx.createImageData(S, S); const dd = imgd.data
+        function rnd2(x: number, y: number) { const n = Math.sin(x*127.1+y*311.7+pd.seed*57.3)*43758.5453; return n-Math.floor(n) }
+        function fbm2(x: number, y: number) { let v=0,a=0.5,f=1; for(let i=0;i<5;i++){v+=a*rnd2(x*f,y*f);f*=2;a*=0.5} return v }
+        for (let y=0;y<S;y++) for (let x=0;x<S;x++) {
+          const n = fbm2(x/S*6, y/S*6)
+          const lat = Math.abs(y/S - 0.5)*2
+          const idx = (y*S+x)*4
+          let r=pd.color[0], g=pd.color[1], b=pd.color[2]
+          if (pd.type==='earth') {
+            if (n>0.48) { r=clamp(30+n*60);g=clamp(110+n*40);b=clamp(40+n*20) } // land
+            else { r=clamp(10+n*30);g=clamp(60+n*80);b=clamp(160+n*60) } // ocean
+            if (lat>0.85) { r=230;g=240;b=250 } // polar ice
+            const cloud=fbm2(x/S*10+2,y/S*10+1); if(cloud>0.55){const cl=(cloud-0.55)*4;r=clamp(r+(240-r)*cl);g=clamp(g+(242-g)*cl);b=clamp(b+(248-b)*cl)}
+          } else if (pd.type==='mars') {
+            r=clamp(lerp(160,220,n)); g=clamp(lerp(60,90,n)); b=clamp(lerp(30,55,n))
+            if (lat>0.85&&n>0.45){r=240;g=245;b=255}
+          } else if (pd.type==='jupiter'||pd.type==='saturn') {
+            const band = Math.sin(y/S*Math.PI*14)*0.04 + fbm2(x/S*4,y/S*20)*0.03
+            r=clamp(pd.color[0]+band*50); g=clamp(pd.color[1]+band*40); b=clamp(pd.color[2]+band*30)
+            if(pd.type==='jupiter'){const gx=(x/S-0.55)*3,gy=(y/S-0.46)*5;const grs=Math.max(0,1-Math.sqrt(gx*gx+gy*gy));if(grs>0){r=clamp(r+(195-r)*grs*0.7);g=clamp(g+(60-g)*grs*0.7);b=clamp(b+(40-b)*grs*0.7)}}
+          } else if (pd.type==='uranus') {
+            r=clamp(155+n*20);g=clamp(210+n*15);b=clamp(228+n*15)
+          } else if (pd.type==='neptune') {
+            r=clamp(28+n*40);g=clamp(60+n*55);b=clamp(185+n*55)
+            const st=fbm2(x/S*14,y/S*14);if(st>0.68){const sc=(st-0.68)*3;r=clamp(r+sc*80);g=clamp(g+sc*80);b=clamp(b+sc*60)}
+          } else {
+            const sh=(n-0.5)*120; r=clamp(r+sh);g=clamp(g+sh);b=clamp(b+sh)
+          }
+          dd[idx]=r;dd[idx+1]=g;dd[idx+2]=b;dd[idx+3]=255
+        }
+        tx.putImageData(imgd,0,0)
+
         const mesh = new THREE.Mesh(
-          new THREE.SphereGeometry(pd.r, 40, 40),
+          new THREE.SphereGeometry(pd.r, 48, 48),
           new THREE.MeshStandardMaterial({
-            map: makePlanetTex(pd.seed, 'rocky'),
-            roughness: 0.85, metalness: 0.05,
+            map: new THREE.CanvasTexture(tc),
+            roughness: pd.type==='earth'||pd.type==='neptune' ? 0.6 : 0.85,
+            metalness: 0.05,
           })
         )
         mesh.userData = { dist: pd.dist, speed: pd.speed, angle: Math.random() * Math.PI * 2 }
 
+        // Saturn ring
+        if (pd.type === 'saturn') {
+          const ringGeo = new THREE.RingGeometry(pd.r*1.35, pd.r*2.1, 80)
+          const ringMat = new THREE.MeshBasicMaterial({ color: 0xd4c090, side: THREE.DoubleSide, transparent: true, opacity: 0.55 })
+          const ring = new THREE.Mesh(ringGeo, ringMat)
+          ring.rotation.x = Math.PI / 2.4
+          mesh.add(ring)
+        }
+
         // orbit ring
-        const orbitGeo = new THREE.RingGeometry(pd.dist - 0.01, pd.dist + 0.01, 96)
-        const orbitMat = new THREE.MeshBasicMaterial({ color: 0x6d5df6, side: THREE.DoubleSide, transparent: true, opacity: 0.15 })
+        const orbitGeo = new THREE.RingGeometry(pd.dist - 0.015, pd.dist + 0.015, 128)
+        const orbitMat = new THREE.MeshBasicMaterial({ color: 0x6d5df6, side: THREE.DoubleSide, transparent: true, opacity: 0.18 })
         const orbit = new THREE.Mesh(orbitGeo, orbitMat)
         orbit.rotation.x = Math.PI / 2
         scene.add(orbit)

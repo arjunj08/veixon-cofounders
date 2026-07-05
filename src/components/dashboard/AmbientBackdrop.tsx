@@ -63,7 +63,7 @@ export default function AmbientBackdrop() {
       />
 
       {/* Readability scrim so text stays crisp over the WebGL canvas */}
-      <div className="absolute inset-0" style={{ background: 'color-mix(in srgb, var(--bg-primary) 55%, transparent)' }} />
+      <div className="absolute inset-0" style={{ background: 'color-mix(in srgb, var(--bg-primary) 38%, transparent)' }} />
       {/* Edge vignette */}
       <div className="absolute inset-0" style={{ background: 'radial-gradient(130% 100% at 50% 0%, transparent 30%, color-mix(in srgb, var(--bg-primary) 75%, transparent) 100%)' }} />
     </div>
