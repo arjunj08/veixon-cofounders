@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import type * as THREE from 'three'
 
 export default function CosmicBackdrop() {
   const mountRef = useRef<HTMLDivElement | null>(null)
