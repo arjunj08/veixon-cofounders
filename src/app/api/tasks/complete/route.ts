@@ -3,7 +3,7 @@ import { authOptions } from '@/lib/auth'
 import prisma from '@/lib/prisma'
 import { getStartupById, updateStartup } from '@/lib/server-store'
 import { recordFounderEvent } from '@/lib/events'
-import { sendDayOneCompletionEmail } from '@/lib/email/day-one'
+import { sendDayOneCompletionEmail, sendDailyCheckinEmail } from '@/lib/email/day-one'
 
 export const runtime = 'nodejs'
 
@@ -67,6 +67,19 @@ export async function POST(req: Request) {
       taskId,
       task: body.taskLabel || body.task,
     })
+
+    const match = taskId.match(/wk(\d+)-day(\d+)/i)
+    if (match) {
+      const week = Number(match[1])
+      const day = Number(match[2])
+      await sendDailyCheckinEmail({
+        startup,
+        session,
+        week,
+        day,
+        task: body.taskLabel || body.task || `Task ${day} of Week ${week}`,
+      })
+    }
 
     return Response.json({
       completed: true,
