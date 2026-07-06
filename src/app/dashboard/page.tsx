@@ -345,9 +345,9 @@ export default function DashboardPage() {
                 <BurnClock burnRate={data.startup.burnRate} cashInBank={data.startup.cashInBank} monthlyRevenue={data.startup.monthlyRevenue} />
                 <div className="mt-5 grid gap-2">
                   {([
-                    ['burnRate', 'Monthly Burn Rate ($)'],
-                    ['cashInBank', 'Cash in Bank ($)'],
-                    ['monthlyRevenue', 'Monthly Revenue ($)']
+                    ['burnRate', 'Monthly Burn Rate ($ or ₹)'],
+                    ['cashInBank', 'Cash in Bank ($ or ₹)'],
+                    ['monthlyRevenue', 'Monthly Revenue ($ or ₹)']
                   ] as const).map(([key, label]) => (
                     <input
                       key={key}
