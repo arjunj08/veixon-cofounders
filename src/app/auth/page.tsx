@@ -70,11 +70,19 @@ function AuthCard() {
       <button
         type="button"
         onClick={() => signIn('google', { callbackUrl: '/routing' })}
-        className="focus-ring flex w-full items-center justify-center gap-3 rounded-xl px-4 py-3 font-medium"
+        className="focus-ring flex w-full items-center justify-center gap-3 rounded-xl px-4 py-3 font-medium transition-transform active:scale-95"
         style={{ color: 'white', background: 'var(--purple)', boxShadow: '0 16px 40px color-mix(in srgb, var(--purple) 24%, transparent)' }}
       >
         <GoogleIcon />
         Continue with Google
+      </button>
+
+      <button
+        type="button"
+        onClick={() => signIn('credentials', { callbackUrl: '/routing' })}
+        className="focus-ring mt-3 flex w-full items-center justify-center gap-3 rounded-xl px-4 py-3 font-medium border border-[rgba(255,255,255,0.15)] bg-transparent hover:bg-[rgba(255,255,255,0.03)] text-white transition-all active:scale-95"
+      >
+        Continue as Guest (Demo Bypass)
       </button>
       <p className="mt-4 text-xs" style={{ color: 'rgba(255, 255, 255, 0.65)' }}>No credit card required. Free to start.</p>
       <p className="mt-5 text-[11px] leading-relaxed" style={{ color: 'rgba(255, 255, 255, 0.45)' }}>
