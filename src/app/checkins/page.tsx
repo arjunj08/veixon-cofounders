@@ -13,28 +13,35 @@ export default async function CheckinsRedirect() {
     redirect('/auth')
   }
 
+  let redirectUrl = ''
   try {
     const startup = await getLatestStartup(userId)
     if (!startup) {
-      redirect('/intake')
-    }
-
-    const completedTaskIds = (startup.completedTasks || []).map((t: any) => t.taskId)
-
-    // Find the first uncompleted day
-    for (let w = 1; w <= 13; w++) {
-      for (let d = 1; d <= 7; d++) {
-        const taskId = `wk${w}-day${d}`
-        if (!completedTaskIds.includes(taskId)) {
-          redirect(`/dashboard/warplan/${w}/${d}`)
+      redirectUrl = '/intake'
+    } else {
+      const completedTaskIds = (startup.completedTasks || []).map((t: any) => t.taskId)
+      let found = false
+      
+      for (let w = 1; w <= 13; w++) {
+        for (let d = 1; d <= 7; d++) {
+          const taskId = `wk${w}-day${d}`
+          if (!completedTaskIds.includes(taskId)) {
+            redirectUrl = `/dashboard/warplan/${w}/${d}`
+            found = true
+            break
+          }
         }
+        if (found) break
+      }
+      
+      if (!found) {
+        redirectUrl = '/dashboard/warplan/1/1'
       }
     }
-    
-    // If all tasks are completed, redirect to week 1 day 1
-    redirect('/dashboard/warplan/1/1')
   } catch (error) {
     console.error('Failed to resolve active check-in page:', error)
-    redirect('/dashboard')
+    redirectUrl = '/dashboard'
   }
+
+  redirect(redirectUrl)
 }
