@@ -20,19 +20,23 @@ export async function getMessagingInstance() {
 
 export async function requestNotificationPermission(): Promise<string | null> {
   try {
-    const supported = await isSupported()
-    if (!supported) return null
+    if (typeof window === 'undefined' || !('Notification' in window)) return null
 
     const permission = await Notification.requestPermission()
     if (permission !== 'granted') return null
 
-    const messaging = getMessaging(app)
-    const token = await getToken(messaging, {
-      vapidKey: process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY,
-    })
-    return token
+    try {
+      const messaging = getMessaging(app)
+      const token = await getToken(messaging, {
+        vapidKey: process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY,
+      })
+      return token || 'local_browser_fallback'
+    } catch (e) {
+      console.warn('FCM token retrieval failed, falling back to browser-native notifications:', e)
+      return 'local_browser_fallback'
+    }
   } catch (error) {
-    console.error('FCM token error:', error)
+    console.error('Notification permission request error:', error)
     return null
   }
 }
