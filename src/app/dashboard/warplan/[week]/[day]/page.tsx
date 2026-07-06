@@ -223,6 +223,22 @@ export default function DayPage({ params }: DayPageProps) {
             parsed.completedTasks = nextCompletedTasks
             parsed.taskCompletionRate = nextRate
             parsed.accountabilityScore = nextScore
+            
+            // Save the debrief and VZN response to dayDebriefs array in localStorage
+            if (!parsed.dayDebriefs) parsed.dayDebriefs = []
+            parsed.dayDebriefs = parsed.dayDebriefs.filter((d: any) => !(d.week === Number(week) && d.day === Number(day)))
+            parsed.dayDebriefs.push({
+              week: Number(week),
+              day: Number(day),
+              debrief: effectiveDebrief,
+              vznResponse: analysis.vznResponse || '',
+              patternFlag: analysis.patternFlag || null,
+              urgencyLevel: analysis.urgencyLevel || 'green',
+              tomorrowSuggestion: analysis.tomorrowSuggestion || '',
+              competitiveInsight: analysis.competitiveInsight || null,
+              completedAt: new Date().toISOString()
+            })
+            
             window.localStorage.setItem(`veixon_startup_${activeId}`, JSON.stringify(parsed))
           } catch {}
         }

@@ -153,7 +153,47 @@ export function dayOneCompleteEmail(name: string, args: { task?: string }) {
   }
 }
 
+export function dayCompleteEmail(name: string, args: { week: number; day: number; task?: string }) {
+  const isLastDay = args.day === 7;
+  const nextTarget = isLastDay ? `Week ${args.week + 1} Day 1` : `Week ${args.week} Day ${args.day + 1}`;
+  
+  const motivationQuotes = [
+    '"The secret of getting ahead is getting started."',
+    '"Execution is the only differentiator that matters."',
+    '"Don\'t confuse movement with progress. Stay focused on metrics."',
+    '"Consistency is the quiet driver of explosive growth."',
+    '"Small, daily execution runs build unbreakable momentum."',
+    '"An idea without execution is just a delusion. Keep shipping."',
+    '"The best way to predict the future is to create it, day by day."'
+  ];
+  
+  const quote = motivationQuotes[(args.day - 1) % motivationQuotes.length];
+
+  return {
+    subject: `Congrats on completing Week ${args.week} Day ${args.day}!`,
+    html: shell({
+      heading: `Congrats on completing Day ${args.day}, ${escape(name)}!`,
+      body: `You have successfully logged your progress and debriefed today's execution plan.<br/>
+        ${args.task ? `
+        <div style="background:#111827; border: 1px solid #10b981; border-radius: 8px; padding: 14px 16px; margin: 18px 0;">
+          <span style="display:inline-block;background:#10b981;color:#ffffff;font-size:10px;font-weight:800;letter-spacing:1px;padding:3px 8px;border-radius:4px;text-transform:uppercase;margin-bottom:8px;font-family:monospace;">WEEK ${args.week} DAY ${args.day} COMPLETED</span>
+          <div style="font-size:14px;color:#e5e7eb;font-weight:600;line-height:1.4;">${escape(args.task).slice(0, 180)}</div>
+        </div>` : ''}
+        
+        <div style="border-left: 3px solid #10b981; background: #0f171d; padding: 12px 16px; border-radius: 0 8px 8px 0; margin: 20px 0 10px;">
+          <div style="font-size: 11px; font-family: monospace; letter-spacing: 1px; color: #10b981; text-transform: uppercase; margin-bottom: 4px;">Quote for today</div>
+          <em style="color:#ffffff; font-size:14px; line-height: 1.5; display: block;">${quote}</em>
+        </div>
+        Please continue to work and stay consistent! Momentum compounds quickly. Come back tomorrow and make <strong>${nextTarget}</strong> visible too.`,
+      ctaText: 'Open my dashboard',
+      ctaUrl: `${APP_URL}/dashboard`,
+      footnote: 'VEIXON Co-founders, a product by VEIXON Tech.',
+    }),
+  }
+}
+
 // minimal HTML escape for interpolated user content
 function escape(s: string): string {
   return String(s || '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c] as string))
 }
+

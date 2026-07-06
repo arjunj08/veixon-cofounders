@@ -3,7 +3,7 @@ import { authOptions } from '@/lib/auth'
 import prisma from '@/lib/prisma'
 import { getStartup, updateStartup } from '@/lib/server-store'
 import { recordFounderEvent } from '@/lib/events'
-import { sendDayOneCompletionEmail } from '@/lib/email/day-one'
+import { sendDayOneCompletionEmail, sendDailyCheckinEmail } from '@/lib/email/day-one'
 
 export const runtime = 'nodejs'
 
@@ -131,6 +131,13 @@ export async function POST(req: Request) {
         startup,
         session,
         taskId: body.taskId || `wk${weekNumber}-day${dayNumber}`,
+        week: weekNumber,
+        day: dayNumber,
+        task: body.taskLabel || body.task,
+      })
+      await sendDailyCheckinEmail({
+        startup,
+        session,
         week: weekNumber,
         day: dayNumber,
         task: body.taskLabel || body.task,
