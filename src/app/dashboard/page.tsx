@@ -52,6 +52,13 @@ export default function DashboardPage() {
   const [showOath, setShowOath] = useState(true)
   const [burnForm, setBurnForm] = useState({ burnRate: '', cashInBank: '', monthlyRevenue: '' })
   const [copied, setCopied] = useState(false)
+  const [shareUrl, setShareUrl] = useState('')
+
+  useEffect(() => {
+    if (data?.startup?.id) {
+      setShareUrl(`${window.location.origin}/results/${data.startup.id}`)
+    }
+  }, [data])
 
   const user = session?.user as any
   const userId = user?.id || user?.email || 'anonymous'
@@ -348,58 +355,70 @@ export default function DashboardPage() {
 
             <div id="share" className="mb-6 scroll-mt-24">
               <section className="vzn-panel veixon-lift veixon-rise rounded-[1.5rem] p-6">
-                <h2 className="text-lg font-bold mb-2">Share VEIXON Co-Founder OS</h2>
-                <p className="text-sm mb-4" style={{ color: 'var(--text-muted)' }}>
-                  Invite co-founders, investors, or advisors to view your real-time startup progress and VZN diagnostics.
-                </p>
-                <div className="flex flex-wrap items-center gap-3">
-                  <button
-                    onClick={() => {
-                      const shareUrl = `${window.location.origin}/results/${data?.startup?.id || ''}`
-                      const text = `Join my startup workspace on VEIXON and track our real-time execution scorecard & 90-day war plan: ${shareUrl}`
+                <div className="grid gap-6 md:grid-cols-[1fr_180px] items-center">
+                  <div>
+                    <h2 className="text-lg font-bold mb-2">Share VEIXON Co-Founder OS</h2>
+                    <p className="text-sm mb-5" style={{ color: 'var(--text-muted)' }}>
+                      Invite co-founders, investors, or advisors to view your real-time startup progress and VZN diagnostics.
+                    </p>
+                    <button
+                      onClick={() => {
+                        const inviteUrl = shareUrl || `${window.location.origin}/results/${data?.startup?.id || ''}`
+                        const text = `Join my startup workspace on VEIXON and track our real-time execution scorecard & 90-day war plan: ${inviteUrl}`
 
-                      if (navigator.share) {
-                        navigator.share({
-                          title: 'VEIXON Co-Founder Workspace Invite',
-                          text: text,
-                          url: shareUrl,
-                        }).then(() => {
-                          setCopied(true)
-                          setTimeout(() => setCopied(false), 2000)
-                        }).catch(() => {})
-                      } else {
-                        try {
-                          if (navigator.clipboard && navigator.clipboard.writeText) {
-                            navigator.clipboard.writeText(shareUrl).then(() => {
-                              setCopied(true)
-                              setTimeout(() => setCopied(false), 2000)
-                            })
-                          } else {
-                            const textArea = document.createElement('textarea')
-                            textArea.value = shareUrl
-                            textArea.style.position = 'fixed'
-                            textArea.style.opacity = '0'
-                            document.body.appendChild(textArea)
-                            textArea.focus()
-                            textArea.select()
-                            document.execCommand('copy')
-                            document.body.removeChild(textArea)
+                        if (navigator.share) {
+                          navigator.share({
+                            title: 'VEIXON Co-Founder Workspace Invite',
+                            text: text,
+                            url: inviteUrl,
+                          }).then(() => {
                             setCopied(true)
                             setTimeout(() => setCopied(false), 2000)
+                          }).catch(() => {})
+                        } else {
+                          try {
+                            if (navigator.clipboard && navigator.clipboard.writeText) {
+                              navigator.clipboard.writeText(inviteUrl).then(() => {
+                                setCopied(true)
+                                setTimeout(() => setCopied(false), 2000)
+                              })
+                            } else {
+                              const textArea = document.createElement('textarea')
+                              textArea.value = inviteUrl
+                              textArea.style.position = 'fixed'
+                              textArea.style.opacity = '0'
+                              document.body.appendChild(textArea)
+                              textArea.focus()
+                              textArea.select()
+                              document.execCommand('copy')
+                              document.body.removeChild(textArea)
+                              setCopied(true)
+                              setTimeout(() => setCopied(false), 2000)
+                            }
+                          } catch (err) {
+                            console.error('Clipboard copy failed:', err)
                           }
-                        } catch (err) {
-                          console.error('Clipboard copy failed:', err)
                         }
-                      }
-                    }}
-                    className="vzn-button-primary rounded-xl px-5 py-3 text-sm font-semibold inline-flex items-center gap-2 transition-all duration-300"
-                    style={{
-                      background: copied ? 'var(--teal)' : undefined,
-                      borderColor: copied ? 'var(--teal)' : undefined,
-                    }}
-                  >
-                    {copied ? '✓ Invite Link Copied!' : 'Copy Workspace Invite Link'}
-                  </button>
+                      }}
+                      className="vzn-button-primary rounded-xl px-5 py-3 text-sm font-semibold inline-flex items-center gap-2 transition-all duration-300"
+                      style={{
+                        background: copied ? 'var(--teal)' : undefined,
+                        borderColor: copied ? 'var(--teal)' : undefined,
+                      }}
+                    >
+                      {copied ? '✓ Invite Link Copied!' : 'Copy Workspace Invite Link'}
+                    </button>
+                  </div>
+                  {shareUrl && (
+                    <div className="flex flex-col items-center justify-center p-3 rounded-2xl border" style={{ borderColor: 'var(--border)', background: 'color-mix(in srgb, var(--bg-secondary) 50%, transparent)' }}>
+                      <img 
+                        src={`https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${encodeURIComponent(shareUrl)}&color=818cf8&bgcolor=111022`}
+                        alt="Workspace QR Code"
+                        className="h-[120px] w-[120px] rounded-xl"
+                      />
+                      <div className="mt-2 text-[9px] font-mono tracking-wider uppercase text-center" style={{ color: 'var(--text-muted)' }}>Scan to view</div>
+                    </div>
+                  )}
                 </div>
               </section>
             </div>
