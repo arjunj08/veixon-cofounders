@@ -51,6 +51,7 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true)
   const [showOath, setShowOath] = useState(true)
   const [burnForm, setBurnForm] = useState({ burnRate: '', cashInBank: '', monthlyRevenue: '' })
+  const [copied, setCopied] = useState(false)
 
   const user = session?.user as any
   const userId = user?.id || user?.email || 'anonymous'
@@ -354,16 +355,50 @@ export default function DashboardPage() {
                 <div className="flex flex-wrap items-center gap-3">
                   <button
                     onClick={() => {
-                      try {
-                        navigator.clipboard.writeText(window.location.origin);
-                        alert('Workspace link copied to clipboard!');
-                      } catch (err) {
-                        console.error('Clipboard copy failed:', err);
+                      const shareUrl = `${window.location.origin}/results/${data?.startup?.id || ''}`
+                      const text = `Join my startup workspace on VEIXON and track our real-time execution scorecard & 90-day war plan: ${shareUrl}`
+
+                      if (navigator.share) {
+                        navigator.share({
+                          title: 'VEIXON Co-Founder Workspace Invite',
+                          text: text,
+                          url: shareUrl,
+                        }).then(() => {
+                          setCopied(true)
+                          setTimeout(() => setCopied(false), 2000)
+                        }).catch(() => {})
+                      } else {
+                        try {
+                          if (navigator.clipboard && navigator.clipboard.writeText) {
+                            navigator.clipboard.writeText(shareUrl).then(() => {
+                              setCopied(true)
+                              setTimeout(() => setCopied(false), 2000)
+                            })
+                          } else {
+                            const textArea = document.createElement('textarea')
+                            textArea.value = shareUrl
+                            textArea.style.position = 'fixed'
+                            textArea.style.opacity = '0'
+                            document.body.appendChild(textArea)
+                            textArea.focus()
+                            textArea.select()
+                            document.execCommand('copy')
+                            document.body.removeChild(textArea)
+                            setCopied(true)
+                            setTimeout(() => setCopied(false), 2000)
+                          }
+                        } catch (err) {
+                          console.error('Clipboard copy failed:', err)
+                        }
                       }
                     }}
-                    className="vzn-button-primary rounded-xl px-4 py-2 text-sm font-semibold inline-flex items-center gap-2"
+                    className="vzn-button-primary rounded-xl px-5 py-3 text-sm font-semibold inline-flex items-center gap-2 transition-all duration-300"
+                    style={{
+                      background: copied ? 'var(--teal)' : undefined,
+                      borderColor: copied ? 'var(--teal)' : undefined,
+                    }}
                   >
-                    Copy Workspace Invite Link
+                    {copied ? '✓ Invite Link Copied!' : 'Copy Workspace Invite Link'}
                   </button>
                 </div>
               </section>
