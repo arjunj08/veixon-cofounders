@@ -1,6 +1,6 @@
 'use client'
 
-import { FormEvent, useState } from 'react'
+import { FormEvent, useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import AppShell from '@/components/AppShell'
 import VZNAvatar from '@/components/ui/VZNAvatar'
@@ -8,18 +8,41 @@ import VznMatrixCore from '@/components/dashboard/VznMatrixCore'
 
 const types = ['pricing', 'hiring', 'pivot', 'fundraising', 'product', 'go-to-market']
 
+const loadingSteps = [
+  { title: 'RUNNING MONTE CARLO SCENARIO ANALYSIS...', desc: 'VZN is evaluating GTM, pricing, and resource allocation vectors...' },
+  { title: 'MAPPING PRODUCT AND MARKET VELOCITY VECTORS...', desc: 'Simulating competitor response curves and market saturation...' },
+  { title: 'CALCULATING CO-FOUNDER DILUTION AND RISK VALUE...', desc: 'Analyzing founder alignment, speed of execution, and lock-in models...' },
+  { title: 'ESTIMATING 30/90/180 DAY OUTCOME PROBABILITIES...', desc: 'Calculating probability curves for best, worst, and most likely cases...' },
+  { title: 'DRAFTING FINAL VERDICT AND REASONING...', desc: 'Synthesizing simulation inputs into a brutal VZN co-founder recommendation...' }
+]
+
 export default function DecisionsPage() {
   const { data: session } = useSession()
   const [description, setDescription] = useState('')
   const [decisionType, setDecisionType] = useState(types[0])
   const [loading, setLoading] = useState(false)
+  const [loadingStep, setLoadingStep] = useState(0)
   const [result, setResult] = useState<any>(null)
   const [error, setError] = useState('')
   const user = session?.user as any
 
+  useEffect(() => {
+    if (!loading) {
+      setLoadingStep(0)
+      return
+    }
+    const interval = setInterval(() => {
+      setLoadingStep((prev) => (prev < loadingSteps.length - 1 ? prev + 1 : prev))
+    }, 3200)
+    return () => clearInterval(interval)
+  }, [loading])
+
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    if (!description.trim()) return
+    if (!description.trim()) {
+      setError('A decision description is required. VZN cannot simulate an empty thought. Please type what you are considering.')
+      return
+    }
     setLoading(true)
     setError('')
     try {
@@ -56,10 +79,14 @@ export default function DecisionsPage() {
           <h2 className="mt-5 text-2xl font-bold">What decision are you avoiding?</h2>
           <textarea
             value={description}
-            onChange={(event) => setDescription(event.target.value)}
+            onChange={(event) => {
+              setDescription(event.target.value)
+              if (error) setError('')
+            }}
             rows={6}
             placeholder="Should we pivot from SMBs to enterprise buyers?"
             className="focus-ring vzn-input mt-5 resize-none rounded-xl p-4 text-sm"
+            style={error && error.includes('required') ? { borderColor: 'var(--amber)', boxShadow: '0 0 0 1px var(--amber)' } : undefined}
           />
           <div className="mt-4 grid grid-cols-2 gap-2">
             {types.map((type) => (
@@ -89,15 +116,21 @@ export default function DecisionsPage() {
                 <div className="scale-125 mb-4">
                   <VznMatrixCore />
                 </div>
-                <p className="mt-4 text-sm text-[var(--purple)] font-mono tracking-widest animate-pulse">RUNNING MONTE CARLO SCENARIO ANALYSIS...</p>
-                <p className="text-xs text-[var(--text-muted)] mt-1.5">VZN is evaluating pricing, GTM, and hiring vectors...</p>
+                <p className="mt-4 text-sm text-[var(--purple)] font-mono tracking-widest animate-pulse">
+                  {loadingSteps[loadingStep].title}
+                </p>
+                <p className="text-xs text-[var(--text-muted)] mt-1.5">
+                  {loadingSteps[loadingStep].desc}
+                </p>
               </div>
             </div>
           ) : error ? (
-            <div className="grid h-full min-h-[420px] place-items-center text-center text-[var(--red)]">
+            <div className="grid h-full min-h-[420px] place-items-center text-center">
               <div>
                 <VZNAvatar size="lg" mood="warning" className="mx-auto mb-5" />
-                <p className="font-bold text-lg">Simulation failed</p>
+                <p className="font-bold text-lg" style={{ color: error.includes('required') ? 'var(--amber)' : 'var(--red)' }}>
+                  {error.includes('required') ? 'Decision Required' : 'Simulation Failed'}
+                </p>
                 <p className="text-sm mt-1.5" style={{ color: 'var(--text-muted)' }}>{error}</p>
               </div>
             </div>
