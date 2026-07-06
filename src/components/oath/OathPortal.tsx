@@ -10,21 +10,48 @@ interface OathPortalProps {
 
 function PortalScene({ oathLength }: { oathLength: number }) {
   const pointsRef = useRef<THREE.Points | null>(null)
+  const pointsOuterRef = useRef<THREE.Points | null>(null)
   const sphereRef = useRef<THREE.Mesh | null>(null)
-  const count = 180
+  const ringRef = useRef<THREE.Mesh | null>(null)
+  
+  const countInner = 300
+  const countOuter = 200
 
-  // Calculate coordinates for the ring
-  const [positions, initialPositions] = useMemo(() => {
-    const pos = new Float32Array(count * 3)
+  // Calculate coordinates for the inner ring
+  const [positionsInner, initialPositionsInner] = useMemo(() => {
+    const pos = new Float32Array(countInner * 3)
     const init = []
 
-    for (let i = 0; i < count; i++) {
-      const angle = (i * Math.PI * 2) / count
-      const radius = 1.4
+    for (let i = 0; i < countInner; i++) {
+      const angle = (i * Math.PI * 2) / countInner
+      const radius = 1.3
 
       const x = Math.cos(angle) * radius
       const y = Math.sin(angle) * radius
-      const z = (Math.random() - 0.5) * 0.1
+      const z = (Math.random() - 0.5) * 0.15
+
+      pos[i * 3] = x
+      pos[i * 3 + 1] = y
+      pos[i * 3 + 2] = z
+
+      init.push({ x, y, z, angle, radius })
+    }
+
+    return [pos, init]
+  }, [])
+
+  // Calculate coordinates for the outer ring (opposite orbit)
+  const [positionsOuter, initialPositionsOuter] = useMemo(() => {
+    const pos = new Float32Array(countOuter * 3)
+    const init = []
+
+    for (let i = 0; i < countOuter; i++) {
+      const angle = (i * Math.PI * 2) / countOuter
+      const radius = 1.8
+
+      const x = Math.cos(angle) * radius
+      const y = Math.sin(angle) * radius
+      const z = (Math.random() - 0.5) * 0.25
 
       pos[i * 3] = x
       pos[i * 3 + 1] = y
@@ -38,86 +65,152 @@ function PortalScene({ oathLength }: { oathLength: number }) {
 
   useFrame((state) => {
     const time = state.clock.getElapsedTime()
-    const geom = pointsRef.current?.geometry
-    if (!geom) return
-    const posAttr = geom.getAttribute('position') as THREE.BufferAttribute
-
-    // Spin speed and energy multiplier based on how long the typed oath is (0 to 200)
     const completionRatio = Math.min(oathLength / 200, 1.0)
-    const speed = 0.5 + completionRatio * 2.0
-    const waveIntensity = 0.05 + completionRatio * 0.15
+    
+    const speed = 0.6 + completionRatio * 2.5
+    const waveIntensityInner = 0.08 + completionRatio * 0.18
+    const waveIntensityOuter = 0.05 + completionRatio * 0.22
 
+    // Spin inner particles
     if (pointsRef.current) {
       pointsRef.current.rotation.z = time * speed
+      pointsRef.current.rotation.y = Math.sin(time * 0.5) * 0.2
     }
 
+    // Spin outer particles (reverse orbit)
+    if (pointsOuterRef.current) {
+      pointsOuterRef.current.rotation.z = -time * (speed * 0.7)
+      pointsOuterRef.current.rotation.x = Math.cos(time * 0.5) * 0.2
+    }
+
+    // Rotate core wireframe torus
+    if (ringRef.current) {
+      ringRef.current.rotation.x = time * 0.8
+      ringRef.current.rotation.y = time * 0.5
+      const scale = 0.95 + completionRatio * 0.3
+      ringRef.current.scale.set(scale, scale, scale)
+    }
+
+    // Scale and rotate core sphere
     if (sphereRef.current) {
-      sphereRef.current.rotation.y = time * 0.2
-      sphereRef.current.rotation.x = time * 0.1
-      // Pulsate the center sphere scale slightly
-      const scale = 0.65 + Math.sin(time * 3) * 0.04 + completionRatio * 0.15
+      sphereRef.current.rotation.y = time * 0.5
+      sphereRef.current.rotation.x = time * 0.3
+      const scale = 0.65 + Math.sin(time * 3) * 0.05 + completionRatio * 0.25
       sphereRef.current.scale.set(scale, scale, scale)
     }
 
-    // Animate individual points in a wavy, expanding ring
-    for (let i = 0; i < count; i++) {
-      const pt = initialPositions[i]
-      const currentRadius = pt.radius + Math.sin(time * 3 + pt.angle * 6) * waveIntensity
-      const x = Math.cos(pt.angle) * currentRadius
-      const y = Math.sin(pt.angle) * currentRadius
-      const z = Math.sin(time * 4 + pt.angle * 5) * 0.15
-
-      posAttr.setXYZ(i, x, y, z)
+    // Animate inner points
+    const geomInner = pointsRef.current?.geometry
+    if (geomInner) {
+      const posAttr = geomInner.getAttribute('position') as THREE.BufferAttribute
+      for (let i = 0; i < countInner; i++) {
+        const pt = initialPositionsInner[i]
+        const currentRadius = pt.radius + Math.sin(time * 4.5 + pt.angle * 8) * waveIntensityInner
+        const x = Math.cos(pt.angle) * currentRadius
+        const y = Math.sin(pt.angle) * currentRadius
+        const z = Math.sin(time * 5 + pt.angle * 6) * 0.25
+        posAttr.setXYZ(i, x, y, z)
+      }
+      posAttr.needsUpdate = true
     }
 
-    posAttr.needsUpdate = true
+    // Animate outer points
+    const geomOuter = pointsOuterRef.current?.geometry
+    if (geomOuter) {
+      const posAttr = geomOuter.getAttribute('position') as THREE.BufferAttribute
+      for (let i = 0; i < countOuter; i++) {
+        const pt = initialPositionsOuter[i]
+        const currentRadius = pt.radius + Math.cos(time * 3.5 + pt.angle * 5) * waveIntensityOuter
+        const x = Math.cos(pt.angle) * currentRadius
+        const y = Math.sin(pt.angle) * currentRadius
+        const z = Math.cos(time * 3 + pt.angle * 8) * 0.3
+        posAttr.setXYZ(i, x, y, z)
+      }
+      posAttr.needsUpdate = true
+    }
   })
 
-  // Circular texture
+  // Circular glow texture for high fidelity particles
   const particleTexture = useMemo(() => {
     const canvas = document.createElement('canvas')
-    canvas.width = 16
-    canvas.height = 16
+    canvas.width = 32
+    canvas.height = 32
     const ctx = canvas.getContext('2d')
     if (ctx) {
-      const grad = ctx.createRadialGradient(8, 8, 0, 8, 8, 8)
+      const grad = ctx.createRadialGradient(16, 16, 0, 16, 16, 16)
       grad.addColorStop(0, 'rgba(255, 255, 255, 1)')
-      grad.addColorStop(0.3, 'rgba(6, 182, 212, 0.8)') // Teal/Cyan core
+      grad.addColorStop(0.2, 'rgba(129, 140, 248, 0.9)') // Indigo aura
+      grad.addColorStop(0.4, 'rgba(6, 182, 212, 0.6)')   // Cyan glow
       grad.addColorStop(1, 'rgba(0, 0, 0, 0)')
       ctx.fillStyle = grad
-      ctx.fillRect(0, 0, 16, 16)
+      ctx.fillRect(0, 0, 32, 32)
     }
     return new THREE.CanvasTexture(canvas)
   }, [])
 
   const completionRatio = Math.min(oathLength / 200, 1.0)
+  const coreColor = completionRatio > 0.5 ? '#06b6d4' : '#6366f1'
+  const emissiveColor = completionRatio > 0.5 ? '#22d3ee' : '#818cf8'
 
   return (
     <group>
-      {/* Center energy core */}
+      {/* 3D Glowing Core Sphere */}
       <mesh ref={sphereRef}>
-        <sphereGeometry args={[0.5, 32, 32]} />
-        <meshStandardMaterial
-          color={completionRatio > 0.5 ? '#06B6D4' : '#7C3AED'}
-          emissive={completionRatio > 0.5 ? '#22D3EE' : '#6366f1'}
-          emissiveIntensity={0.25 + completionRatio * 0.6}
+        <sphereGeometry args={[0.52, 32, 32]} />
+        <meshPhysicalMaterial
+          color={coreColor}
+          emissive={emissiveColor}
+          emissiveIntensity={0.5 + completionRatio * 1.5}
           roughness={0.1}
           metalness={0.9}
+          clearcoat={1.0}
+          clearcoatRoughness={0.1}
         />
       </mesh>
 
-      {/* Orbiting ring of code particles */}
+      {/* Orbiting wireframe Torus (Sci-Fi orbital shield ring) */}
+      <mesh ref={ringRef}>
+        <torusGeometry args={[0.82, 0.04, 8, 32]} />
+        <meshBasicMaterial
+          color={completionRatio > 0.5 ? '#22d3ee' : '#a5b4fc'}
+          wireframe
+          transparent
+          opacity={0.4 + completionRatio * 0.4}
+          blending={THREE.AdditiveBlending}
+        />
+      </mesh>
+
+      {/* Concentric Inner Particle Ring */}
       <points ref={pointsRef}>
         <bufferGeometry>
           <bufferAttribute
             attach="attributes-position"
-            array={positions}
-            count={count}
+            array={positionsInner}
+            count={countInner}
             itemSize={3}
           />
         </bufferGeometry>
         <pointsMaterial
           size={0.12 + completionRatio * 0.08}
+          map={particleTexture}
+          transparent
+          depthWrite={false}
+          blending={THREE.AdditiveBlending}
+        />
+      </points>
+
+      {/* Outer Counter-Orbiting Particle Dust Ring */}
+      <points ref={pointsOuterRef}>
+        <bufferGeometry>
+          <bufferAttribute
+            attach="attributes-position"
+            array={positionsOuter}
+            count={countOuter}
+            itemSize={3}
+          />
+        </bufferGeometry>
+        <pointsMaterial
+          size={0.1 + completionRatio * 0.06}
           map={particleTexture}
           transparent
           depthWrite={false}
@@ -149,11 +242,20 @@ export default function OathPortal({ oathLength }: OathPortalProps) {
   }
 
   return (
-    <div className="relative h-[200px] w-full flex items-center justify-center pointer-events-none">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(6,182,212,0.1),transparent_60%)] pointer-events-none" />
+    <div className="relative h-[220px] w-full flex items-center justify-center pointer-events-none">
+      {/* Background glowing halo */}
+      <div 
+        className="absolute h-36 w-36 rounded-full blur-[40px] opacity-40 transition-colors duration-500" 
+        style={{
+          background: oathLength > 100 
+            ? 'radial-gradient(circle, var(--teal) 0%, transparent 70%)' 
+            : 'radial-gradient(circle, var(--purple) 0%, transparent 70%)'
+        }}
+      />
       <Canvas camera={{ position: [0, 0, 2.5], fov: 60 }}>
-        <ambientLight intensity={0.4} />
-        <directionalLight position={[2, 2, 2]} intensity={1.5} />
+        <ambientLight intensity={0.5} />
+        <pointLight position={[5, 5, 5]} intensity={1.5} />
+        <pointLight position={[-5, -5, -5]} intensity={0.5} />
         <PortalScene oathLength={oathLength} />
       </Canvas>
     </div>

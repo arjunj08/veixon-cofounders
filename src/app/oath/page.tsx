@@ -22,21 +22,53 @@ export default function OathPage() {
     }
     setSaving(true)
     try {
-      // Server resolves the startup from the session — no localStorage dependency,
-      // so this can't silently fail and bounce you back here.
       const res = await fetch('/api/startups/oath', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ oath }),
       })
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}))
-        setError(data?.error || 'Could not save your commitment. Try again.')
-        setSaving(false)
-        return
+      const data = await res.json().catch(() => ({}))
+
+      if (!res.ok || data.dbFallback) {
+        // Fallback to local storage persistence!
+        const activeId = window.localStorage.getItem('visionix_active_startup_id')
+        if (activeId) {
+          const localRecord = window.localStorage.getItem(`veixon_startup_${activeId}`)
+          if (localRecord) {
+            try {
+              const parsed = JSON.parse(localRecord)
+              parsed.oath = oath
+              parsed.oathDate = new Date().toISOString()
+              window.localStorage.setItem(`veixon_startup_${activeId}`, JSON.stringify(parsed))
+              router.push('/dashboard')
+              return
+            } catch {}
+          }
+        }
+        
+        if (!res.ok) {
+          setError(data?.error || 'Could not save your commitment. Try again.')
+          setSaving(false)
+          return
+        }
       }
       router.push('/dashboard')
     } catch {
+      // Catch network errors and try local storage fallback
+      const activeId = window.localStorage.getItem('visionix_active_startup_id')
+      if (activeId) {
+        const localRecord = window.localStorage.getItem(`veixon_startup_${activeId}`)
+        if (localRecord) {
+          try {
+            const parsed = JSON.parse(localRecord)
+            parsed.oath = oath
+            parsed.oathDate = new Date().toISOString()
+            window.localStorage.setItem(`veixon_startup_${activeId}`, JSON.stringify(parsed))
+            router.push('/dashboard')
+            return
+          } catch {}
+        }
+      }
       setError('Network error. Try again.')
       setSaving(false)
     }

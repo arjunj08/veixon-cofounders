@@ -46,6 +46,10 @@ async function oaiChat(cfg: OaiCfg, req: ChatRequest): Promise<ChatResult> {
   const sys = (cfg.systemPrefix || '') + (req.system || '') + (req.json && !cfg.jsonMode ? '\n\nRespond with ONLY valid JSON. No markdown, no commentary.' : '')
   const messages = [...(sys ? [{ role: 'system', content: sys }] : []), ...req.messages]
   const body: any = { model: req.model || cfg.model, max_tokens: req.maxTokens ?? 2000, temperature: req.temperature ?? 0.6, messages }
+  if (cfg.name === 'nvidia') {
+    body.chat_template_kwargs = { enable_thinking: !req.json }
+    body.temperature = req.json ? 0.35 : 0.7
+  }
   if (req.json && cfg.jsonMode) body.response_format = { type: 'json_object' }
   const headers = cfg.apiKey ? { Authorization: `Bearer ${cfg.apiKey}` } : {}
   const data = await postJson(`${cfg.baseUrl}/chat/completions`, headers, body, req.timeoutMs, cfg.name)

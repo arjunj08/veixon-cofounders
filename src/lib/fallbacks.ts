@@ -97,7 +97,7 @@ export function fallbackIdeation(body: any): IdeationResult {
         severity: 'medium',
       },
     ],
-    failureProbability: 72,
+    failureProbability: Math.max(55, Math.min(95, 98 - Math.round((((body?.idea || '').length + (body?.targetCustomer || '').length + (body?.problem || '').length) || 120) / 12))),
     survivalEdge:
       'The survivors do not wait for confidence. They force payment conversations early, narrow the first customer segment until it hurts, and treat every week without new evidence as a lost week.',
     warPlan: fallbackWarPlan(),
