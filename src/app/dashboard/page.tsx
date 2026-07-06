@@ -130,6 +130,17 @@ export default function DashboardPage() {
               } catch {}
             }
 
+            let activeWeek = 1
+            if (completedTasks.length) {
+              activeWeek = Math.min(13, Math.floor(completedTasks.length / 7) + 1)
+            }
+
+            const rawTasks = parsed.warPlanJson?.[activeWeek - 1]?.dailyTasks || parsed.warPlanJson?.[0]?.dailyTasks || []
+            const tasks = rawTasks.map((t: any) => ({
+              ...t,
+              week: t.week || activeWeek
+            }))
+
             const fallbackPayload = {
               startup: {
                 ...parsed,
@@ -139,7 +150,7 @@ export default function DashboardPage() {
               },
               checkin: null,
               decisions: [],
-              tasks: parsed.warPlanJson?.[0]?.dailyTasks || [],
+              tasks,
               insight: parsed.vznVoice || 'Run your first check-in and I will tell you where you are drifting.',
               stats: {
                 startupHealth: 50,

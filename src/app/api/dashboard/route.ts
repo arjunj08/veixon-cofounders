@@ -64,9 +64,19 @@ export async function GET(_req: Request) {
         dbFallback: true,
       })
     }
-    const tasks = checkin?.tasksJson || startup?.warPlanJson?.[0]?.dailyTasks || []
-    const totalTasks = totalPlanTasks(startup)
+    let activeWeek = 1
     const completedCount = startup?.completedTasks?.length || 0
+    if (completedCount) {
+      activeWeek = Math.min(13, Math.floor(completedCount / 7) + 1)
+    }
+
+    const rawTasks = checkin?.tasksJson || startup?.warPlanJson?.[activeWeek - 1]?.dailyTasks || startup?.warPlanJson?.[0]?.dailyTasks || []
+    const tasks = rawTasks.map((t: any) => ({
+      ...t,
+      week: t.week || activeWeek
+    }))
+
+    const totalTasks = totalPlanTasks(startup)
     const taskProgress = totalTasks ? Math.min(100, Math.round((completedCount / totalTasks) * 100)) : 0
     const pivotStatus = startup?.taskCompletionRate && startup.taskCompletionRate > 0.7 ? 'GREEN' : startup?.accountabilityScore && startup.accountabilityScore < 45 ? 'RED' : 'AMBER'
 
