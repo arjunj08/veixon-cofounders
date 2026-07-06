@@ -314,7 +314,7 @@ export default function DashboardPage() {
                 <h2 className="mb-6 text-lg font-bold">VZN Insights</h2>
                 <VznMatrixCore />
                 <p className="mt-6 text-lg font-medium leading-snug">&quot;{data.insight}&quot;</p>
-                <button onClick={() => router.push('/dashboard#checkins')} className="vzn-button-primary mt-6 w-full rounded-xl px-4 py-3 text-sm font-semibold">
+                <button onClick={() => router.push('/checkins')} className="vzn-button-primary mt-6 w-full rounded-xl px-4 py-3 text-sm font-semibold">
                   Run check-in
                 </button>
               </section>

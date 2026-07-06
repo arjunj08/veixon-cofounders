@@ -31,7 +31,7 @@ const groups: { label: string; items: { href: string; label: string; icon: any }
     items: [
       { href: '/decisions', label: 'Decisions', icon: Zap },
       { href: '/dashboard#pivot', label: 'Pivot Radar', icon: Radar },
-      { href: '/dashboard#checkins', label: 'Check-ins', icon: CheckSquare },
+      { href: '/checkins', label: 'Check-ins', icon: CheckSquare },
     ],
   },
   {
