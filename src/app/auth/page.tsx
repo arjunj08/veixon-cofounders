@@ -76,10 +76,10 @@ function AuthCard() {
         <GoogleIcon />
         Continue with Google
       </button>
-      <p className="mt-4 text-xs" style={{ color: 'var(--text-muted)' }}>No credit card required. Free to start.</p>
-      <p className="mt-5 text-[11px] leading-relaxed" style={{ color: 'var(--text-muted)' }}>
-        By continuing you agree to our <Link href="#" className="underline text-[var(--purple)]">Terms</Link> and{' '}
-        <Link href="#" className="underline text-[var(--purple)]">Privacy Policy</Link>.
+      <p className="mt-4 text-xs" style={{ color: 'rgba(255, 255, 255, 0.65)' }}>No credit card required. Free to start.</p>
+      <p className="mt-5 text-[11px] leading-relaxed" style={{ color: 'rgba(255, 255, 255, 0.45)' }}>
+        By continuing you agree to our <Link href="#" className="underline text-[#a5b4fc] hover:text-white transition-colors">Terms</Link> and{' '}
+        <Link href="#" className="underline text-[#a5b4fc] hover:text-white transition-colors">Privacy Policy</Link>.
       </p>
     </motion.div>
   )

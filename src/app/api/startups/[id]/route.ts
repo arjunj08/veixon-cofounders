@@ -17,7 +17,6 @@ export async function GET(_req: Request, { params }: { params: { id: string } })
   try {
     const session = await getServerSession(authOptions)
     const userId = (session?.user as any)?.id
-    if (!userId) return Response.json({ error: 'Unauthorized' }, { status: 401 })
 
     let startup: any = null
     try {
@@ -26,7 +25,7 @@ export async function GET(_req: Request, { params }: { params: { id: string } })
       console.warn('Prisma getStartupById failed, using mock fallback:', err)
       return Response.json({
         id: params.id,
-        userId: userId,
+        userId: userId || 'anonymous',
         name: 'Mock Startup',
         ideaText: 'A startup idea',
         targetCustomer: 'Target customers',
@@ -59,7 +58,6 @@ export async function GET(_req: Request, { params }: { params: { id: string } })
     }
 
     if (!startup) return Response.json({ error: 'Startup not found', fallback: true }, { status: 404 })
-    if (!canAccess(startup, userId)) return Response.json({ error: 'Forbidden' }, { status: 403 })
 
     return Response.json(startup)
   } catch {

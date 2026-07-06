@@ -398,6 +398,11 @@ html:not(.dark) .veixon-spark{display:none}
   transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
 }
 
+.vzn-input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.55;
+}
+
 .vzn-input:focus {
   border-color: color-mix(in srgb, var(--purple) 72%, var(--border));
   background: color-mix(in srgb, var(--bg-secondary) 92%, transparent);

@@ -333,12 +333,16 @@ export default function DashboardPage() {
                 <h2 className="mb-4 text-lg font-bold">Burn Clock</h2>
                 <BurnClock burnRate={data.startup.burnRate} cashInBank={data.startup.cashInBank} monthlyRevenue={data.startup.monthlyRevenue} />
                 <div className="mt-5 grid gap-2">
-                  {(['burnRate', 'cashInBank', 'monthlyRevenue'] as const).map((key) => (
+                  {([
+                    ['burnRate', 'Monthly Burn Rate ($)'],
+                    ['cashInBank', 'Cash in Bank ($)'],
+                    ['monthlyRevenue', 'Monthly Revenue ($)']
+                  ] as const).map(([key, label]) => (
                     <input
                       key={key}
                       value={burnForm[key]}
                       onChange={(event) => setBurnForm((prev) => ({ ...prev, [key]: event.target.value }))}
-                      placeholder={key}
+                      placeholder={label}
                       className="focus-ring vzn-input rounded-lg px-3 py-2 text-sm"
                     />
                   ))}
