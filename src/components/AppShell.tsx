@@ -19,6 +19,17 @@ export default function AppShell({
   actions?: ReactNode
 }) {
   const [navOpen, setNavOpen] = useState(false)
+  const [showNotifications, setShowNotifications] = useState(false)
+  const [notifications, setNotifications] = useState([
+    { id: '1', text: 'VZN Co-founder profile initialized.', time: 'Just now', read: false },
+    { id: '2', text: 'Day 1 task verified. 1% progress logged.', time: '2 hours ago', read: false },
+    { id: '3', text: 'Scorecard analysis complete: risk vector updated.', time: '1 day ago', read: true },
+  ])
+  const unreadCount = notifications.filter(n => !n.read).length
+
+  const markAllRead = () => {
+    setNotifications(prev => prev.map(n => ({ ...n, read: true })))
+  }
   const hasHeader = title || subtitle || actions
   const pathname = usePathname()
 
@@ -74,13 +85,47 @@ export default function AppShell({
             </div>
             <div className="flex items-center gap-2">
               {actions}
-              <button
-                className="veixon-press vzn-icon-button relative hidden h-10 w-10 place-items-center rounded-xl border md:grid"
-                aria-label="Notifications"
-              >
-                <Bell className="h-4 w-4" />
-                <span className="veixon-pulse absolute right-2 top-2 h-1.5 w-1.5 rounded-full" style={{ background: 'var(--teal)' }} />
-              </button>
+              <div className="relative">
+                <button
+                  onClick={() => setShowNotifications(!showNotifications)}
+                  className="veixon-press vzn-icon-button relative hidden h-10 w-10 place-items-center rounded-xl border md:grid"
+                  aria-label="Notifications"
+                >
+                  <Bell className="h-4 w-4" />
+                  {unreadCount > 0 && (
+                    <span className="veixon-pulse absolute right-2 top-2 h-1.5 w-1.5 rounded-full" style={{ background: 'var(--teal)' }} />
+                  )}
+                </button>
+
+                {showNotifications && (
+                  <div 
+                    className="absolute right-0 mt-2 w-[300px] rounded-2xl border p-4 shadow-2xl backdrop-blur-xl z-50 animate-in fade-in slide-in-from-top-3 duration-200"
+                    style={{
+                      background: 'rgba(13, 12, 30, 0.92)',
+                      borderColor: 'rgba(255, 255, 255, 0.08)',
+                      boxShadow: '0 20px 50px rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(255, 255, 255, 0.03)'
+                    }}
+                  >
+                    <div className="flex items-center justify-between border-b pb-2 mb-3" style={{ borderColor: 'rgba(255, 255, 255, 0.06)' }}>
+                      <span className="text-xs font-bold uppercase tracking-wider text-[var(--purple)]">Notifications</span>
+                      {unreadCount > 0 && (
+                        <button onClick={markAllRead} className="text-[10px] hover:underline" style={{ color: 'var(--text-muted)' }}>
+                          Mark all read
+                        </button>
+                      )}
+                    </div>
+                    
+                    <div className="space-y-3 max-h-[220px] overflow-y-auto">
+                      {notifications.map(n => (
+                        <div key={n.id} className="text-left text-xs leading-relaxed transition-opacity" style={{ opacity: n.read ? 0.6 : 1 }}>
+                          <p className="font-medium text-white">{n.text}</p>
+                          <span className="text-[9px] block mt-0.5" style={{ color: 'var(--text-dim)' }}>{n.time}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </header>
         ) : (

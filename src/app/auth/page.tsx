@@ -81,6 +81,12 @@ function AuthCard() {
         By continuing you agree to our <Link href="#" className="underline text-[#a5b4fc] hover:text-white transition-colors">Terms</Link> and{' '}
         <Link href="#" className="underline text-[#a5b4fc] hover:text-white transition-colors">Privacy Policy</Link>.
       </p>
+      
+      <div className="mt-6 border-t pt-4" style={{ borderColor: 'rgba(255, 255, 255, 0.08)' }}>
+        <Link href="/" className="inline-flex items-center gap-1.5 text-xs text-[#a5b4fc] hover:text-white transition-colors">
+          ← Back to Homepage
+        </Link>
+      </div>
     </motion.div>
   )
 }
