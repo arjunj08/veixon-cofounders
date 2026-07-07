@@ -255,9 +255,25 @@ export default function VaultClient({ startup, initialUnlocked, progress }: { st
               <>
                 <input value={email?.subject || ''} onChange={(event) => setEmail((prev: any) => ({ ...prev, subject: event.target.value }))} className="vzn-input mt-5 w-full rounded-lg px-3 py-2" />
                 <textarea value={email?.body || ''} onChange={(event) => setEmail((prev: any) => ({ ...prev, body: event.target.value }))} rows={10} className="vzn-input mt-3 w-full rounded-lg p-3" />
-                <button onClick={handleCopyEmail} className="vzn-button-primary mt-4 rounded-lg px-4 py-2 text-sm font-semibold transition-all">
-                  {copied ? '✓ Copied!' : 'Copy email'}
-                </button>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  <button onClick={handleCopyEmail} className="vzn-button-primary rounded-lg px-4 py-2 text-sm font-semibold transition-all">
+                    {copied ? '✓ Copied!' : 'Copy email'}
+                  </button>
+                  <a 
+                    href={`https://mail.google.com/mail/?view=cm&fs=1&su=${encodeURIComponent(email?.subject || '')}&body=${encodeURIComponent(email?.body || '')}`}
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="vzn-button-ghost inline-flex items-center gap-1.5 rounded-lg border px-4 py-2 text-sm font-semibold hover:border-[var(--purple)]"
+                  >
+                    Open in Gmail ↗
+                  </a>
+                  <a 
+                    href={`mailto:?subject=${encodeURIComponent(email?.subject || '')}&body=${encodeURIComponent(email?.body || '')}`}
+                    className="vzn-button-ghost inline-flex items-center gap-1.5 rounded-lg border px-4 py-2 text-sm font-semibold hover:border-[var(--purple)]"
+                  >
+                    Open Mail Client ↗
+                  </a>
+                </div>
               </>
             )}
           </div>
