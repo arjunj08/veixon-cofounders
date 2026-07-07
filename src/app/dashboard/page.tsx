@@ -99,6 +99,49 @@ export default function DashboardPage() {
               }
             } catch {}
           }
+        } else {
+          // If DB returned no startup, check if we have a locally saved startup in localStorage to recover
+          const activeId = window.localStorage.getItem('visionix_active_startup_id')
+          if (activeId) {
+            const localRecord = window.localStorage.getItem(`veixon_startup_${activeId}`)
+            if (localRecord) {
+              try {
+                const parsed = JSON.parse(localRecord)
+                const localCompleted = window.localStorage.getItem(`veixon_completed_tasks_${activeId}`)
+                let completedTasks = parsed.completedTasks || []
+                let rate = parsed.taskCompletionRate || 0
+                let score = parsed.accountabilityScore || 0
+                if (localCompleted) {
+                  const parsedCompleted = JSON.parse(localCompleted)
+                  if (Array.isArray(parsedCompleted)) {
+                    completedTasks = parsedCompleted.map(id => ({ taskId: id, completedAt: new Date().toISOString() }))
+                    rate = parsedCompleted.length / 90
+                    score = Math.round(rate * 100)
+                  }
+                }
+                const activeWeek = completedTasks.length ? Math.min(13, Math.floor(completedTasks.length / 7) + 1) : 1
+                const rawTasks = parsed.warPlanJson?.[activeWeek - 1]?.dailyTasks || parsed.warPlanJson?.[0]?.dailyTasks || []
+                const tasks = rawTasks.map((t: any) => ({ ...t, week: t.week || activeWeek }))
+                
+                payload.startup = {
+                  ...parsed,
+                  completedTasks,
+                  taskCompletionRate: rate,
+                  accountabilityScore: score,
+                }
+                payload.tasks = tasks
+                payload.stats = {
+                  startupHealth: 50,
+                  accountability: score,
+                  decisionsThisMonth: 0,
+                  pivotStatus: 'AMBER',
+                  completedCount: completedTasks.length,
+                  totalTasks: 90,
+                  taskProgress: percentFromRate(rate),
+                }
+              } catch {}
+            }
+          }
         }
 
         setData(payload)

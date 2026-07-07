@@ -16,7 +16,7 @@ export default function NotificationPermission() {
       'Notification' in window &&
       Notification.permission === 'default'
     ) {
-      const timer = setTimeout(() => setShow(true), 30000)
+      const timer = setTimeout(() => setShow(true), 2000)
       return () => clearTimeout(timer)
     }
   }, [])

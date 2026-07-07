@@ -6,7 +6,10 @@ import * as THREE from 'three'
 
 function ParticleSphere({ isHovered }: { isHovered: boolean }) {
   const pointsRef = useRef<THREE.Points | null>(null)
-  const count = 350
+  const ringRef = useRef<THREE.Mesh | null>(null)
+  const coreRef = useRef<THREE.Mesh | null>(null)
+  
+  const count = 400
 
   // Generate particles distributed evenly on a sphere
   const [positions, initialPositions] = useMemo(() => {
@@ -33,30 +36,47 @@ function ParticleSphere({ isHovered }: { isHovered: boolean }) {
   }, [])
 
   useFrame((state) => {
-    if (!pointsRef.current) return
     const time = state.clock.getElapsedTime()
-    const geom = pointsRef.current.geometry
-    const posAttr = geom.getAttribute('position') as THREE.BufferAttribute
-
+    
     // Spin speed matches hover state
-    const speed = isHovered ? 0.8 : 0.25
-    pointsRef.current.rotation.y = time * speed
-    pointsRef.current.rotation.x = time * speed * 0.4
-
-    // Morph the sphere radius with sine waves (energy pulse)
-    const noiseScale = isHovered ? 0.25 : 0.12
-    const pulseSpeed = isHovered ? 5 : 2.5
-
-    for (let i = 0; i < count; i++) {
-      const p = initialPositions[i]
-      // Wave equation based on angles and time
-      const wave = Math.sin(p.phi * 8 + time * pulseSpeed) * Math.cos(p.theta * 6 + time * pulseSpeed) * noiseScale
-      const radius = 1.2 + wave
-
-      posAttr.setXYZ(i, p.x * radius, p.y * radius, p.z * radius)
+    const speed = isHovered ? 0.9 : 0.28
+    
+    if (pointsRef.current) {
+      pointsRef.current.rotation.y = time * speed
+      pointsRef.current.rotation.x = time * speed * 0.4
     }
 
-    posAttr.needsUpdate = true
+    if (ringRef.current) {
+      // Outer sci-fi ring orbits in opposite direction
+      ringRef.current.rotation.x = -time * (speed * 0.5)
+      ringRef.current.rotation.y = time * (speed * 0.3)
+      const ringScale = 1.35 + Math.sin(time * 2.5) * 0.05
+      ringRef.current.scale.set(ringScale, ringScale, ringScale)
+    }
+
+    if (coreRef.current) {
+      // Core sphere pulses inside
+      coreRef.current.rotation.z = -time * 0.2
+      const coreScale = 0.38 + Math.sin(time * 4) * 0.04
+      coreRef.current.scale.set(coreScale, coreScale, coreScale)
+    }
+
+    // Morph the sphere particles with sine waves (energy pulse)
+    const geom = pointsRef.current?.geometry
+    if (geom) {
+      const posAttr = geom.getAttribute('position') as THREE.BufferAttribute
+      const noiseScale = isHovered ? 0.26 : 0.13
+      const pulseSpeed = isHovered ? 6.0 : 2.8
+
+      for (let i = 0; i < count; i++) {
+        const p = initialPositions[i]
+        const wave = Math.sin(p.phi * 8 + time * pulseSpeed) * Math.cos(p.theta * 6 + time * pulseSpeed) * noiseScale
+        const radius = 1.1 + wave
+
+        posAttr.setXYZ(i, p.x * radius, p.y * radius, p.z * radius)
+      }
+      posAttr.needsUpdate = true
+    }
   })
 
   // Circular glow texture
@@ -68,7 +88,7 @@ function ParticleSphere({ isHovered }: { isHovered: boolean }) {
     if (ctx) {
       const grad = ctx.createRadialGradient(8, 8, 0, 8, 8, 8)
       grad.addColorStop(0, 'rgba(255, 255, 255, 1)')
-      grad.addColorStop(0.3, 'rgba(124, 58, 237, 0.8)')
+      grad.addColorStop(0.3, 'rgba(139, 92, 246, 0.8)') // Violet glow
       grad.addColorStop(1, 'rgba(0, 0, 0, 0)')
       ctx.fillStyle = grad
       ctx.fillRect(0, 0, 16, 16)
@@ -77,23 +97,49 @@ function ParticleSphere({ isHovered }: { isHovered: boolean }) {
   }, [])
 
   return (
-    <points ref={pointsRef}>
-      <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          array={positions}
-          count={count}
-          itemSize={3}
+    <group>
+      {/* 3D Core Energy Sphere */}
+      <mesh ref={coreRef}>
+        <sphereGeometry args={[0.5, 16, 16]} />
+        <meshBasicMaterial 
+          color={isHovered ? '#22d3ee' : '#a78bfa'} 
+          wireframe 
+          transparent 
+          opacity={0.3} 
         />
-      </bufferGeometry>
-      <pointsMaterial
-        size={0.16}
-        map={dotTexture}
-        transparent
-        depthWrite={false}
-        blending={THREE.AdditiveBlending}
-      />
-    </points>
+      </mesh>
+
+      {/* Orbiting wireframe Torus (Sci-Fi orbital shield ring) */}
+      <mesh ref={ringRef}>
+        <torusGeometry args={[1.1, 0.02, 6, 24]} />
+        <meshBasicMaterial
+          color={isHovered ? '#06b6d4' : '#6d5df6'}
+          wireframe
+          transparent
+          opacity={0.4}
+          blending={THREE.AdditiveBlending}
+        />
+      </mesh>
+
+      {/* Sphere particles shell */}
+      <points ref={pointsRef}>
+        <bufferGeometry>
+          <bufferAttribute
+            attach="attributes-position"
+            array={positions}
+            count={count}
+            itemSize={3}
+          />
+        </bufferGeometry>
+        <pointsMaterial
+          size={0.15}
+          map={dotTexture}
+          transparent
+          depthWrite={false}
+          blending={THREE.AdditiveBlending}
+        />
+      </points>
+    </group>
   )
 }
 
@@ -128,6 +174,7 @@ export default function VznMatrixCore() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(124,58,237,0.15),transparent_60%)] pointer-events-none" />
       
       <Canvas camera={{ position: [0, 0, 2.5], fov: 60 }}>
+        <ambientLight intensity={0.5} />
         <ParticleSphere isHovered={isHovered} />
       </Canvas>
     </div>

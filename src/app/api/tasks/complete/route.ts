@@ -78,6 +78,7 @@ export async function POST(req: Request) {
       }
     } catch (dbErr) {
       console.warn('CompletedTask database operation failed, using local/email fallback:', dbErr)
+      return Response.json({ error: 'Database operation failed', fallback: true }, { status: 500 })
     }
 
     const session = await getServerSession(authOptions).catch(() => null)

@@ -2,7 +2,7 @@ import { callClaudeJson } from '@/lib/anthropic'
 
 export const runtime = 'nodejs'
 
-const system = `Write personalised intro email from founder to this specific VC. Reference founder's real metrics. Return ONLY valid JSON: { subject:string, body:string }. Warm but specific.`
+const system = `Write personalised intro email from founder to this specific VC. Reference founder's real metrics. Use Indian Rupees (₹, Lakhs, Crores) for all financial asks and revenue metrics. Return ONLY valid JSON: { subject:string, body:string }. Warm but specific.`
 
 export async function POST(req: Request) {
   try {

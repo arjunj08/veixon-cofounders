@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import AppShell from '@/components/AppShell'
 import VZNAvatar from '@/components/ui/VZNAvatar'
 import VaultProgress from '@/components/dashboard/VaultProgress'
@@ -48,6 +48,51 @@ export default function VaultClient({ startup, initialUnlocked, progress }: { st
   const [deckError, setDeckError] = useState<string | null>(null)
   const [introLoading, setIntroLoading] = useState(false)
   const [introError, setIntroError] = useState<string | null>(null)
+  const [copied, setCopied] = useState(false)
+
+  async function handleCopyEmail() {
+    const text = `${email?.subject}\n\n${email?.body}`
+    let copiedSuccess = false
+
+    // Method 1: Try modern clipboard API
+    try {
+      const hasClipboard = typeof navigator !== 'undefined' && navigator.clipboard
+      const isSecure = typeof window !== 'undefined' && window.isSecureContext
+      if (hasClipboard && isSecure) {
+        await navigator.clipboard.writeText(text)
+        copiedSuccess = true
+      }
+    } catch (err) {
+      console.warn('Modern clipboard API failed, trying fallback:', err)
+    }
+
+    // Method 2: Fallback to document.execCommand if modern API failed
+    if (!copiedSuccess) {
+      try {
+        const ta = document.createElement('textarea')
+        ta.value = text
+        ta.style.position = 'fixed'
+        ta.style.top = '0'
+        ta.style.left = '0'
+        ta.style.opacity = '0'
+        document.body.appendChild(ta)
+        ta.focus()
+        ta.select()
+        copiedSuccess = document.execCommand('copy')
+        document.body.removeChild(ta)
+      } catch (err) {
+        console.error('Fallback copy method failed:', err)
+      }
+    }
+
+    if (copiedSuccess) {
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } else {
+      // Method 3: Final fallback - alert the user to copy manually
+      alert('Clipboard access blocked by browser/iframe security. Please select the email text in the modal and copy it manually.')
+    }
+  }
 
   async function requestIntro(vc: any) {
     setSelectedVc(vc)
@@ -149,10 +194,18 @@ export default function VaultClient({ startup, initialUnlocked, progress }: { st
                 </ul>
                 <p className="mt-6 italic text-[var(--teal)]">{slides[slide]?.vznNote}</p>
               </div>
-              <div className="no-print mt-5 flex gap-2">
+              <div className="no-print mt-5 flex flex-wrap gap-2">
                 <button onClick={() => setSlide((value) => Math.max(0, value - 1))} className="vzn-button-ghost rounded-lg border px-3 py-2">Prev</button>
                 <button onClick={() => setSlide((value) => Math.min(slides.length - 1, value + 1))} className="vzn-button-ghost rounded-lg border px-3 py-2">Next</button>
                 <button onClick={() => window.print()} className="vzn-button-ghost rounded-lg border px-3 py-2">Export PDF</button>
+                <a 
+                  href="https://slides.new" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="vzn-button-ghost inline-flex items-center gap-1.5 rounded-lg border px-3 py-2 hover:border-[var(--purple)]"
+                >
+                  Create in Google Slides ↗
+                </a>
               </div>
             </section>
 
@@ -202,8 +255,8 @@ export default function VaultClient({ startup, initialUnlocked, progress }: { st
               <>
                 <input value={email?.subject || ''} onChange={(event) => setEmail((prev: any) => ({ ...prev, subject: event.target.value }))} className="vzn-input mt-5 w-full rounded-lg px-3 py-2" />
                 <textarea value={email?.body || ''} onChange={(event) => setEmail((prev: any) => ({ ...prev, body: event.target.value }))} rows={10} className="vzn-input mt-3 w-full rounded-lg p-3" />
-                <button onClick={() => navigator.clipboard?.writeText(`${email?.subject}\n\n${email?.body}`)} className="vzn-button-primary mt-4 rounded-lg px-4 py-2 text-sm font-semibold">
-                  Copy email
+                <button onClick={handleCopyEmail} className="vzn-button-primary mt-4 rounded-lg px-4 py-2 text-sm font-semibold transition-all">
+                  {copied ? '✓ Copied!' : 'Copy email'}
                 </button>
               </>
             )}

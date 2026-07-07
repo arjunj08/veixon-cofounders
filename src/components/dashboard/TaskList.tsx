@@ -73,7 +73,23 @@ export default function TaskList({
       window.localStorage.setItem(`veixon_completed_tasks_${startupId}`, JSON.stringify(nextCompleted))
     }
 
-    if (!startupId) return
+    if (!startupId) {
+      const total = 90
+      const done = nextCompleted.length
+      const rate = done / total
+      const score = Math.round(rate * 100)
+      const nextProgress: TaskProgress = {
+        taskId,
+        taskCompletionRate: rate,
+        accountabilityScore: score,
+        completedTasks: nextCompleted.map(id => ({ taskId: id, completedAt: new Date().toISOString() })),
+        completedCount: done,
+        totalTasks: total,
+      }
+      setProgress(nextProgress)
+      onProgressUpdate?.(nextProgress)
+      return
+    }
 
     try {
       const response = await fetch('/api/tasks/complete', {
