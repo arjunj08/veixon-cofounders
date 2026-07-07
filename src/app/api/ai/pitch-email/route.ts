@@ -1,6 +1,12 @@
-import { callClaudeJson } from '@/lib/anthropic'
+import { chatJsonSafe } from '@/lib/ai'
+import { z } from 'zod'
 
 export const runtime = 'nodejs'
+
+const pitchEmailSchema = z.object({
+  subject: z.string(),
+  body: z.string()
+})
 
 const system = `Write personalised intro email from founder to this specific VC. Reference founder's real metrics. Use Indian Rupees (₹, Lakhs, Crores) for all financial asks and revenue metrics. Return ONLY valid JSON: { subject:string, body:string }. Warm but specific.`
 
@@ -8,7 +14,12 @@ export async function POST(req: Request) {
   try {
     const body = await req.json()
     try {
-      return Response.json(await callClaudeJson({ system, body, maxTokens: 800 }))
+      const result = await chatJsonSafe(pitchEmailSchema, {
+        system,
+        messages: [{ role: 'user', content: JSON.stringify(body) }],
+        maxTokens: 800
+      })
+      return Response.json(result)
     } catch {
       return Response.json({
         subject: `Intro: ${body.profile?.ideaText || 'VISIONIX-backed founder'} x ${body.vc?.name || 'your fund'}`,

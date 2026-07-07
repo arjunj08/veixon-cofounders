@@ -1,6 +1,17 @@
-import { callClaudeJson } from '@/lib/anthropic'
+import { chatJsonSafe } from '@/lib/ai'
+import { z } from 'zod'
 
 export const runtime = 'nodejs'
+
+const pitchDeckSchema = z.object({
+  slides: z.array(z.object({
+    slideNumber: z.number(),
+    title: z.string(),
+    headline: z.string(),
+    bullets: z.array(z.string()),
+    vznNote: z.string()
+  }))
+})
 
 const system = `Generate 12-slide pitch deck from founder's real data. Use Indian Rupees (₹, Lakhs, Crores) for all financial numbers, valuations, asks, and revenue stats. Return ONLY valid JSON: { slides:[{ slideNumber:number, title:string, headline:string, bullets:[string], vznNote:string }] }. Use actual data points from founder profile - not generic startup template language.`
 
@@ -26,7 +37,12 @@ export async function POST(req: Request) {
     }
 
     try {
-      return Response.json(await callClaudeJson({ system, body, maxTokens: 2000 }))
+      const result = await chatJsonSafe(pitchDeckSchema, {
+        system,
+        messages: [{ role: 'user', content: JSON.stringify(body) }],
+        maxTokens: 2000
+      })
+      return Response.json(result)
     } catch {
       return Response.json({
         slides: titles.map((title, index) => ({
