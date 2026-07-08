@@ -5,6 +5,7 @@ import AppShell from '@/components/AppShell'
 import VZNAvatar from '@/components/ui/VZNAvatar'
 import VaultProgress from '@/components/dashboard/VaultProgress'
 import VaultLockMesh from '@/components/vault/VaultLockMesh'
+import InteractivePitchDeck from '@/components/vault/InteractivePitchDeck'
 import { Download, Loader2, Lock, Mail, X } from 'lucide-react'
 
 const vcs = [
@@ -49,6 +50,23 @@ export default function VaultClient({ startup, initialUnlocked, progress }: { st
   const [introLoading, setIntroLoading] = useState(false)
   const [introError, setIntroError] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
+
+  const [localStartup, setLocalStartup] = useState<any>(startup)
+
+  useEffect(() => {
+    if (!localStartup && typeof window !== 'undefined') {
+      const activeId = window.localStorage.getItem('visionix_active_startup_id')
+      if (activeId) {
+        const localRecord = window.localStorage.getItem(`veixon_startup_${activeId}`)
+        if (localRecord) {
+          try {
+            const parsed = JSON.parse(localRecord)
+            setLocalStartup(parsed)
+          } catch {}
+        }
+      }
+    }
+  }, [localStartup, startup])
 
   async function handleCopyEmail() {
     const text = `${email?.subject}\n\n${email?.body}`
@@ -103,7 +121,7 @@ export default function VaultClient({ startup, initialUnlocked, progress }: { st
       const res = await fetch('/api/ai/pitch-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ profile: startup, vc: { name: vc[0], fund: vc[1] } }),
+        body: JSON.stringify({ profile: localStartup || startup, vc: { name: vc[0], fund: vc[1] } }),
       })
       if (!res.ok) throw new Error('request failed')
       const data = await res.json()
@@ -123,7 +141,7 @@ export default function VaultClient({ startup, initialUnlocked, progress }: { st
       const res = await fetch('/api/ai/pitch-deck', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ profile: startup }),
+        body: JSON.stringify({ profile: localStartup || startup }),
       })
       if (!res.ok) throw new Error('request failed')
       const data = await res.json()
@@ -186,27 +204,11 @@ export default function VaultClient({ startup, initialUnlocked, progress }: { st
             </div>
 
             <section className="vzn-panel-strong mb-8 rounded-[1.5rem] p-6 print-deck">
-              <div className="print-slide min-h-[260px]">
-                <div className="text-sm text-[var(--purple)]">{slides[slide]?.slideNumber}/13 · {slides[slide]?.title}</div>
-                <h3 className="mt-4 text-3xl font-bold">{slides[slide]?.headline}</h3>
-                <ul className="mt-6 space-y-2" style={{ color: 'var(--text-muted)' }}>
-                  {slides[slide]?.bullets?.map((bullet: string) => <li key={bullet}>- {bullet}</li>)}
-                </ul>
-                <p className="mt-6 italic text-[var(--teal)]">{slides[slide]?.vznNote}</p>
-              </div>
-              <div className="no-print mt-5 flex flex-wrap gap-2">
-                <button onClick={() => setSlide((value) => Math.max(0, value - 1))} className="vzn-button-ghost rounded-lg border px-3 py-2">Prev</button>
-                <button onClick={() => setSlide((value) => Math.min(slides.length - 1, value + 1))} className="vzn-button-ghost rounded-lg border px-3 py-2">Next</button>
-                <button onClick={() => window.print()} className="vzn-button-ghost rounded-lg border px-3 py-2">Export PDF</button>
-                <a 
-                  href="https://slides.new" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="vzn-button-ghost inline-flex items-center gap-1.5 rounded-lg border px-3 py-2 hover:border-[var(--purple)]"
-                >
-                  Create in Google Slides ↗
-                </a>
-              </div>
+              <InteractivePitchDeck 
+                slides={slides} 
+                onExportPdf={() => window.print()} 
+                isFallback={!localStartup || slides === defaultSlides || slides[0]?.headline === 'Investor-grade proof goes here.'} 
+              />
             </section>
 
             <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
