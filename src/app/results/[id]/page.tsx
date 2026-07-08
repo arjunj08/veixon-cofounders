@@ -184,7 +184,12 @@ function FounderDNA({ startupId, startup }: { startupId: string; startup: any })
     setSharing(true)
     try {
       const html2canvas = (await import('html2canvas')).default
-      const canvas = await html2canvas(ref.current, { width: 1080, height: 1080, backgroundColor: null })
+      const canvas = await html2canvas(ref.current, {
+        useCORS: true,
+        allowTaint: false,
+        backgroundColor: '#0a0817',
+        scale: 2
+      })
       const link = document.createElement('a')
       link.download = 'veixon-founder-dna.png'
       link.href = canvas.toDataURL('image/png')
@@ -210,7 +215,9 @@ function FounderDNA({ startupId, startup }: { startupId: string; startup: any })
     <motion.section initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="vzn-panel-strong rounded-[1.5rem] p-6">
       <div ref={ref} className="vzn-panel rounded-2xl p-6">
         <div className="mb-6 flex items-center gap-3">
-          <VZNAvatar size="sm" />
+          <div data-html2canvas-ignore="true">
+            <VZNAvatar size="sm" />
+          </div>
           <div>
             <div className="text-xs font-semibold uppercase tracking-widest text-[var(--purple)]">Founder DNA - Analysed by VZN</div>
             <h2 className="text-2xl font-bold">{dna.founderType}</h2>

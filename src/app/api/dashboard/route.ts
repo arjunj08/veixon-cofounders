@@ -88,7 +88,7 @@ export async function GET(_req: Request) {
       insight: checkin?.vznVoice || startup?.vznVoice || 'Run your first check-in and I will tell you where you are drifting.',
       stats: {
         startupHealth: health(startup),
-        accountability: startup?.accountabilityScore || checkin?.accountabilityScore || 0,
+        accountability: Math.min(100, startup?.accountabilityScore || checkin?.accountabilityScore || 0),
         decisionsThisMonth: decisions.length,
         pivotStatus,
         completedCount,

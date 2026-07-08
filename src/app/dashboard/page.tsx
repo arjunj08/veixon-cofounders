@@ -17,6 +17,7 @@ import AnimatedNumber from '@/components/ui/motion/AnimatedNumber'
 import { DashboardSkeleton } from '@/components/ui/motion/Skeleton'
 
 function Ring({ value, color }: { value: number; color: string }) {
+  const capped = Math.min(100, Math.max(0, Math.round(value)))
   const radius = 34
   const circumference = 2 * Math.PI * radius
   return (
@@ -32,10 +33,10 @@ function Ring({ value, color }: { value: number; color: string }) {
           strokeWidth="6"
           strokeLinecap="round"
           strokeDasharray={circumference}
-          strokeDashoffset={circumference - (value / 100) * circumference}
+          strokeDashoffset={circumference - (capped / 100) * circumference}
         />
       </svg>
-      <span className="text-2xl font-bold">{value}</span>
+      <span className="text-2xl font-bold">{capped}</span>
     </div>
   )
 }
@@ -222,19 +223,23 @@ export default function DashboardPage() {
   const todayKey = new Date().toISOString().slice(0, 10)
   const isMonday = new Date().getDay() === 1
   const oathDismissed = useMemo(() => (typeof window !== 'undefined' ? window.localStorage.getItem(`oath_${todayKey}`) === '1' : false), [todayKey])
-  const completedCount = data?.stats?.completedCount ?? data?.startup?.completedTasks?.length ?? 0
   const totalTasks = data?.stats?.totalTasks ?? 90
-  const taskProgress =
+  const completedCount = Math.min(totalTasks, data?.stats?.completedCount ?? data?.startup?.completedTasks?.length ?? 0)
+  const taskProgress = Math.min(100,
     data?.stats?.taskProgress ??
     percentFromRate(Number(data?.startup?.taskCompletionRate || 0))
+  )
 
   async function saveBurn() {
     if (!data?.startup?.id) return
-    const update = {
-      burnRate: Number(burnForm.burnRate) || 0,
-      cashInBank: Number(burnForm.cashInBank) || 0,
-      monthlyRevenue: Number(burnForm.monthlyRevenue) || 0,
+    const burnRate = Number(burnForm.burnRate) || 0
+    const cashInBank = Number(burnForm.cashInBank) || 0
+    const monthlyRevenue = Number(burnForm.monthlyRevenue) || 0
+    if (isNaN(burnRate) || isNaN(cashInBank) || isNaN(monthlyRevenue)) {
+      alert('Please enter valid numbers for burn rate, cash, and revenue.')
+      return
     }
+    const update = { burnRate, cashInBank, monthlyRevenue }
     await fetch(`/api/startups/${data.startup.id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
@@ -252,15 +257,15 @@ export default function DashboardPage() {
     setData((prev: any) => {
       if (!prev?.startup) return prev
 
+      const nextTotalTasks = progress.totalTasks ?? prev.stats?.totalTasks ?? 90
       const nextStartup = {
         ...prev.startup,
         completedTasks: progress.completedTasks || prev.startup.completedTasks || [],
-        taskCompletionRate: progress.taskCompletionRate ?? prev.startup.taskCompletionRate,
-        accountabilityScore: progress.accountabilityScore ?? prev.startup.accountabilityScore,
+        taskCompletionRate: Math.min(1.0, progress.taskCompletionRate ?? prev.startup.taskCompletionRate ?? 0),
+        accountabilityScore: Math.min(100, progress.accountabilityScore ?? prev.startup.accountabilityScore ?? 0),
       }
-      const nextCompletedCount = progress.completedCount ?? nextStartup.completedTasks.length ?? 0
-      const nextTotalTasks = progress.totalTasks ?? prev.stats?.totalTasks ?? 90
-      const nextTaskProgress = percentFromRate(Number(nextStartup.taskCompletionRate || 0))
+      const nextCompletedCount = Math.min(nextTotalTasks, progress.completedCount ?? nextStartup.completedTasks.length ?? 0)
+      const nextTaskProgress = Math.min(100, percentFromRate(Number(nextStartup.taskCompletionRate || 0)))
       const nextPivotStatus =
         Number(nextStartup.taskCompletionRate || 0) > 0.7
           ? 'GREEN'
@@ -388,14 +393,20 @@ export default function DashboardPage() {
                 <BurnClock burnRate={data.startup.burnRate} cashInBank={data.startup.cashInBank} monthlyRevenue={data.startup.monthlyRevenue} />
                 <div className="mt-5 grid gap-2">
                   {([
-                    ['burnRate', 'Monthly Burn Rate ($ or ₹)'],
-                    ['cashInBank', 'Cash in Bank ($ or ₹)'],
-                    ['monthlyRevenue', 'Monthly Revenue ($ or ₹)']
+                    ['burnRate', 'Monthly Burn Rate (₹)'],
+                    ['cashInBank', 'Cash in Bank (₹)'],
+                    ['monthlyRevenue', 'Monthly Revenue (₹)']
                   ] as const).map(([key, label]) => (
                     <input
                       key={key}
+                      type="number"
+                      inputMode="decimal"
+                      min={0}
                       value={burnForm[key]}
-                      onChange={(event) => setBurnForm((prev) => ({ ...prev, [key]: event.target.value }))}
+                      onChange={(event) => {
+                        const val = event.target.value.replace(/[^0-9.]/g, '')
+                        setBurnForm((prev) => ({ ...prev, [key]: val }))
+                      }}
                       placeholder={label}
                       className="focus-ring vzn-input rounded-lg px-3 py-2 text-sm"
                     />

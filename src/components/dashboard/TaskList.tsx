@@ -76,14 +76,14 @@ export default function TaskList({
     if (!startupId) {
       const total = 90
       const done = nextCompleted.length
-      const rate = done / total
-      const score = Math.round(rate * 100)
+      const rate = Math.min(1.0, done / total)
+      const score = Math.min(100, Math.round(rate * 100))
       const nextProgress: TaskProgress = {
         taskId,
         taskCompletionRate: rate,
         accountabilityScore: score,
         completedTasks: nextCompleted.map(id => ({ taskId: id, completedAt: new Date().toISOString() })),
-        completedCount: done,
+        completedCount: Math.min(total, done),
         totalTasks: total,
       }
       setProgress(nextProgress)
@@ -124,8 +124,8 @@ export default function TaskList({
       console.warn('Backend task completion sync failed, using local storage cache:', error)
       const total = 90
       const done = nextCompleted.length
-      const rate = done / total
-      const score = Math.round(rate * 100)
+      const rate = Math.min(1.0, done / total)
+      const score = Math.min(100, Math.round(rate * 100))
       
       const localCompletedTasks = nextCompleted.map(id => ({ taskId: id, completedAt: new Date().toISOString() }))
       
