@@ -235,10 +235,14 @@ export default function VaultClient({ startup, initialUnlocked, progress }: { st
       </div>
 
       {selectedVc && (
-        <div className="fixed inset-0 z-50 grid place-items-center bg-[var(--bg-primary)]/80 p-6 backdrop-blur-sm">
-          <div className="vzn-panel-strong w-full max-w-[640px] rounded-[1.5rem] p-6">
-            <button onClick={() => setSelectedVc(null)} className="float-right"><X className="h-5 w-5" /></button>
-            <h3 className="text-xl font-bold">Intro email to {selectedVc[0]}</h3>
+        <div className="fixed inset-0 z-50 grid place-items-center bg-[var(--bg-primary)]/80 p-6 backdrop-blur-sm" onClick={() => setSelectedVc(null)}>
+          <div className="vzn-panel-strong w-full max-w-[640px] rounded-[1.5rem] p-6" onClick={(e) => e.stopPropagation()}>
+            <div className="mb-4 flex items-center justify-between gap-4">
+              <h3 className="text-xl font-bold">Intro email to {selectedVc[0]}</h3>
+              <button onClick={() => setSelectedVc(null)} className="flex-shrink-0 rounded-lg p-2 text-[var(--text-muted)] transition-colors hover:bg-[var(--border)] hover:text-[var(--text-primary)]" aria-label="Close modal">
+                <X className="h-5 w-5" />
+              </button>
+            </div>
             {introLoading ? (
               <div className="mt-8 flex flex-col items-center justify-center gap-3 py-10 text-center" style={{ color: 'var(--text-muted)' }}>
                 <Loader2 className="h-7 w-7 animate-spin text-[var(--purple)]" />
