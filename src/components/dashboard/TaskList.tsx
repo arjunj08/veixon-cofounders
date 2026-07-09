@@ -30,7 +30,8 @@ export default function TaskList({
 }) {
   const [completed, setCompleted] = useState<string[]>(() => {
     if (typeof window === 'undefined') return initialCompleted
-    const local = window.localStorage.getItem(`veixon_completed_tasks_${startupId}`)
+    const targetId = startupId || window.localStorage.getItem('visionix_active_startup_id') || 'guest'
+    const local = window.localStorage.getItem(`veixon_completed_tasks_${targetId}`)
     if (local) {
       try {
         const parsed = JSON.parse(local)
@@ -45,8 +46,9 @@ export default function TaskList({
   const [progress, setProgress] = useState<TaskProgress | null>(null)
 
   useEffect(() => {
-    if (typeof window === 'undefined' || !startupId) return
-    const local = window.localStorage.getItem(`veixon_completed_tasks_${startupId}`)
+    if (typeof window === 'undefined') return
+    const targetId = startupId || window.localStorage.getItem('visionix_active_startup_id') || 'guest'
+    const local = window.localStorage.getItem(`veixon_completed_tasks_${targetId}`)
     if (local) {
       try {
         const parsed = JSON.parse(local)
@@ -78,11 +80,32 @@ export default function TaskList({
       const done = nextCompleted.length
       const rate = Math.min(1.0, done / total)
       const score = Math.min(100, Math.round(rate * 100))
+      const localCompletedTasks = nextCompleted.map(id => ({ taskId: id, completedAt: new Date().toISOString() }))
+
+      if (typeof window !== 'undefined') {
+        const activeId = window.localStorage.getItem('visionix_active_startup_id')
+        if (activeId) {
+          window.localStorage.setItem(`veixon_completed_tasks_${activeId}`, JSON.stringify(nextCompleted))
+          const localRecord = window.localStorage.getItem(`veixon_startup_${activeId}`)
+          if (localRecord) {
+            try {
+              const parsed = JSON.parse(localRecord)
+              parsed.completedTasks = localCompletedTasks
+              parsed.taskCompletionRate = rate
+              parsed.accountabilityScore = score
+              window.localStorage.setItem(`veixon_startup_${activeId}`, JSON.stringify(parsed))
+            } catch {}
+          }
+        } else {
+          window.localStorage.setItem(`veixon_completed_tasks_guest`, JSON.stringify(nextCompleted))
+        }
+      }
+
       const nextProgress: TaskProgress = {
         taskId,
         taskCompletionRate: rate,
         accountabilityScore: score,
-        completedTasks: nextCompleted.map(id => ({ taskId: id, completedAt: new Date().toISOString() })),
+        completedTasks: localCompletedTasks,
         completedCount: Math.min(total, done),
         totalTasks: total,
       }
