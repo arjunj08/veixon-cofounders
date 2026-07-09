@@ -7,6 +7,7 @@ import VaultProgress from '@/components/dashboard/VaultProgress'
 import VaultLockMesh from '@/components/vault/VaultLockMesh'
 import InteractivePitchDeck from '@/components/vault/InteractivePitchDeck'
 import { Download, Loader2, Lock, Mail, X } from 'lucide-react'
+import { addNotification } from '@/lib/client-notifications'
 
 const vcs = [
   ['Sequoia India', 'Peak XV', 'Rs 5-50Cr', 'Seed-Growth'],
@@ -127,6 +128,7 @@ export default function VaultClient({ startup, initialUnlocked, progress }: { st
       const data = await res.json()
       if (data?.error) throw new Error(data.error)
       setEmail(data)
+      addNotification(`AI Pitch Email drafted for VC ${vc[0]}. Click to review in the Vault.`, "/vault")
     } catch {
       setIntroError('VZN could not draft this intro right now. Close and try again.')
     } finally {
@@ -148,6 +150,7 @@ export default function VaultClient({ startup, initialUnlocked, progress }: { st
       if (data.slides) {
         setSlides([...data.slides, { slideNumber: 13, title: 'VZN Verification Badge', headline: 'Execution verified by VZN.', bullets: ['Scorecard complete.', 'War plan active.', 'Accountability tracked.'], vznNote: 'This badge means the founder executed before asking.' }])
         setSlide(0)
+        addNotification("Interactive 3D Pitch Deck simulated successfully. Open the Vault to view it.", "/vault")
       } else {
         throw new Error('no slides')
       }

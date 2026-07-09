@@ -15,6 +15,7 @@ import VznMatrixCore from '@/components/dashboard/VznMatrixCore'
 import NotificationPermission from '@/components/ui/NotificationPermission'
 import AnimatedNumber from '@/components/ui/motion/AnimatedNumber'
 import { DashboardSkeleton } from '@/components/ui/motion/Skeleton'
+import { addNotification } from '@/lib/client-notifications'
 
 function Ring({ value, color }: { value: number; color: string }) {
   const capped = Math.min(100, Math.max(0, Math.round(value)))
@@ -131,10 +132,18 @@ export default function DashboardPage() {
                   accountabilityScore: score,
                 }
                 payload.tasks = tasks
+                let decisionsList = []
+                const storedDecisions = window.localStorage.getItem(`veixon_decisions_${activeId}`)
+                if (storedDecisions) {
+                  try {
+                    decisionsList = JSON.parse(storedDecisions)
+                  } catch {}
+                }
+                payload.decisions = decisionsList
                 payload.stats = {
                   startupHealth: 50,
                   accountability: score,
-                  decisionsThisMonth: 0,
+                  decisionsThisMonth: decisionsList.length,
                   pivotStatus: 'AMBER',
                   completedCount: completedTasks.length,
                   totalTasks: 90,
@@ -185,6 +194,14 @@ export default function DashboardPage() {
               week: t.week || activeWeek
             }))
 
+            let decisionsList = []
+            const storedDecisions = window.localStorage.getItem(`veixon_decisions_${activeId}`)
+            if (storedDecisions) {
+              try {
+                decisionsList = JSON.parse(storedDecisions)
+              } catch {}
+            }
+
             const fallbackPayload = {
               startup: {
                 ...parsed,
@@ -193,13 +210,13 @@ export default function DashboardPage() {
                 accountabilityScore: score,
               },
               checkin: null,
-              decisions: [],
+              decisions: decisionsList,
               tasks,
               insight: parsed.vznVoice || 'Run your first check-in and I will tell you where you are drifting.',
               stats: {
                 startupHealth: 50,
                 accountability: score,
-                decisionsThisMonth: 0,
+                decisionsThisMonth: decisionsList.length,
                 pivotStatus: 'AMBER',
                 completedCount: completedTasks.length,
                 totalTasks: 90,
@@ -244,8 +261,29 @@ export default function DashboardPage() {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(update),
-    })
+    }).catch(() => {})
+
+    // Local storage fallback persistence
+    if (typeof window !== 'undefined') {
+      const activeId = window.localStorage.getItem('visionix_active_startup_id')
+      if (activeId) {
+        const local = window.localStorage.getItem(`veixon_startup_${activeId}`)
+        if (local) {
+          try {
+            const parsed = JSON.parse(local)
+            parsed.burnRate = burnRate
+            parsed.cashInBank = cashInBank
+            parsed.monthlyRevenue = monthlyRevenue
+            window.localStorage.setItem(`veixon_startup_${activeId}`, JSON.stringify(parsed))
+          } catch (e) {
+            console.error(e)
+          }
+        }
+      }
+    }
+
     setData((prev: any) => ({ ...prev, startup: { ...prev.startup, ...update } }))
+    addNotification("Startup burn rate and cash runway parameters updated successfully.", "/dashboard")
   }
 
   function dismissOath() {

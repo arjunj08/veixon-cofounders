@@ -8,6 +8,7 @@ import { ArrowRight } from 'lucide-react'
 import VZNAvatar from '@/components/ui/VZNAvatar'
 import VznMatrixCore from '@/components/dashboard/VznMatrixCore'
 import AppShell from '@/components/AppShell'
+import { addNotification } from '@/lib/client-notifications'
 
 export default function IntakePage() {
   const router = useRouter()
@@ -83,6 +84,7 @@ export default function IntakePage() {
       }
       window.localStorage.setItem(`veixon_startup_${data.id}`, JSON.stringify(localRecord))
       window.localStorage.setItem('visionix_active_startup_id', data.id)
+      addNotification("Startup vision initialized! Your 90-day execution plan is ready on the dashboard.", "/dashboard")
       setProgress(100)
       router.push(`/results/${data.id}`)
     } catch (err: any) {

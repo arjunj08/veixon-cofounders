@@ -14,6 +14,7 @@ import {
   Settings,
   Share2,
   Zap,
+  MessageSquare
 } from 'lucide-react'
 import ThemeToggle from '@/components/ui/ThemeToggle'
 
@@ -30,7 +31,7 @@ const groups: { label: string; items: { href: string; label: string; icon: any }
     label: 'Execute',
     items: [
       { href: '/decisions', label: 'Decisions', icon: Zap },
-      { href: '/dashboard#pivot', label: 'Pivot Radar', icon: Radar },
+      { href: '/dashboard/competitors', label: 'Competitor Radar', icon: Radar },
       { href: '/checkins', label: 'Check-ins', icon: CheckSquare },
     ],
   },
@@ -38,6 +39,7 @@ const groups: { label: string; items: { href: string; label: string; icon: any }
     label: 'Growth',
     items: [
       { href: '/vault', label: 'VC Vault', icon: Lock },
+      { href: '/vault/pitch-prep', label: 'Pitch Prep', icon: MessageSquare },
       { href: '/dashboard#share', label: 'Share', icon: Share2 },
       { href: '/settings', label: 'Settings', icon: Settings },
     ],

@@ -11,7 +11,7 @@ import time
 import re
 
 # Base URL from .env
-BASE_URL = "https://founder-launchpad-11.preview.emergentagent.com/api"
+BASE_URL = "http://localhost:3000/api"
 
 # Test data - realistic startup idea
 TEST_IDEA = "A B2B SaaS platform that helps mid-sized e-commerce companies optimize their inventory management using AI-powered demand forecasting. The platform integrates with existing ERP systems and provides real-time recommendations to reduce stockouts and overstock situations."
