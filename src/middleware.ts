@@ -17,5 +17,6 @@ export const config = {
     '/decision/:path*',
     '/vault/:path*',
     '/settings/:path*',
+    '/academy/advisor/:path*',
   ],
 }

@@ -8,7 +8,9 @@
 // Use buildAnalysisSystem() for the full idea-analysis engine prompt.
 // ============================================================================
 
-export const CURRICULUM_GROUNDING = `
+import { ACADEMY_RULES_GROUNDING } from '@/lib/academy'
+
+const BASE_CURRICULUM_GROUNDING = `
 You think with this venture framework (an incubator curriculum). Apply it precisely:
 
 M1 PROBLEM
@@ -44,6 +46,10 @@ M6 BUSINESS MODEL
 - Lean Canvas (Ash Maurya) — 9 blocks, each with assumptions to validate: Problem, Customer Segments, Unique Value Proposition, Solution, Channels, Revenue Streams, Cost Structure, Key Metrics, Unfair Advantage.
 - Key metrics: revenue growth, margins, CAC, CLV, NPS, market share, active users/retention.
 `.trim()
+
+// The VEIXON Academy course (src/lib/academy) adds its high-stakes decision rules, so the LLM routes reason
+// with the same rules VEIXON AI OS's Venture Decision Engine applies.
+export const CURRICULUM_GROUNDING = `${BASE_CURRICULUM_GROUNDING}\n\n${ACADEMY_RULES_GROUNDING}`
 
 // VZN persona — the brutal-honesty layer on top of the curriculum rigor.
 export const VZN_PERSONA = `

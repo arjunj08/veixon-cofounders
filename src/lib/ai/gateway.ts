@@ -10,11 +10,13 @@ function envChain(name: string, fallback: ProviderName[]): ProviderName[] {
   if (!v) return fallback
   return v.split(',').map((s) => s.trim()).filter(Boolean) as ProviderName[]
 }
-const PRIMARY = (process.env.AI_PRIMARY_PROVIDER as ProviderName) || 'nvidia'
+// When VEIXON AI OS is connected it is the primary provider (set AI_PRIMARY_PROVIDER to override);
+// the hosted providers stay in the chain as fallbacks, so the app keeps working if AI OS is down.
+const PRIMARY = (process.env.AI_PRIMARY_PROVIDER as ProviderName) || (process.env.VEIXON_AIOS_URL && process.env.VEIXON_AIOS_API_KEY ? 'veixon' : 'nvidia')
 const CHAINS: Record<Tier, ProviderName[]> = {
-  default: envChain('AI_CHAIN_DEFAULT', [PRIMARY, 'openai', 'groq', 'gemini', 'anthropic']),
-  fast: envChain('AI_CHAIN_FAST', ['groq', PRIMARY, 'openai', 'gemini']),
-  strong: envChain('AI_CHAIN_STRONG', ['anthropic', 'openai', PRIMARY, 'gemini']),
+  default: envChain('AI_CHAIN_DEFAULT', [PRIMARY, 'nvidia', 'openai', 'groq', 'gemini', 'anthropic']),
+  fast: envChain('AI_CHAIN_FAST', ['groq', PRIMARY, 'nvidia', 'openai', 'gemini']),
+  strong: envChain('AI_CHAIN_STRONG', ['anthropic', 'openai', PRIMARY, 'nvidia', 'gemini']),
 }
 
 // ---- per-provider circuit breaker (in-memory; moves to Redis in the events phase) ----
@@ -42,7 +44,7 @@ export function setUsageSink(fn: (e: UsageEvent) => void) { usageSink = fn }
 const PRICES: Partial<Record<ProviderName, { in: number; out: number }>> = {
   openai: { in: 0.00015, out: 0.0006 }, anthropic: { in: 0.003, out: 0.015 },
   gemini: { in: 0.000075, out: 0.0003 }, groq: { in: 0.00005, out: 0.00008 },
-  nvidia: { in: 0, out: 0 }, ollama: { in: 0, out: 0 },
+  nvidia: { in: 0, out: 0 }, ollama: { in: 0, out: 0 }, veixon: { in: 0, out: 0 },
 }
 function record(r: ChatResult, userId?: string) {
   const p = PRICES[r.provider]
@@ -70,8 +72,40 @@ function resolveChain(opts?: ChatOptions): ProviderName[] {
   })
 }
 
+// ---- VEIXON Academy grounding (every AI feature inherits the course knowledge from VEIXON AI OS) ----
+function groundingQuery(req: ChatRequest, opts?: ChatOptions): string {
+  if (typeof opts?.academy === 'string') return opts.academy
+  const lastUser = [...req.messages].reverse().find((m) => m.role === 'user')?.content || ''
+  // Many routes send a JSON body as the user message: search on its text values, not its keys.
+  let text = lastUser
+  try {
+    const parsed = JSON.parse(lastUser)
+    const vals: string[] = []
+    const walk = (v: any) => {
+      if (typeof v === 'string') vals.push(v)
+      else if (Array.isArray(v)) v.forEach(walk)
+      else if (v && typeof v === 'object') Object.values(v).forEach(walk)
+    }
+    walk(parsed)
+    text = vals.join(' ')
+  } catch {}
+  return text.slice(0, 400)
+}
+
+async function withAcademy(req: ChatRequest, opts?: ChatOptions): Promise<ChatRequest> {
+  if (opts?.academy === false || req.system?.includes('VEIXON ACADEMY KNOWLEDGE')) return req
+  try {
+    const { academyContext } = await import('@/lib/academy/brain')
+    const ctx = await academyContext(groundingQuery(req, opts))
+    return ctx ? { ...req, system: `${req.system || ''}\n\n${ctx}`.trim() } : req
+  } catch {
+    return req
+  }
+}
+
 /** Core call: tries the provider chain with retries + circuit breaker, returns the first success. */
 export async function chat(req: ChatRequest, opts?: ChatOptions): Promise<ChatResult> {
+  req = await withAcademy(req, opts)
   const chain = resolveChain(opts)
   if (!chain.length) throw new AiError('No LLM provider is configured', 'no_provider')
   const retries = opts?.retries ?? 2
@@ -150,9 +184,18 @@ export async function chatJsonSafe<T>(schema: ZodSchema<T>, req: ChatRequest, op
       { role: 'user', content: `Your previous reply failed validation (${a.error}). Reply again with ONLY corrected JSON that matches the required schema exactly — no prose, no markdown.` },
     ],
   }
-  const second = await chat(repair, { ...opts, retries: 0 })
+  const second = await chat(repair, { ...opts, retries: 0, academy: false })
   const b = parseWith(schema, second.text) as ({ ok: true; value: T } | { ok: false; error: string }) & { error?: string }
   if (b.ok) return b.value
+  // A smaller local model (e.g. VEIXON AI OS) may miss a large schema: give the next provider in the chain one try.
+  const rest = resolveChain(opts).filter((p) => p !== second.provider)
+  if (rest.length) {
+    try {
+      const third = await chat({ ...req, json: true }, { ...opts, providers: rest, retries: 0 })
+      const c = parseWith(schema, third.text)
+      if (c.ok) return (c as { ok: true; value: T }).value
+    } catch {}
+  }
   throw new AiError(`AI output failed schema validation: ${b.error}`, 'schema_invalid', second.provider)
 }
 

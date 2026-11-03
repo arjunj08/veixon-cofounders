@@ -1,5 +1,5 @@
 // AI Gateway — provider adapters (infrastructure layer).
-// OpenAI-compatible (OpenAI/Groq/Ollama/NVIDIA) share one base; Anthropic + Gemini are bespoke.
+// OpenAI-compatible (OpenAI/Groq/Ollama/NVIDIA/VEIXON AI OS) share one base; Anthropic + Gemini are bespoke.
 import { AiError, type ChatRequest, type ChatResult, type LlmProvider, type ProviderName } from './types'
 
 // Pull the first valid JSON object/array out of a model response (handles <think> + ```json fences).
@@ -127,6 +127,8 @@ const REGISTRY: Record<ProviderName, LlmProvider> = {
   openai: oaiProvider('openai', process.env.OPENAI_BASE_URL || 'https://api.openai.com/v1', 'OPENAI_API_KEY', process.env.OPENAI_MODEL || 'gpt-4o-mini', true),
   groq: oaiProvider('groq', 'https://api.groq.com/openai/v1', 'GROQ_API_KEY', process.env.GROQ_MODEL || 'llama-3.3-70b-versatile', true),
   ollama: oaiProvider('ollama', process.env.OLLAMA_BASE_URL || 'http://localhost:11434/v1', null, process.env.OLLAMA_MODEL || 'llama3.1', false),
+  // VEIXON AI OS (our own AI): OpenAI-compatible /v1 with a vx_live_ key; "auto" lets AI OS route to its best model (Veixon-1 once promoted).
+  veixon: oaiProvider('veixon', (process.env.VEIXON_AIOS_URL || 'http://localhost:8000').replace(/\/$/, '') + '/v1', 'VEIXON_AIOS_API_KEY', process.env.VEIXON_MODEL || 'auto', true),
   anthropic,
   gemini,
 }

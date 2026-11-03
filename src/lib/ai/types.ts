@@ -1,7 +1,7 @@
 // AI Gateway — domain port + types. Provider-agnostic LLM contract.
 // Structured so this whole folder lifts into a NestJS `ai-gateway` module unchanged.
 
-export type ProviderName = 'openai' | 'anthropic' | 'gemini' | 'groq' | 'ollama' | 'nvidia'
+export type ProviderName = 'openai' | 'anthropic' | 'gemini' | 'groq' | 'ollama' | 'nvidia' | 'veixon'
 
 export interface ChatMessage {
   role: 'system' | 'user' | 'assistant'
@@ -62,6 +62,9 @@ export interface ChatOptions {
   retries?: number
   cache?: boolean
   userId?: string
+  // VEIXON Academy grounding: course passages from VEIXON AI OS are added to the system prompt.
+  // Default on when AI OS is connected; false = off; a string = use it as the search query.
+  academy?: boolean | string
 }
 
 export interface UsageEvent {

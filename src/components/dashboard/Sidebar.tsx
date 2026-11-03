@@ -5,6 +5,8 @@ import { usePathname } from 'next/navigation'
 import { signOut, useSession } from 'next-auth/react'
 import {
   CheckSquare,
+  Compass,
+  GraduationCap,
   LayoutDashboard,
   Lightbulb,
   Lock,
@@ -33,6 +35,13 @@ const groups: { label: string; items: { href: string; label: string; icon: any }
       { href: '/decisions', label: 'Decisions', icon: Zap },
       { href: '/dashboard/competitors', label: 'Competitor Radar', icon: Radar },
       { href: '/checkins', label: 'Check-ins', icon: CheckSquare },
+    ],
+  },
+  {
+    label: 'Learn',
+    items: [
+      { href: '/academy', label: 'Academy', icon: GraduationCap },
+      { href: '/academy/advisor', label: 'Decision Advisor', icon: Compass },
     ],
   },
   {

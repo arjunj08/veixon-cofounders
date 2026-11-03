@@ -1,4 +1,8 @@
-// Server-only LLM client — NVIDIA Nemotron (primary) or Emergent gateway (fallback)
+// Server-only LLM client used by the builder agents (src/lib/agents).
+// Every call now goes through the AI Gateway (src/lib/ai): VEIXON AI OS first when connected, then NVIDIA /
+// OpenAI / … with retries, circuit breaker and VEIXON Academy grounding. The original direct NVIDIA /
+// Emergent client below is kept only as a last resort (e.g. when only EMERGENT_LLM_KEY is set).
+import { chat as gatewayChat, extractJson, listConfiguredProviders } from '@/lib/ai'
 
 const NVIDIA_URL = (process.env.NVIDIA_BASE_URL || 'https://integrate.api.nvidia.com/v1').replace(/\/$/, '') + '/chat/completions'
 const EMERGENT_URL = 'https://integrations.emergentagent.com/llm/v1/chat/completions'
@@ -16,7 +20,22 @@ function getModel(provider) {
   return process.env.CLAUDE_MODEL_ID || 'claude-sonnet-4-20250514'
 }
 
-export async function chatLLM({ system, user, model, jsonOnly = false, maxTokens = 2000, temperature = 0.6, messages = null }) {
+export async function chatLLM(args) {
+  const { system, user, jsonOnly = false, maxTokens = 2000, temperature = 0.6, messages = null } = args
+  if (listConfiguredProviders().length) {
+    try {
+      const msgs = (messages || [{ role: 'user', content: user || '' }]).filter((m) => m.role !== 'system')
+      const sys = [system, ...(messages || []).filter((m) => m.role === 'system').map((m) => m.content)].filter(Boolean).join('\n\n')
+      const res = await gatewayChat({ system: sys, messages: msgs, maxTokens, temperature, json: jsonOnly, timeoutMs: 120000 }, { tier: 'default', retries: 1 })
+      return res.text
+    } catch (e) {
+      if (!process.env.EMERGENT_LLM_KEY && !process.env.NVIDIA_API_KEY) throw e
+    }
+  }
+  return legacyChatLLM(args)
+}
+
+async function legacyChatLLM({ system, user, model, jsonOnly = false, maxTokens = 2000, temperature = 0.6, messages = null }) {
   const provider = getProvider()
   const key = provider === 'nvidia' ? process.env.NVIDIA_API_KEY : process.env.EMERGENT_LLM_KEY
   const url = provider === 'nvidia' ? NVIDIA_URL : EMERGENT_URL
@@ -83,6 +102,9 @@ export async function jsonLLM({ system, user, schema_hint, maxTokens = 4000 }) {
 
   const raw = await chatLLM({ system: fullSystem, user, jsonOnly: true, maxTokens, temperature: 0.4 })
 
+  try {
+    return JSON.parse(extractJson(raw))
+  } catch {}
   try {
     return JSON.parse(raw)
   } catch (e) {

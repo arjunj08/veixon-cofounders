@@ -1,0 +1,4213 @@
+{
+ "generated_from": "VEIXON AI OS app/venture/course_data.py — do not edit by hand; run scripts/export_academy.py",
+ "title": "VEIXON Academy: Entrepreneurship, end to end",
+ "subtitle": "From a problem worth solving to a company that scales — with the decisions in between.",
+ "version": "2026.11.1",
+ "modules": [
+  {
+   "id": "m1",
+   "title": "Foundations: what a startup really is",
+   "outcome": "Know what makes a startup different, how expert entrepreneurs think, and the patterns behind failure.",
+   "lessons": [
+    {
+     "id": "m1-l1",
+     "title": "What a startup is — and the stages it goes through",
+     "minutes": 12,
+     "summary": "A startup is a company designed to grow fast, searching for a business model that repeats and scales. It moves through stages, and the right work depends on the stage you are in.",
+     "key_ideas": [
+      "A small business aims to be profitable and stable; a startup aims for fast growth into a large market. Growth is the defining trait.",
+      "Early on you are searching, not executing: the business model is a set of guesses to test.",
+      "The usual stages are idea, problem-solution fit, MVP traction, product-market fit, and scale. Skipping a stage is the most common way to waste money.",
+      "Measure growth weekly or monthly. During an accelerator a good revenue growth rate is roughly 5-7% a week; most companies later aim for 10-20% a month early on.",
+      "Each stage has one main question: Is the problem real? Will people pay for this solution? Do they keep using it? Can we acquire customers profitably? Can we do it at scale?"
+     ],
+     "framework": {
+      "name": "Startup stage ladder",
+      "steps": [
+       "Idea — you believe a problem exists",
+       "Problem-solution fit — customers confirm the pain and commit to your solution",
+       "MVP traction — people use and pay for a first version",
+       "Product-market fit — a group of users would be very disappointed without you and keep using it",
+       "Scale — a repeatable, profitable acquisition engine; growth becomes an operations problem"
+      ]
+     },
+     "checklist": [
+      "Write down which stage you are in and the evidence for it",
+      "Write the one question your stage must answer",
+      "Pick the single metric that answers it"
+     ],
+     "pitfalls": [
+      "Hiring and spending like a scale-up while still at the idea stage",
+      "Measuring vanity numbers (downloads, followers) instead of the stage question"
+     ],
+     "india": [],
+     "quiz": [
+      {
+       "q": "What most distinguishes a startup from a small business?",
+       "options": [
+        "Using technology",
+        "Being designed for fast growth",
+        "Having investors",
+        "Being new"
+       ],
+       "answer": 1,
+       "why": "Many companies are new or use technology; a startup is built to grow fast into a large market."
+      },
+      {
+       "q": "A team with no customer interviews is hiring five engineers. Which stage problem is this?",
+       "options": [
+        "Scaling too early",
+        "Too little marketing",
+        "Wrong pricing",
+        "Bad legal structure"
+       ],
+       "answer": 0,
+       "why": "They are spending like a later stage before proving the problem exists — premature scaling."
+      }
+     ],
+     "sources": [
+      {
+       "title": "Paul Graham — Startup = Growth",
+       "url": "https://paulgraham.com/growth.html"
+      },
+      {
+       "title": "Y Combinator — Startup School",
+       "url": "https://www.startupschool.org/"
+      },
+      {
+       "title": "Steve Blank — Customer Development (The Four Steps to the Epiphany)",
+       "url": "https://steveblank.com/"
+      }
+     ],
+     "tags": [
+      "startup",
+      "growth",
+      "stages",
+      "lifecycle"
+     ],
+     "rules": [
+      {
+       "id": "stage-idea",
+       "says": "At the idea stage the only job is to confirm a painful problem for a specific customer.",
+       "severity": "medium"
+      },
+      {
+       "id": "stage-psf",
+       "says": "With a confirmed problem, the next job is to prove people commit to your solution before building much.",
+       "severity": "medium"
+      },
+      {
+       "id": "stage-mvp",
+       "says": "With early users and revenue, the job is product-market fit: retention and users who would be very disappointed without you.",
+       "severity": "medium"
+      },
+      {
+       "id": "stage-pmf",
+       "says": "After product-market fit, find a repeatable, profitable way to acquire customers.",
+       "severity": "medium"
+      },
+      {
+       "id": "stage-scale",
+       "says": "With fit and working unit economics, scaling the proven engine is the priority.",
+       "severity": "medium"
+      }
+     ]
+    },
+    {
+     "id": "m1-l2",
+     "title": "How expert entrepreneurs think (effectuation)",
+     "minutes": 10,
+     "summary": "Research on expert founders shows they rarely start with a fixed goal and a plan. They start with what they have, limit what they can lose, build partnerships and use surprises.",
+     "key_ideas": [
+      "Bird in hand: start with who you are, what you know and whom you know — not with a perfect idea.",
+      "Affordable loss: decide what you can afford to lose instead of forecasting returns you cannot know.",
+      "Crazy quilt: people who commit early (customers, partners) shape the venture with you.",
+      "Lemonade: treat surprises as information and opportunities, not only as threats.",
+      "Pilot in the plane: focus on what you can control; the future is made, not predicted."
+     ],
+     "framework": {
+      "name": "Effectuation — 5 principles (Sarasvathy)",
+      "steps": [
+       "Bird in hand",
+       "Affordable loss",
+       "Crazy quilt",
+       "Lemonade",
+       "Pilot in the plane"
+      ]
+     },
+     "checklist": [
+      "List your means: skills, network, savings, unfair insights",
+      "Set your affordable loss in money and months",
+      "Name three people who could commit something this week"
+     ],
+     "pitfalls": [
+      "Waiting for certainty before acting",
+      "Betting money or time you cannot afford to lose"
+     ],
+     "india": [],
+     "quiz": [
+      {
+       "q": "'Affordable loss' means:",
+       "options": [
+        "Spend the minimum on everything",
+        "Decide in advance what you can afford to lose",
+        "Never take risk",
+        "Forecast the expected return"
+       ],
+       "answer": 1,
+       "why": "Experts limit downside to what they can bear rather than chase forecasted upside."
+      },
+      {
+       "q": "A founder pivots after a customer asks for something unexpected. Which principle is this?",
+       "options": [
+        "Bird in hand",
+        "Lemonade",
+        "Crazy quilt",
+        "Pilot in the plane"
+       ],
+       "answer": 1,
+       "why": "Turning a surprise into an opportunity is the lemonade principle."
+      }
+     ],
+     "sources": [
+      {
+       "title": "Darden — Saras Sarasvathy on the five habits of expert entrepreneurs",
+       "url": "https://news.darden.virginia.edu/2024/05/01/breaking-down-the-five-habits-of-expert-entrepreneurs-with-saras-sarasvathy/"
+      }
+     ],
+     "tags": [
+      "mindset",
+      "effectuation",
+      "risk"
+     ],
+     "rules": []
+    },
+    {
+     "id": "m1-l3",
+     "title": "Why startups fail — and how to avoid the common traps",
+     "minutes": 10,
+     "summary": "Post-mortems of failed startups show the same causes again and again: building something nobody needs, running out of money, team problems, being out-competed and weak business models.",
+     "key_ideas": [
+      "'No market need' is the most cited reason in post-mortems (roughly 35-42% across updates of CB Insights' analysis).",
+      "Running out of cash or failing to raise is next (roughly 30-38%). Cash is usually the final cause, not the root cause.",
+      "Team problems, being out-competed, a poor product, no business model and pricing or cost issues each appear in a meaningful share.",
+      "Most failures have several causes; most are visible early if you look at the right evidence.",
+      "The defence is the method in this course: validate the problem, test before building, watch unit economics and runway, and agree founder terms early."
+     ],
+     "framework": null,
+     "checklist": [
+      "Run a pre-mortem: imagine it failed in 18 months and list why",
+      "For each cause, write the earliest warning sign",
+      "Put those warning signs on your monthly review"
+     ],
+     "pitfalls": [
+      "Treating 'we ran out of money' as the cause instead of what led to it",
+      "Ignoring co-founder conflict until it is too late"
+     ],
+     "india": [],
+     "quiz": [
+      {
+       "q": "Which reason is most cited in startup post-mortems?",
+       "options": [
+        "Bad location",
+        "No market need",
+        "Taxes",
+        "Too much funding"
+       ],
+       "answer": 1,
+       "why": "Building something people do not need is consistently the top cause."
+      },
+      {
+       "q": "What is the best early defence against 'no market need'?",
+       "options": [
+        "A bigger launch",
+        "Customer discovery before building",
+        "More features",
+        "A lower price"
+       ],
+       "answer": 1,
+       "why": "Discovery interviews and demand tests reveal missing need before money is spent."
+      }
+     ],
+     "sources": [
+      {
+       "title": "Why startups fail — CB Insights post-mortem findings (LaunchRock summary)",
+       "url": "https://www.launchrock.com/library/expert-advice/why-startups-fail"
+      },
+      {
+       "title": "Gary Klein — Performing a Project Premortem (HBR)",
+       "url": "https://hbr.org/2007/09/performing-a-project-premortem"
+      }
+     ],
+     "tags": [
+      "failure",
+      "risk",
+      "post-mortem"
+     ],
+     "rules": []
+    }
+   ]
+  },
+  {
+   "id": "m2",
+   "title": "Problem and opportunity",
+   "outcome": "Find a problem worth solving in an attractive market, and judge ideas honestly.",
+   "lessons": [
+    {
+     "id": "m2-l1",
+     "title": "Finding a problem worth solving",
+     "minutes": 12,
+     "summary": "Great startups start from a real, painful problem, not from a solution. A strong problem statement names who has it, why it matters to them and how it hurts today.",
+     "key_ideas": [
+      "A real problem is ongoing, significant, widespread and largely unaddressed.",
+      "Painkillers beat vitamins: people pay to remove pain sooner than to gain a nice-to-have.",
+      "Signs of a hair-on-fire problem: people already spend money or time on bad workarounds.",
+      "Use the 5 Whys to get past symptoms to the root cause; solving a symptom rarely builds a business.",
+      "Write the problem as: [segment] struggles to [job] because [root cause], which costs them [time/money/risk]."
+     ],
+     "framework": {
+      "name": "Problem statement",
+      "steps": [
+       "Who exactly has the problem",
+       "What job they are trying to get done",
+       "Why it is hard today (root cause)",
+       "What it costs them",
+       "How they cope now"
+      ]
+     },
+     "checklist": [
+      "Write your problem statement in one sentence",
+      "List 3 current workarounds and what they cost",
+      "Run the 5 Whys on the problem with a real customer"
+     ],
+     "pitfalls": [
+      "Starting from a technology and looking for a problem",
+      "Describing a problem only you have"
+     ],
+     "india": [],
+     "quiz": [
+      {
+       "q": "Which is the strongest evidence a problem is real?",
+       "options": [
+        "Friends say it's a great idea",
+        "People already pay for clumsy workarounds",
+        "A large market report",
+        "No competitors exist"
+       ],
+       "answer": 1,
+       "why": "Money and time already spent on workarounds prove the pain."
+      },
+      {
+       "q": "The 5 Whys helps you:",
+       "options": [
+        "Price the product",
+        "Find the root cause behind a symptom",
+        "Size the market",
+        "Write a pitch"
+       ],
+       "answer": 1,
+       "why": "Asking 'why' repeatedly moves you from symptoms to the underlying cause."
+      }
+     ],
+     "sources": [
+      {
+       "title": "Y Combinator — Startup School",
+       "url": "https://www.startupschool.org/"
+      },
+      {
+       "title": "Steve Blank — Customer Development (The Four Steps to the Epiphany)",
+       "url": "https://steveblank.com/"
+      }
+     ],
+     "tags": [
+      "problem",
+      "pain",
+      "5 whys",
+      "idea"
+     ],
+     "rules": []
+    },
+    {
+     "id": "m2-l2",
+     "title": "Industries, domains and trends",
+     "minutes": 9,
+     "summary": "An industry is a group of related companies; a domain is a specialised segment inside it. Good opportunities sit where a growing domain meets a change that makes a new solution possible.",
+     "key_ideas": [
+      "Look for 'why now': a new technology, a regulation, a behaviour shift or a cost drop that opens a door.",
+      "Judge macro attractiveness: size, growth, margins, fragmentation and how fast buyers adopt new tools.",
+      "Use PESTEL (political, economic, social, technological, environmental, legal) to scan for shifts.",
+      "Map the ecosystem: suppliers, customers, competitors, regulators and investors all shape what is possible.",
+      "In India, digital public infrastructure (UPI, Aadhaar-based KYC, ONDC, Account Aggregator) has created many 'why now' openings."
+     ],
+     "framework": null,
+     "checklist": [
+      "Write your 'why now' in one sentence",
+      "Run a PESTEL scan for your domain",
+      "List the ecosystem players and what each wants"
+     ],
+     "pitfalls": [
+      "Choosing a shrinking domain because it is familiar",
+      "Having no answer to 'why hasn't this been done before?'"
+     ],
+     "india": [
+      "India's digital public infrastructure (UPI, ONDC, Account Aggregator, DigiLocker) lowers the cost of payments, KYC and distribution for new products."
+     ],
+     "quiz": [
+      {
+       "q": "'Why now?' asks about:",
+       "options": [
+        "The founder's motivation",
+        "The change that makes the idea possible or urgent today",
+        "The launch date",
+        "Fundraising timing"
+       ],
+       "answer": 1,
+       "why": "Investors and founders look for the recent change that opens the opportunity."
+      },
+      {
+       "q": "A domain is:",
+       "options": [
+        "A website name",
+        "A specialised segment within an industry",
+        "A government licence",
+        "A sales territory"
+       ],
+       "answer": 1,
+       "why": "Industries are broad; domains are the specific segments inside them."
+      }
+     ],
+     "sources": [
+      {
+       "title": "Y Combinator — Startup School",
+       "url": "https://www.startupschool.org/"
+      }
+     ],
+     "tags": [
+      "market",
+      "trends",
+      "why now",
+      "industry"
+     ],
+     "rules": []
+    },
+    {
+     "id": "m2-l3",
+     "title": "Judging ideas: founder-market fit and the scale test",
+     "minutes": 10,
+     "summary": "An idea is worth pursuing when the problem is real, the market can be large, and you are the right people to win it. Judge ideas before falling in love with them.",
+     "key_ideas": [
+      "Founder-market fit: do you have unusual insight, access or skill for this market?",
+      "The scale test: could this credibly reach about ₹80 crore (≈$10M) in annual revenue in 3-5 years? If not, it may be a fine small business but a hard venture-backed startup.",
+      "Score ideas on pain, market size, founder fit, speed to first revenue and competition.",
+      "Prefer ideas where you can reach first customers within weeks.",
+      "Ideas are cheap; the evidence you collect about them is what has value."
+     ],
+     "framework": {
+      "name": "Idea scorecard (1-5 each)",
+      "steps": [
+       "Pain intensity",
+       "Market size and growth",
+       "Founder-market fit",
+       "Speed to first revenue",
+       "Defensibility"
+      ]
+     },
+     "checklist": [
+      "Score your top 3 ideas on the scorecard",
+      "Do the scale test with rough numbers",
+      "Write your unfair insight in one line"
+     ],
+     "pitfalls": [
+      "Choosing the idea you like most instead of the one with the most evidence",
+      "Ignoring that the market is too small to matter"
+     ],
+     "india": [],
+     "quiz": [
+      {
+       "q": "Founder-market fit means:",
+       "options": [
+        "Founders who like each other",
+        "Founders with unusual insight or access for this market",
+        "A big marketing budget",
+        "A founder from a top college"
+       ],
+       "answer": 1,
+       "why": "It is about why you, specifically, can win this market."
+      },
+      {
+       "q": "The scale test checks whether:",
+       "options": [
+        "The app scales technically",
+        "The business could reach a large revenue size in a few years",
+        "The team can grow",
+        "The office is big enough"
+       ],
+       "answer": 1,
+       "why": "It is a quick sanity check on market size and business model."
+      }
+     ],
+     "sources": [
+      {
+       "title": "Y Combinator — Startup School",
+       "url": "https://www.startupschool.org/"
+      },
+      {
+       "title": "Bill Aulet — Disciplined Entrepreneurship, 24 steps (summary)",
+       "url": "https://shreyapoddar.substack.com/p/disciplined-entrepreneurship-a-summary"
+      }
+     ],
+     "tags": [
+      "idea",
+      "evaluation",
+      "founder-market fit"
+     ],
+     "rules": []
+    }
+   ]
+  },
+  {
+   "id": "m3",
+   "title": "The customer",
+   "outcome": "Pick a beachhead segment, understand its jobs, and learn the truth from customer interviews.",
+   "lessons": [
+    {
+     "id": "m3-l1",
+     "title": "Segmentation and the beachhead market",
+     "minutes": 12,
+     "summary": "You cannot serve everyone at first. Segment the market, pick one beachhead where you can win quickly, and use it as a base to expand.",
+     "key_ideas": [
+      "Segment by demographics, psychographics, behaviour and geography — and for B2B by industry, size and role.",
+      "Choose a beachhead where customers are reachable, have money, feel the pain sharply, and talk to each other (word of mouth).",
+      "Separate the end user (who uses it) from the economic buyer (who pays) and the other people who influence the decision (the decision-making unit).",
+      "Win the beachhead decisively before moving to adjacent markets; dominance in a small market beats a sliver of a big one.",
+      "Disciplined Entrepreneurship starts with these steps: segment, pick the beachhead, profile the end user, size the beachhead, define a persona."
+     ],
+     "framework": {
+      "name": "Beachhead criteria",
+      "steps": [
+       "Customers have money to pay",
+       "You can reach them directly",
+       "The pain is acute",
+       "You can deliver a complete solution",
+       "No entrenched competitor blocks you",
+       "Winning helps you enter the next segment"
+      ]
+     },
+     "checklist": [
+      "List 6-10 segments and score them on the criteria",
+      "Pick one beachhead and write why",
+      "Map the decision-making unit: user, buyer, influencers, blockers"
+     ],
+     "pitfalls": [
+      "Choosing 'everyone' or 'all SMEs' as the target",
+      "Selling to users who cannot buy"
+     ],
+     "india": [],
+     "quiz": [
+      {
+       "q": "A beachhead market is:",
+       "options": [
+        "The biggest market available",
+        "A focused first segment you can dominate and expand from",
+        "A coastal city",
+        "Your investors' favourite sector"
+       ],
+       "answer": 1,
+       "why": "It is the first focused segment you aim to win decisively."
+      },
+      {
+       "q": "In B2B, the person who pays is often:",
+       "options": [
+        "The end user",
+        "A different person from the end user",
+        "Always the CEO",
+        "The investor"
+       ],
+       "answer": 1,
+       "why": "End users and economic buyers often differ; map the whole decision-making unit."
+      }
+     ],
+     "sources": [
+      {
+       "title": "Bill Aulet — Disciplined Entrepreneurship, 24 steps (summary)",
+       "url": "https://shreyapoddar.substack.com/p/disciplined-entrepreneurship-a-summary"
+      },
+      {
+       "title": "Geoffrey Moore — Crossing the Chasm",
+       "url": null
+      }
+     ],
+     "tags": [
+      "segmentation",
+      "beachhead",
+      "customer",
+      "dmu"
+     ],
+     "rules": []
+    },
+    {
+     "id": "m3-l2",
+     "title": "Jobs to be done and personas",
+     "minutes": 10,
+     "summary": "Customers 'hire' a product to get a job done. Understanding the functional, emotional and social sides of that job tells you what to build and how to talk about it.",
+     "key_ideas": [
+      "Functional job: the practical task (file GST returns on time).",
+      "Emotional job: how they want to feel (not anxious about penalties).",
+      "Social job: how they want to be seen (a reliable professional to clients).",
+      "A persona is a specific, named representative customer: role, day, goals, pains, current tools, and what triggers a purchase.",
+      "Build the persona from interview evidence, not imagination."
+     ],
+     "framework": {
+      "name": "Job statement",
+      "steps": [
+       "When I… (situation)",
+       "I want to… (motivation)",
+       "So I can… (expected outcome)"
+      ]
+     },
+     "checklist": [
+      "Write 3 job statements from interviews",
+      "Create one persona with a real name, role and a day in their life",
+      "List the 'firing' moment when they look for a new solution"
+     ],
+     "pitfalls": [
+      "Personas based on stereotypes rather than interviews",
+      "Only describing features, never the job"
+     ],
+     "india": [],
+     "quiz": [
+      {
+       "q": "'I want my clients to see me as dependable' is which kind of job?",
+       "options": [
+        "Functional",
+        "Emotional",
+        "Social",
+        "Financial"
+       ],
+       "answer": 2,
+       "why": "How someone wants to be seen by others is the social job."
+      },
+      {
+       "q": "A persona should be built from:",
+       "options": [
+        "Imagination",
+        "Customer interview evidence",
+        "Competitor websites",
+        "Investor feedback"
+       ],
+       "answer": 1,
+       "why": "Personas are only useful when grounded in real conversations."
+      }
+     ],
+     "sources": [
+      {
+       "title": "Christensen Institute — Jobs to Be Done",
+       "url": "https://www.christenseninstitute.org/theory/jobs-to-be-done/"
+      },
+      {
+       "title": "Bill Aulet — Disciplined Entrepreneurship, 24 steps (summary)",
+       "url": "https://shreyapoddar.substack.com/p/disciplined-entrepreneurship-a-summary"
+      }
+     ],
+     "tags": [
+      "jtbd",
+      "persona",
+      "customer"
+     ],
+     "rules": []
+    },
+    {
+     "id": "m3-l3",
+     "title": "Customer interviews that tell the truth (the Mom Test)",
+     "minutes": 14,
+     "summary": "Everyone lies to be kind about your idea. Good interviews ask about people's lives and past behaviour, not about your idea or their future intentions.",
+     "key_ideas": [
+      "Talk about their life and problems, not your idea.",
+      "Ask about specifics in the past, not generics or opinions about the future.",
+      "Talk less, listen more.",
+      "Discount compliments, fluff ('I always…', 'I would…') and feature ideas; dig into the motivation behind each request.",
+      "Ask for commitment — time, reputation or money. An interview with no next step taught you little.",
+      "Do at least 10-15 interviews per segment before deciding; patterns appear around then."
+     ],
+     "framework": {
+      "name": "Good questions",
+      "steps": [
+       "Tell me about the last time this happened.",
+       "What did you do about it?",
+       "What does it cost you now?",
+       "What have you tried? Why didn't it work?",
+       "Who else should I talk to?"
+      ]
+     },
+     "checklist": [
+      "Write 5 past-behaviour questions",
+      "Book 15 interviews in one segment",
+      "After each, log facts, pains, workarounds and commitments — not compliments"
+     ],
+     "pitfalls": [
+      "Pitching during the interview",
+      "Asking 'would you use this?' or 'how much would you pay?'",
+      "Counting compliments as validation"
+     ],
+     "india": [],
+     "quiz": [
+      {
+       "q": "Which is a good Mom Test question?",
+       "options": [
+        "Would you buy this?",
+        "Do you like my idea?",
+        "Tell me about the last time you had this problem",
+        "How much would you pay?"
+       ],
+       "answer": 2,
+       "why": "It asks about a specific past event, which produces facts instead of polite opinions."
+      },
+      {
+       "q": "A prospect says 'This is amazing, I'd definitely use it!' This is:",
+       "options": [
+        "Strong validation",
+        "A compliment — weak data",
+        "A commitment",
+        "A sale"
+       ],
+       "answer": 1,
+       "why": "Compliments cost nothing. Look for commitments like time, introductions or money."
+      }
+     ],
+     "sources": [
+      {
+       "title": "Rob Fitzpatrick — The Mom Test (summary by Michael Lynch)",
+       "url": "https://mtlynch.io/book-reports/the-mom-test/"
+      },
+      {
+       "title": "Steve Blank — Customer Development (The Four Steps to the Epiphany)",
+       "url": "https://steveblank.com/"
+      }
+     ],
+     "tags": [
+      "interviews",
+      "mom test",
+      "customer discovery",
+      "validation"
+     ],
+     "rules": [
+      {
+       "id": "interviews-few",
+       "says": "Fewer than about 10 problem interviews is not enough evidence to build; patterns usually appear after 10-15 conversations per segment.",
+       "severity": "high"
+      },
+      {
+       "id": "interviews-no-commitment",
+       "says": "Interviews without any commitment (time, reputation or money) are weak evidence; ask for a concrete next step or a pre-commitment before building.",
+       "severity": "medium"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m4",
+   "title": "Validation and the MVP",
+   "outcome": "Turn assumptions into experiments and build only what you need to learn.",
+   "lessons": [
+    {
+     "id": "m4-l1",
+     "title": "Lean Startup: assumptions and build-measure-learn",
+     "minutes": 11,
+     "summary": "Every plan is a stack of assumptions. The Lean Startup method turns the riskiest ones into fast experiments so you learn before you run out of time and money.",
+     "key_ideas": [
+      "Write your assumptions explicitly: who the customer is, the problem, that they will pay, how you will reach them.",
+      "Rank them by risk: how likely they are wrong, and how fatal it would be. Test the riskiest first.",
+      "Build-measure-learn: build the smallest thing that tests the assumption, measure behaviour, decide.",
+      "Validated learning is the unit of progress early on — not lines of code or features.",
+      "Use actionable metrics (that change your decisions), not vanity metrics."
+     ],
+     "framework": {
+      "name": "Assumption test card",
+      "steps": [
+       "We believe… (assumption)",
+       "To verify, we will… (experiment)",
+       "And measure… (metric)",
+       "We are right if… (pass threshold set in advance)"
+      ]
+     },
+     "checklist": [
+      "List 10 assumptions behind your plan",
+      "Mark the 3 riskiest",
+      "Write a test card for the riskiest one with a pass threshold"
+     ],
+     "pitfalls": [
+      "Setting the success threshold after seeing the results",
+      "Testing the easy assumptions instead of the risky ones"
+     ],
+     "india": [],
+     "quiz": [
+      {
+       "q": "Which assumption should you test first?",
+       "options": [
+        "The easiest one",
+        "The one most likely wrong and most fatal if wrong",
+        "The one investors ask about",
+        "The technical one"
+       ],
+       "answer": 1,
+       "why": "Riskiest-first saves the most time and money."
+      },
+      {
+       "q": "Why set the pass threshold before the experiment?",
+       "options": [
+        "It's required by law",
+        "To avoid fooling yourself after seeing results",
+        "To impress investors",
+        "To save time"
+       ],
+       "answer": 1,
+       "why": "Deciding success criteria upfront prevents rationalising weak results."
+      }
+     ],
+     "sources": [
+      {
+       "title": "Eric Ries — The Lean Startup principles",
+       "url": "https://theleanstartup.com/principles"
+      },
+      {
+       "title": "Bill Aulet — Disciplined Entrepreneurship, 24 steps (summary)",
+       "url": "https://shreyapoddar.substack.com/p/disciplined-entrepreneurship-a-summary"
+      }
+     ],
+     "tags": [
+      "lean startup",
+      "assumptions",
+      "experiments",
+      "build measure learn"
+     ],
+     "rules": []
+    },
+    {
+     "id": "m4-l2",
+     "title": "Cheap experiments: smoke tests, pre-sales and concierge",
+     "minutes": 11,
+     "summary": "Before building, test demand with experiments that cost days, not months: landing pages, pre-sales, deposits and doing the service by hand.",
+     "key_ideas": [
+      "Landing page smoke test: describe the offer, drive targeted traffic, measure sign-ups and deposits.",
+      "Pre-sale or letter of intent: the strongest pre-product evidence is money or a signed commitment.",
+      "Concierge MVP: deliver the outcome manually for a few customers to learn what they really need.",
+      "Wizard of Oz: the product looks automated, but people do the work behind the scenes.",
+      "Set a pass threshold upfront, e.g. 5 paid commitments in 4 weeks."
+     ],
+     "framework": null,
+     "checklist": [
+      "Pick one experiment type for your riskiest assumption",
+      "Set a budget, a time box and a pass threshold",
+      "Run it and record the result honestly"
+     ],
+     "pitfalls": [
+      "Counting email sign-ups as demand without any cost to the customer",
+      "Running tests on friends instead of target customers"
+     ],
+     "india": [],
+     "quiz": [
+      {
+       "q": "Which is the strongest pre-product demand signal?",
+       "options": [
+        "500 likes",
+        "A paid pre-order",
+        "A positive survey",
+        "A newsletter sign-up"
+       ],
+       "answer": 1,
+       "why": "Money is the clearest commitment."
+      },
+      {
+       "q": "A concierge MVP means:",
+       "options": [
+        "A hotel booking app",
+        "Delivering the service manually to a few customers",
+        "A chatbot",
+        "A waitlist"
+       ],
+       "answer": 1,
+       "why": "You do it by hand first to learn before automating."
+      }
+     ],
+     "sources": [
+      {
+       "title": "Eric Ries — The Lean Startup principles",
+       "url": "https://theleanstartup.com/principles"
+      },
+      {
+       "title": "Rob Fitzpatrick — The Mom Test (summary by Michael Lynch)",
+       "url": "https://mtlynch.io/book-reports/the-mom-test/"
+      },
+      {
+       "title": "Paul Graham — Do Things that Don't Scale",
+       "url": "https://paulgraham.com/ds.html"
+      }
+     ],
+     "tags": [
+      "smoke test",
+      "pre-sale",
+      "concierge",
+      "experiments"
+     ],
+     "rules": [
+      {
+       "id": "commitments-strong",
+       "says": "Five or more real commitments (pre-orders, deposits, LOIs, paid pilots) are strong evidence of demand; build the smallest product that delivers on them.",
+       "severity": "medium"
+      },
+      {
+       "id": "commitments-some",
+       "says": "A few commitments are encouraging; widen the demand test until you have at least five.",
+       "severity": "medium"
+      }
+     ]
+    },
+    {
+     "id": "m4-l3",
+     "title": "Prototype vs MVP: build to learn",
+     "minutes": 10,
+     "summary": "A prototype tests whether something can work or be understood; an MVP tests whether real users want it. Build the smallest version that delivers the core value once.",
+     "key_ideas": [
+      "Prototype: internal, tests design or feasibility (sketches, clickable mock-ups).",
+      "MVP: external, real users, tests demand and value.",
+      "Fidelity rises over time: paper → clickable → coded. Do not code what a mock-up can test.",
+      "Cut features until it hurts; keep only what delivers the core job.",
+      "Time-box the build (4-8 weeks) and decide the success metric before launch."
+     ],
+     "framework": null,
+     "checklist": [
+      "List your features and mark the one that delivers the core job",
+      "Set a build time box",
+      "Write the launch metric and what you will do if it passes or fails"
+     ],
+     "pitfalls": [
+      "Spending months polishing before any user touches it",
+      "Calling a full product an 'MVP'"
+     ],
+     "india": [],
+     "quiz": [
+      {
+       "q": "The main purpose of an MVP is to:",
+       "options": [
+        "Impress investors",
+        "Learn whether real users want it with minimum effort",
+        "Launch publicly",
+        "Test the server"
+       ],
+       "answer": 1,
+       "why": "An MVP is a learning tool."
+      },
+      {
+       "q": "Which is a prototype rather than an MVP?",
+       "options": [
+        "A paid pilot",
+        "A clickable Figma mock-up shown to the team",
+        "An app in the Play Store",
+        "A pre-order page"
+       ],
+       "answer": 1,
+       "why": "A clickable mock-up tests design, not real demand."
+      }
+     ],
+     "sources": [
+      {
+       "title": "Eric Ries — The Lean Startup principles",
+       "url": "https://theleanstartup.com/principles"
+      },
+      {
+       "title": "Bill Aulet — Disciplined Entrepreneurship, 24 steps (summary)",
+       "url": "https://shreyapoddar.substack.com/p/disciplined-entrepreneurship-a-summary"
+      }
+     ],
+     "tags": [
+      "mvp",
+      "prototype",
+      "build"
+     ],
+     "rules": [
+      {
+       "id": "psf-no-mvp",
+       "says": "With interview evidence and some commitments but no MVP, the next step is the smallest MVP that delivers the core job.",
+       "severity": "medium"
+      },
+      {
+       "id": "full-before-customers",
+       "says": "Building the full product before about 10 paying customers usually builds features nobody needs; keep the product small until demand is proven.",
+       "severity": "high"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m5",
+   "title": "Value and product-market fit",
+   "outcome": "Quantify your value, recognise product-market fit, and prioritise what to build.",
+   "lessons": [
+    {
+     "id": "m5-l1",
+     "title": "The value proposition — quantified",
+     "minutes": 10,
+     "summary": "Customers buy outcomes, not features. A strong value proposition says what changes for the customer, in numbers they care about.",
+     "key_ideas": [
+      "State value as before vs after: time saved, money saved or earned, risk reduced.",
+      "Quantify: '3 hours a week saved' beats 'more efficient'.",
+      "Unique value proposition: why you, and not the alternatives — including doing nothing.",
+      "Match the value to the persona's top pain and job.",
+      "Value sets the ceiling on price; cost sets the floor."
+     ],
+     "framework": {
+      "name": "Value statement",
+      "steps": [
+       "For [persona]",
+       "who [pain]",
+       "our [product] [outcome in numbers]",
+       "unlike [alternative], we [key difference]"
+      ]
+     },
+     "checklist": [
+      "Write the before/after in numbers",
+      "Write your UVP in one sentence",
+      "Test it in 5 customer conversations"
+     ],
+     "pitfalls": [
+      "Listing features instead of outcomes",
+      "Claiming value you cannot measure"
+     ],
+     "india": [],
+     "quiz": [
+      {
+       "q": "Which value proposition is strongest?",
+       "options": [
+        "AI-powered accounting",
+        "Saves small shops 6 hours of bookkeeping a week",
+        "Beautiful dashboards",
+        "Built with React"
+       ],
+       "answer": 1,
+       "why": "It names a customer and a measurable outcome."
+      },
+      {
+       "q": "Value relates to price how?",
+       "options": [
+        "Value sets the ceiling, cost the floor",
+        "Cost sets the ceiling",
+        "They are unrelated",
+        "Price must equal cost"
+       ],
+       "answer": 0,
+       "why": "You can charge up to the value delivered; you must charge above cost."
+      }
+     ],
+     "sources": [
+      {
+       "title": "Bill Aulet — Disciplined Entrepreneurship, 24 steps (summary)",
+       "url": "https://shreyapoddar.substack.com/p/disciplined-entrepreneurship-a-summary"
+      },
+      {
+       "title": "Strategyzer — The Business Model Canvas",
+       "url": "https://www.strategyzer.com/library/the-business-model-canvas"
+      }
+     ],
+     "tags": [
+      "value proposition",
+      "uvp",
+      "outcomes"
+     ],
+     "rules": []
+    },
+    {
+     "id": "m5-l2",
+     "title": "Product-market fit: how to recognise it",
+     "minutes": 13,
+     "summary": "Product-market fit is when a product satisfies a strong market demand: users keep coming back, tell others, and would be very disappointed without it. Before it, everything else is secondary.",
+     "key_ideas": [
+      "Sean Ellis test: ask active users how they would feel if they could no longer use the product. If 40% or more say 'very disappointed', you likely have fit.",
+      "Retention curves: plot each monthly cohort. Fit shows as a curve that flattens — a stable share keeps using it — rather than one that falls to zero.",
+      "Other signals: organic word of mouth, sales cycles shortening, customers complaining when it breaks.",
+      "Below 40%, focus on the users who said 'very disappointed': what they have in common, and what they value most.",
+      "Do not scale acquisition before fit; it only fills a leaky bucket."
+     ],
+     "framework": {
+      "name": "PMF checks",
+      "steps": [
+       "Sean Ellis survey ≥ 40% very disappointed",
+       "Cohort retention flattens",
+       "Organic growth or referrals",
+       "Customers pull, you no longer push"
+      ]
+     },
+     "checklist": [
+      "Survey active users (at least 40 responses if you can)",
+      "Plot cohort retention",
+      "Interview the 'very disappointed' group"
+     ],
+     "pitfalls": [
+      "Surveying people who barely used the product",
+      "Treating a launch spike as fit"
+     ],
+     "india": [],
+     "quiz": [
+      {
+       "q": "In the Sean Ellis test, the usual product-market fit threshold is:",
+       "options": [
+        "10% very disappointed",
+        "40% very disappointed",
+        "70% satisfied",
+        "90% would recommend"
+       ],
+       "answer": 1,
+       "why": "Around 40% 'very disappointed' is the widely used benchmark."
+      },
+      {
+       "q": "A retention curve that flattens means:",
+       "options": [
+        "Users are leaving",
+        "A stable group keeps getting value",
+        "The data is wrong",
+        "You should raise prices"
+       ],
+       "answer": 1,
+       "why": "A flattening curve shows lasting value for a group of users."
+      }
+     ],
+     "sources": [
+      {
+       "title": "The Sean Ellis product-market fit survey (40% test)",
+       "url": "https://learningloop.io/plays/product-market-fit-survey"
+      },
+      {
+       "title": "Paul Graham — Startup = Growth",
+       "url": "https://paulgraham.com/growth.html"
+      },
+      {
+       "title": "Y Combinator — Startup School",
+       "url": "https://www.startupschool.org/"
+      }
+     ],
+     "tags": [
+      "product-market fit",
+      "pmf",
+      "retention",
+      "sean ellis"
+     ],
+     "rules": [
+      {
+       "id": "pmf-strong",
+       "says": "40% or more users 'very disappointed' without the product is the usual sign of product-market fit.",
+       "severity": "medium"
+      },
+      {
+       "id": "pmf-middle",
+       "says": "Between about 25% and 40% 'very disappointed' you are close: double down on the users who love it and iterate, before scaling.",
+       "severity": "medium"
+      },
+      {
+       "id": "pmf-weak",
+       "says": "Under 25% 'very disappointed' after six months in the market is a strong signal the current direction is not working.",
+       "severity": "high"
+      },
+      {
+       "id": "pmf-weak-early",
+       "says": "A low score in the first months calls for fast iteration with the users who do care, not yet a pivot.",
+       "severity": "medium"
+      },
+      {
+       "id": "retention-flat",
+       "says": "A retention curve that flattens means a group of users gets lasting value — a core sign of fit.",
+       "severity": "medium"
+      },
+      {
+       "id": "retention-falling",
+       "says": "If cohort retention keeps falling toward zero, more acquisition only fills a leaky bucket; fix retention first.",
+       "severity": "high"
+      }
+     ]
+    },
+    {
+     "id": "m5-l3",
+     "title": "Roadmaps and prioritisation",
+     "minutes": 9,
+     "summary": "With limited time, what you choose not to build matters as much as what you build. Prioritise by impact on your stage metric.",
+     "key_ideas": [
+      "Tie every item to the stage metric (activation, retention, revenue).",
+      "RICE scoring: Reach × Impact × Confidence ÷ Effort.",
+      "Talk to customers weekly; let evidence, not the loudest customer, set priorities.",
+      "Ship small, often, and measure each release.",
+      "Kill features that nobody uses; they slow everything down."
+     ],
+     "framework": {
+      "name": "RICE",
+      "steps": [
+       "Reach — how many users per period",
+       "Impact — effect on the metric (0.25-3)",
+       "Confidence — how sure you are (%)",
+       "Effort — person-weeks"
+      ]
+     },
+     "checklist": [
+      "Score your backlog with RICE",
+      "Cut the bottom third",
+      "Set a weekly release rhythm"
+     ],
+     "pitfalls": [
+      "Building for one big customer's wishlist",
+      "Roadmaps with dates but no metrics"
+     ],
+     "india": [],
+     "quiz": [
+      {
+       "q": "In RICE, a high Effort score:",
+       "options": [
+        "Raises priority",
+        "Lowers priority",
+        "Has no effect",
+        "Doubles Reach"
+       ],
+       "answer": 1,
+       "why": "Effort is the divisor, so more effort lowers the score."
+      },
+      {
+       "q": "Priorities should mostly be driven by:",
+       "options": [
+        "The loudest customer",
+        "Impact on the stage metric",
+        "What competitors ship",
+        "What is fun to build"
+       ],
+       "answer": 1,
+       "why": "Prioritise what moves the metric that matters at your stage."
+      }
+     ],
+     "sources": [
+      {
+       "title": "Eric Ries — The Lean Startup principles",
+       "url": "https://theleanstartup.com/principles"
+      }
+     ],
+     "tags": [
+      "roadmap",
+      "prioritisation",
+      "rice",
+      "product"
+     ],
+     "rules": []
+    }
+   ]
+  },
+  {
+   "id": "m6",
+   "title": "Market and competition",
+   "outcome": "Size your market from the bottom up and position against real alternatives.",
+   "lessons": [
+    {
+     "id": "m6-l1",
+     "title": "Market sizing: TAM, SAM and SOM from the bottom up",
+     "minutes": 12,
+     "summary": "Market size tells you how big the prize is. Build it bottom-up — number of customers × what each pays — rather than quoting a big industry figure.",
+     "key_ideas": [
+      "TAM: total revenue if every possible customer bought.",
+      "SAM: the part you can serve with your product, channel and geography.",
+      "SOM: what you can realistically win in 2-4 years.",
+      "Bottom-up: count reachable customers in the beachhead × annual price. It is more credible than top-down percentages.",
+      "Size the beachhead first; then add follow-on markets."
+     ],
+     "framework": {
+      "name": "Bottom-up sizing",
+      "steps": [
+       "Number of target customers (with source)",
+       "× share you can serve (SAM)",
+       "× annual revenue per customer",
+       "× realistic share in 3 years (SOM)"
+      ]
+     },
+     "checklist": [
+      "Count customers in your beachhead with a cited source",
+      "Multiply by annual price",
+      "Show TAM → SAM → SOM with your assumptions"
+     ],
+     "pitfalls": [
+      "'If we get 1% of India…' top-down sizing",
+      "Mixing users and paying customers"
+     ],
+     "india": [],
+     "quiz": [
+      {
+       "q": "SOM is:",
+       "options": [
+        "The total market",
+        "The serviceable market",
+        "What you can realistically win in a few years",
+        "Your profit"
+       ],
+       "answer": 2,
+       "why": "SOM is the obtainable slice in the near term."
+      },
+      {
+       "q": "Why is bottom-up sizing preferred?",
+       "options": [
+        "It is always bigger",
+        "It is built from real customer counts and prices, so it is more credible",
+        "Investors require top-down",
+        "It needs no data"
+       ],
+       "answer": 1,
+       "why": "Bottom-up shows you understand who the customers are and what they pay."
+      }
+     ],
+     "sources": [
+      {
+       "title": "Bill Aulet — Disciplined Entrepreneurship, 24 steps (summary)",
+       "url": "https://shreyapoddar.substack.com/p/disciplined-entrepreneurship-a-summary"
+      }
+     ],
+     "tags": [
+      "market size",
+      "tam",
+      "sam",
+      "som"
+     ],
+     "rules": []
+    },
+    {
+     "id": "m6-l2",
+     "title": "Competition and positioning",
+     "minutes": 10,
+     "summary": "There is always competition — including spreadsheets, WhatsApp and doing nothing. Map it honestly and choose a position where you are clearly better for a specific customer.",
+     "key_ideas": [
+      "Direct competitors: same solution, same customer. Indirect: different solution, same job. Also the status quo.",
+      "'We have no competitors' is a red flag to investors: either there is no market or you have not looked.",
+      "Position on the two attributes your beachhead customer values most; find the whitespace.",
+      "Note each competitor's weakness and the customers it underserves.",
+      "Compete on a dimension incumbents cannot easily copy."
+     ],
+     "framework": {
+      "name": "Positioning map",
+      "steps": [
+       "Pick the 2 attributes your customer values most",
+       "Plot alternatives (including status quo)",
+       "Find the empty quadrant you can own",
+       "Write your positioning statement"
+      ]
+     },
+     "checklist": [
+      "List 5 direct, 5 indirect competitors and the status quo",
+      "Draw the 2×2 positioning map",
+      "Write one sentence on why customers switch to you"
+     ],
+     "pitfalls": [
+      "Feature-by-feature comparison tables that miss what customers value",
+      "Ignoring the status quo as a competitor"
+     ],
+     "india": [],
+     "quiz": [
+      {
+       "q": "Which is an indirect competitor for a bookkeeping app?",
+       "options": [
+        "Another bookkeeping app",
+        "A local accountant",
+        "Your co-founder",
+        "A bank"
+       ],
+       "answer": 1,
+       "why": "A different solution to the same job is indirect competition."
+      },
+      {
+       "q": "'We have no competitors' usually signals:",
+       "options": [
+        "A huge opportunity",
+        "No market or poor research",
+        "Strong IP",
+        "A monopoly"
+       ],
+       "answer": 1,
+       "why": "Every real need has some alternative, even doing nothing."
+      }
+     ],
+     "sources": [
+      {
+       "title": "Bill Aulet — Disciplined Entrepreneurship, 24 steps (summary)",
+       "url": "https://shreyapoddar.substack.com/p/disciplined-entrepreneurship-a-summary"
+      }
+     ],
+     "tags": [
+      "competition",
+      "positioning",
+      "whitespace"
+     ],
+     "rules": []
+    },
+    {
+     "id": "m6-l3",
+     "title": "Moats and unfair advantages",
+     "minutes": 9,
+     "summary": "Over time, a business needs something that is hard to copy. Early on it is speed and insight; later it becomes network effects, data, brand, switching costs or scale.",
+     "key_ideas": [
+      "Early moat: speed of learning and closeness to customers.",
+      "Network effects: each new user makes the product more valuable for others.",
+      "Switching costs: data, workflows and integrations that make leaving painful.",
+      "Brand, proprietary data and technology, economies of scale and regulatory licences.",
+      "An unfair advantage can't be easily bought: unique insight, access, community or IP."
+     ],
+     "framework": null,
+     "checklist": [
+      "Write your current unfair advantage honestly",
+      "Pick the moat you will build over 3 years",
+      "List the actions that deepen it"
+     ],
+     "pitfalls": [
+      "Claiming 'first mover' as a moat",
+      "Relying on a patent alone in a fast market"
+     ],
+     "india": [],
+     "quiz": [
+      {
+       "q": "Which is a network effect?",
+       "options": [
+        "Lower costs at scale",
+        "The product gets more valuable as more people use it",
+        "A strong brand",
+        "A patent"
+       ],
+       "answer": 1,
+       "why": "Value rising with users is the definition."
+      },
+      {
+       "q": "The most reliable early-stage advantage is usually:",
+       "options": [
+        "Being first",
+        "Speed of learning and closeness to customers",
+        "A big office",
+        "A patent"
+       ],
+       "answer": 1,
+       "why": "Early on, learning faster than others is what you control."
+      }
+     ],
+     "sources": [
+      {
+       "title": "LEANSTACK — Lean Canvas",
+       "url": "https://leanstack.com/lean-canvas"
+      }
+     ],
+     "tags": [
+      "moat",
+      "unfair advantage",
+      "defensibility"
+     ],
+     "rules": []
+    }
+   ]
+  },
+  {
+   "id": "m7",
+   "title": "Business model, pricing and unit economics",
+   "outcome": "Design how you make money, price on value, and know whether each customer is profitable.",
+   "lessons": [
+    {
+     "id": "m7-l1",
+     "title": "Revenue models and the business model canvas",
+     "minutes": 11,
+     "summary": "A business model describes how you create, deliver and capture value. The Business Model Canvas and Lean Canvas put it on one page so you can see and test each part.",
+     "key_ideas": [
+      "Revenue models: transaction, subscription, freemium, usage-based, marketplace commission, advertising, licensing, services.",
+      "Business Model Canvas (9 blocks): customer segments, value propositions, channels, customer relationships, revenue streams, key resources, key activities, key partners, cost structure.",
+      "Lean Canvas swaps some blocks for startup risks: problem, solution, key metrics, unfair advantage.",
+      "Each block is an assumption to test, not a fact.",
+      "Back-of-the-envelope: revenue = price × units; profit = revenue − (setup + fixed + variable costs)."
+     ],
+     "framework": {
+      "name": "Lean Canvas",
+      "steps": [
+       "Problem",
+       "Customer segments",
+       "Unique value proposition",
+       "Solution",
+       "Channels",
+       "Revenue streams",
+       "Cost structure",
+       "Key metrics",
+       "Unfair advantage"
+      ]
+     },
+     "checklist": [
+      "Fill a Lean Canvas in 20 minutes",
+      "Mark the riskiest block",
+      "Do the back-of-the-envelope profit maths"
+     ],
+     "pitfalls": [
+      "Picking advertising revenue with a small audience",
+      "Ignoring the cost structure"
+     ],
+     "india": [],
+     "quiz": [
+      {
+       "q": "Which block is in Lean Canvas but not the original Business Model Canvas?",
+       "options": [
+        "Revenue streams",
+        "Unfair advantage",
+        "Channels",
+        "Customer segments"
+       ],
+       "answer": 1,
+       "why": "Lean Canvas adds problem, solution, key metrics and unfair advantage."
+      },
+      {
+       "q": "A marketplace usually earns by:",
+       "options": [
+        "Selling its own stock",
+        "Taking a commission on transactions",
+        "Ads only",
+        "Consulting"
+       ],
+       "answer": 1,
+       "why": "Marketplaces commonly take a take-rate on each transaction."
+      }
+     ],
+     "sources": [
+      {
+       "title": "Strategyzer — The Business Model Canvas",
+       "url": "https://www.strategyzer.com/library/the-business-model-canvas"
+      },
+      {
+       "title": "LEANSTACK — Lean Canvas",
+       "url": "https://leanstack.com/lean-canvas"
+      }
+     ],
+     "tags": [
+      "business model",
+      "canvas",
+      "revenue model"
+     ],
+     "rules": []
+    },
+    {
+     "id": "m7-l2",
+     "title": "Pricing on value",
+     "minutes": 12,
+     "summary": "Price is the fastest lever on profit. Price on the value you deliver, test what customers will actually pay, and expect to raise prices as the product improves.",
+     "key_ideas": [
+      "Strategies: cost-plus, value-based, competition-based (penetration or skimming), tiered, usage-based, psychological.",
+      "Value-based pricing: charge a fraction of the measurable value you create.",
+      "Test willingness to pay by asking for money at different price points, not by asking opinions.",
+      "If almost nobody pushes back on price, you are probably too cheap.",
+      "Lowering price is rarely the fix; check whether the objection is really about value or fit.",
+      "Grandfather existing customers when you raise prices for new ones."
+     ],
+     "framework": {
+      "name": "Pricing experiment",
+      "steps": [
+       "Quantify the customer's value",
+       "Pick 2-3 price points or tiers",
+       "Offer them to comparable prospects",
+       "Measure conversion and revenue per prospect",
+       "Keep the price that maximises revenue with healthy margins"
+      ]
+     },
+     "checklist": [
+      "Estimate the value you create per customer per month",
+      "Run a 3-price test with real offers",
+      "Set a review date for pricing every quarter"
+     ],
+     "pitfalls": [
+      "Pricing low to 'get traction' and never raising",
+      "Copying competitor prices without knowing their costs"
+     ],
+     "india": [],
+     "quiz": [
+      {
+       "q": "Nobody objects to your price and 60% of prospects buy. This suggests:",
+       "options": [
+        "Price is perfect",
+        "Price is probably too low",
+        "Lower the price",
+        "Stop selling"
+       ],
+       "answer": 1,
+       "why": "Some price resistance is healthy; none suggests you are leaving money on the table."
+      },
+      {
+       "q": "The best way to test willingness to pay is:",
+       "options": [
+        "A survey asking 'what would you pay?'",
+        "Asking for real payment at different price points",
+        "Copying competitors",
+        "Asking investors"
+       ],
+       "answer": 1,
+       "why": "Behaviour with real money beats stated opinions."
+      }
+     ],
+     "sources": [
+      {
+       "title": "Bill Aulet — Disciplined Entrepreneurship, 24 steps (summary)",
+       "url": "https://shreyapoddar.substack.com/p/disciplined-entrepreneurship-a-summary"
+      },
+      {
+       "title": "Weflow — B2B SaaS metrics and benchmarks",
+       "url": "https://www.weflow.ai/blog/b2b-saas-metrics-benchmarks-guide"
+      }
+     ],
+     "tags": [
+      "pricing",
+      "value-based pricing",
+      "willingness to pay"
+     ],
+     "rules": [
+      {
+       "id": "price-too-cheap",
+       "says": "When most qualified prospects buy and almost nobody pushes back on price, the price is likely too low.",
+       "severity": "medium"
+      },
+      {
+       "id": "wtp-untested",
+       "says": "If you have never asked for money at different prices, run a pricing experiment before changing price.",
+       "severity": "medium"
+      },
+      {
+       "id": "price-objections",
+       "says": "Frequent price objections with low conversion call for testing whether the problem is price or perceived value — try a smaller plan before cutting price.",
+       "severity": "medium"
+      },
+      {
+       "id": "low-margin-cheap",
+       "says": "Being cheaper than competitors with thin margins leaves no room to grow; compete on value, not price.",
+       "severity": "medium"
+      },
+      {
+       "id": "thin-margin",
+       "says": "Gross margin under about 40% leaves little to pay for acquisition and overheads; fix price or cost of delivery first.",
+       "severity": "medium"
+      }
+     ]
+    },
+    {
+     "id": "m7-l3",
+     "title": "Unit economics: LTV, CAC, payback and margins",
+     "minutes": 14,
+     "summary": "Unit economics tell you whether each customer makes or loses money. Get them right before spending heavily on growth.",
+     "key_ideas": [
+      "CAC (customer acquisition cost) = total sales and marketing spend ÷ new paying customers.",
+      "LTV (lifetime value) ≈ monthly revenue per customer × gross margin ÷ monthly churn.",
+      "LTV:CAC of at least 3:1 is the common minimum; 4-5:1 is strong.",
+      "CAC payback = CAC ÷ (monthly revenue per customer × gross margin). Under 12 months is a clean target; enterprise deals can stretch to 18-24.",
+      "Monthly churn of about 3-5% is typical for small-business customers; enterprise churn is often under 1%.",
+      "Software gross margins are usually 70-85%; low margins limit everything else."
+     ],
+     "framework": {
+      "name": "Unit economics sheet",
+      "steps": [
+       "ARPU per month",
+       "Gross margin %",
+       "Monthly churn %",
+       "LTV = ARPU × GM ÷ churn",
+       "CAC by channel",
+       "LTV:CAC and payback months"
+      ]
+     },
+     "checklist": [
+      "Compute CAC per channel, not just blended",
+      "Compute LTV with gross margin, not revenue",
+      "Set targets: LTV:CAC ≥ 3, payback ≤ 12 months"
+     ],
+     "pitfalls": [
+      "Computing LTV on revenue instead of gross margin",
+      "Using blended CAC that hides a bad paid channel",
+      "Assuming churn will improve later"
+     ],
+     "india": [],
+     "quiz": [
+      {
+       "q": "ARPU ₹1,000/month, gross margin 80%, monthly churn 4%. LTV is about:",
+       "options": [
+        "₹4,000",
+        "₹20,000",
+        "₹25,000",
+        "₹80,000"
+       ],
+       "answer": 1,
+       "why": "1,000 × 0.8 ÷ 0.04 = ₹20,000."
+      },
+      {
+       "q": "LTV ₹20,000 and CAC ₹10,000. Should you scale paid spend?",
+       "options": [
+        "Yes, 2:1 is great",
+        "Not yet — 2:1 is below the common 3:1 minimum",
+        "Yes, any positive ratio works",
+        "Only if churn rises"
+       ],
+       "answer": 1,
+       "why": "2:1 leaves too little after overheads; improve economics first."
+      }
+     ],
+     "sources": [
+      {
+       "title": "Weflow — B2B SaaS metrics and benchmarks",
+       "url": "https://www.weflow.ai/blog/b2b-saas-metrics-benchmarks-guide"
+      }
+     ],
+     "tags": [
+      "unit economics",
+      "ltv",
+      "cac",
+      "payback",
+      "churn",
+      "gross margin"
+     ],
+     "rules": [
+      {
+       "id": "ltv-cac-under-1",
+       "says": "LTV:CAC below 1 means every new customer loses money; scaling acquisition would multiply losses.",
+       "severity": "critical"
+      },
+      {
+       "id": "ltv-cac-under-3",
+       "says": "LTV:CAC between 1 and 3 is below the common 3:1 minimum; improve price, margin, churn or CAC before scaling spend.",
+       "severity": "high"
+      },
+      {
+       "id": "ltv-cac-healthy",
+       "says": "LTV:CAC of 3:1 or better means customers pay back their acquisition cost several times over; profitable channels can be scaled.",
+       "severity": "medium"
+      },
+      {
+       "id": "payback-long",
+       "says": "A CAC payback longer than about 18 months ties up cash for too long for an early-stage company.",
+       "severity": "medium"
+      },
+      {
+       "id": "payback-fast",
+       "says": "Payback within 12 months is a clean target: spend comes back within a year.",
+       "severity": "medium"
+      },
+      {
+       "id": "churn-high",
+       "says": "Monthly churn above about 5% means customers leave faster than most models can sustain; fix retention first.",
+       "severity": "high"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m8",
+   "title": "Go-to-market and growth",
+   "outcome": "Find channels that work, sell to your first customers, and measure growth properly.",
+   "lessons": [
+    {
+     "id": "m8-l1",
+     "title": "Traction channels and the Bullseye method",
+     "minutes": 12,
+     "summary": "Most startups that fail at distribution never tested the right channel. The Bullseye method makes channel choice systematic.",
+     "key_ideas": [
+      "There are about 19 traction channels: e.g. content, SEO, paid search, social ads, PR, community, partnerships, sales, events, affiliates, email, viral loops, offline ads.",
+      "Bullseye: brainstorm all channels (outer ring), shortlist the 3 most promising (middle ring), run cheap tests, and focus on the one that works (inner ring).",
+      "Each test needs a budget, a time limit and a target CAC.",
+      "Match channel to deal size: high-value B2B deals justify direct sales; low-price consumer products need low-cost, scalable channels.",
+      "Paid acquisition works only when you know LTV and the payback is short."
+     ],
+     "framework": {
+      "name": "Bullseye",
+      "steps": [
+       "Outer ring: list ideas for every channel",
+       "Middle ring: pick the 3 most promising",
+       "Test each cheaply",
+       "Inner ring: focus on the one that works",
+       "Repeat when it saturates"
+      ]
+     },
+     "checklist": [
+      "Write one idea per channel for all 19",
+      "Pick 3 and design ₹ budgets and success metrics",
+      "Review results after 4 weeks"
+     ],
+     "pitfalls": [
+      "Spreading thin across many channels",
+      "Judging a channel on clicks rather than paying customers"
+     ],
+     "india": [],
+     "quiz": [
+      {
+       "q": "In the Bullseye method you should:",
+       "options": [
+        "Use every channel at once",
+        "Test a few promising channels cheaply, then focus on what works",
+        "Only use paid ads",
+        "Pick the channel competitors use"
+       ],
+       "answer": 1,
+       "why": "Systematic testing, then focus."
+      },
+      {
+       "q": "A ₹300/month consumer app should usually avoid:",
+       "options": [
+        "Content",
+        "Community",
+        "An expensive field sales team",
+        "Referrals"
+       ],
+       "answer": 2,
+       "why": "Low-price products cannot pay for costly sales."
+      }
+     ],
+     "sources": [
+      {
+       "title": "Gabriel Weinberg & Justin Mares — Traction (the Bullseye framework)",
+       "url": null
+      },
+      {
+       "title": "Weflow — B2B SaaS metrics and benchmarks",
+       "url": "https://www.weflow.ai/blog/b2b-saas-metrics-benchmarks-guide"
+      }
+     ],
+     "tags": [
+      "channels",
+      "bullseye",
+      "traction",
+      "marketing"
+     ],
+     "rules": [
+      {
+       "id": "b2b-high-acv",
+       "says": "High-value B2B deals (about ₹5 lakh a year or more) justify direct, founder-led sales; ads rarely close them.",
+       "severity": "medium"
+      },
+      {
+       "id": "b2b-low-acv",
+       "says": "Smaller B2B deals still start with founder-led sales, then shift to lower-touch channels such as content and self-serve.",
+       "severity": "medium"
+      },
+      {
+       "id": "b2c-unknown-ltv",
+       "says": "For consumer products with unknown lifetime value, paid ads are a gamble; build organic and community channels first.",
+       "severity": "medium"
+      },
+      {
+       "id": "partner-available",
+       "says": "A willing partner who already reaches your customers can be the fastest distribution; pilot with one first.",
+       "severity": "medium"
+      },
+      {
+       "id": "government-buyers",
+       "says": "Government buyers move through procurement (GeM in India) and relationships; expect long cycles and use partners and direct sales.",
+       "severity": "medium"
+      }
+     ]
+    },
+    {
+     "id": "m8-l2",
+     "title": "Selling to your first customers",
+     "minutes": 12,
+     "summary": "Your first customers come from founders doing things that don't scale: personal outreach, hand-holding onboarding, and learning from every deal.",
+     "key_ideas": [
+      "Founders should sell first: nobody else can learn and adjust the product as fast.",
+      "Recruit users one by one; delight them manually.",
+      "B2B process: target list → outreach → discovery call → demo → pilot → proposal → close; map the decision-making unit at each step.",
+      "Write down every objection; the patterns shape product and pricing.",
+      "Ask happy customers for referrals and case studies.",
+      "Track a simple pipeline: stage, value, next step, date."
+     ],
+     "framework": {
+      "name": "Founder-led sales loop",
+      "steps": [
+       "Build a target list",
+       "Personal outreach",
+       "Discovery call (Mom Test)",
+       "Demo or pilot with success criteria",
+       "Close and onboard by hand",
+       "Ask for referrals"
+      ]
+     },
+     "checklist": [
+      "Build a list of 100 target accounts",
+      "Send 20 personal messages a day for two weeks",
+      "Keep a pipeline sheet with next steps"
+     ],
+     "pitfalls": [
+      "Hiring a salesperson before founders have closed deals",
+      "Free pilots with no success criteria or path to payment"
+     ],
+     "india": [],
+     "quiz": [
+      {
+       "q": "Who should close the first deals?",
+       "options": [
+        "A hired sales head",
+        "The founders",
+        "An agency",
+        "Investors"
+       ],
+       "answer": 1,
+       "why": "Founders learn fastest and can change the product."
+      },
+      {
+       "q": "A good pilot always has:",
+       "options": [
+        "No time limit",
+        "Agreed success criteria and a path to payment",
+        "Free forever pricing",
+        "Many features"
+       ],
+       "answer": 1,
+       "why": "Success criteria turn pilots into contracts."
+      }
+     ],
+     "sources": [
+      {
+       "title": "Paul Graham — Do Things that Don't Scale",
+       "url": "https://paulgraham.com/ds.html"
+      },
+      {
+       "title": "Bill Aulet — Disciplined Entrepreneurship, 24 steps (summary)",
+       "url": "https://shreyapoddar.substack.com/p/disciplined-entrepreneurship-a-summary"
+      }
+     ],
+     "tags": [
+      "sales",
+      "first customers",
+      "founder-led sales",
+      "b2b"
+     ],
+     "rules": [
+      {
+       "id": "first-ten",
+       "says": "The first 10 customers almost always come from founders selling personally — do things that don't scale.",
+       "severity": "medium"
+      }
+     ]
+    },
+    {
+     "id": "m8-l3",
+     "title": "Growth, retention and the metrics that matter",
+     "minutes": 11,
+     "summary": "Growth that lasts comes from retention. Pick a North Star metric, read cohorts, and build loops where users bring more users.",
+     "key_ideas": [
+      "North Star metric: the number that best captures value delivered (e.g. weekly active teams, orders delivered).",
+      "AARRR funnel: acquisition, activation, retention, referral, revenue — find the weakest step.",
+      "Activation: the moment a new user first gets value; shorten the path to it.",
+      "Cohort analysis shows whether newer users retain better than older ones.",
+      "Growth loops (referral, content, network) compound; funnels don't.",
+      "Net revenue retention above 100% means existing customers grow their spend."
+     ],
+     "framework": null,
+     "checklist": [
+      "Define your North Star and its weekly target",
+      "Draw your AARRR funnel with real numbers",
+      "Find the activation moment and measure time-to-value"
+     ],
+     "pitfalls": [
+      "Celebrating sign-ups while activation is low",
+      "Watching averages instead of cohorts"
+     ],
+     "india": [],
+     "quiz": [
+      {
+       "q": "Which is most likely a good North Star for a food delivery app?",
+       "options": [
+        "App downloads",
+        "Orders delivered per week",
+        "Instagram followers",
+        "Number of restaurants contacted"
+       ],
+       "answer": 1,
+       "why": "It captures value delivered to both sides."
+      },
+      {
+       "q": "Net revenue retention above 100% means:",
+       "options": [
+        "You are losing customers",
+        "Existing customers spend more over time than you lose",
+        "You have no churn",
+        "Prices fell"
+       ],
+       "answer": 1,
+       "why": "Expansion revenue outweighs churn and downgrades."
+      }
+     ],
+     "sources": [
+      {
+       "title": "Weflow — B2B SaaS metrics and benchmarks",
+       "url": "https://www.weflow.ai/blog/b2b-saas-metrics-benchmarks-guide"
+      },
+      {
+       "title": "Paul Graham — Startup = Growth",
+       "url": "https://paulgraham.com/growth.html"
+      }
+     ],
+     "tags": [
+      "growth",
+      "retention",
+      "north star",
+      "aarrr",
+      "cohorts"
+     ],
+     "rules": []
+    }
+   ]
+  },
+  {
+   "id": "m9",
+   "title": "Finance and runway",
+   "outcome": "Build a simple financial model, know your runway, and manage cash like a survivor.",
+   "lessons": [
+    {
+     "id": "m9-l1",
+     "title": "Financial basics and a simple model",
+     "minutes": 12,
+     "summary": "You don't need a 40-tab spreadsheet. You need a model that shows revenue, costs and cash month by month, and the few assumptions that drive them.",
+     "key_ideas": [
+      "Three statements: profit and loss (are we profitable?), cash flow (do we have cash?), balance sheet (what we own and owe).",
+      "Costs: setup (one-time), fixed (rent, salaries) and variable (per unit: hosting, delivery, payment fees). COGS are the direct costs of delivering.",
+      "Model drivers, not outputs: leads × conversion × price; customers × churn.",
+      "Profit is not cash: GST, receivables and inventory can drain cash even when profitable.",
+      "Keep a base, downside and upside case."
+     ],
+     "framework": null,
+     "checklist": [
+      "Build a 24-month monthly model from 5-8 drivers",
+      "Add a downside case with half the growth",
+      "Reconcile it with your bank balance monthly"
+     ],
+     "pitfalls": [
+      "Hockey-stick revenue with flat costs",
+      "Forgetting taxes, GST and payment delays"
+     ],
+     "india": [
+      "Plan for GST timing: you may pay GST on invoices before customers pay you.",
+      "Budget for statutory costs: company filings, audit, TDS and professional fees."
+     ],
+     "quiz": [
+      {
+       "q": "A company can be profitable but run out of cash because:",
+       "options": [
+        "Profit always equals cash",
+        "Customers pay late and taxes or inventory tie up cash",
+        "It has too many customers",
+        "Its margins are high"
+       ],
+       "answer": 1,
+       "why": "Cash timing differs from accounting profit."
+      },
+      {
+       "q": "Which is a variable cost?",
+       "options": [
+        "Office rent",
+        "Payment gateway fees per transaction",
+        "Founder salary",
+        "Company registration"
+       ],
+       "answer": 1,
+       "why": "It grows with each unit sold."
+      }
+     ],
+     "sources": [
+      {
+       "title": "Y Combinator — Startup School",
+       "url": "https://www.startupschool.org/"
+      }
+     ],
+     "tags": [
+      "finance",
+      "financial model",
+      "cash flow",
+      "p&l"
+     ],
+     "rules": []
+    },
+    {
+     "id": "m9-l2",
+     "title": "Burn, runway and default alive",
+     "minutes": 12,
+     "summary": "Runway is how many months you can survive. Default alive asks whether, on current growth and spending, you reach profitability before the money runs out.",
+     "key_ideas": [
+      "Net burn = monthly spend − monthly revenue. Runway = cash ÷ net burn.",
+      "Default alive: with current revenue growth and constant costs, revenue catches up with costs before cash runs out. Default dead: it doesn't.",
+      "Fundraising usually takes 3-6 months; start with about 9-12 months of runway left, not 3.",
+      "Below about 6 months of runway, cutting burn becomes urgent; below 3, it is an emergency.",
+      "Burn multiple = net burn ÷ net new revenue. Under about 1.5 is efficient; above 2 is concerning."
+     ],
+     "framework": {
+      "name": "Monthly cash review",
+      "steps": [
+       "Cash in bank",
+       "Net burn (3-month average)",
+       "Runway in months",
+       "Default alive or dead?",
+       "Action if runway < 12 months"
+      ]
+     },
+     "checklist": [
+      "Calculate runway with a 3-month average burn",
+      "Answer default alive or dead",
+      "Set the runway level that triggers fundraising or cuts"
+     ],
+     "pitfalls": [
+      "Assuming the next round will arrive in time",
+      "Hiring ahead of revenue with under 12 months of runway"
+     ],
+     "india": [],
+     "quiz": [
+      {
+       "q": "Cash ₹30 lakh, net burn ₹5 lakh/month. Runway is:",
+       "options": [
+        "3 months",
+        "6 months",
+        "12 months",
+        "30 months"
+       ],
+       "answer": 1,
+       "why": "30 ÷ 5 = 6 months."
+      },
+      {
+       "q": "When should you usually start fundraising?",
+       "options": [
+        "With 2 months of runway",
+        "With about 9-12 months of runway",
+        "Only when profitable",
+        "Never"
+       ],
+       "answer": 1,
+       "why": "Raising takes months; start while you have time."
+      }
+     ],
+     "sources": [
+      {
+       "title": "Paul Graham — Default Alive or Default Dead?",
+       "url": "https://paulgraham.com/aord.html"
+      },
+      {
+       "title": "Weflow — B2B SaaS metrics and benchmarks",
+       "url": "https://www.weflow.ai/blog/b2b-saas-metrics-benchmarks-guide"
+      }
+     ],
+     "tags": [
+      "runway",
+      "burn",
+      "default alive",
+      "cash"
+     ],
+     "rules": [
+      {
+       "id": "runway-emergency",
+       "says": "Under 3 months of runway is an emergency: cut burn immediately; a normal fundraise takes longer than the cash lasts.",
+       "severity": "critical"
+      },
+      {
+       "id": "runway-short",
+       "says": "With 3-6 months of runway, cut burn now and raise in parallel; fundraising takes 3-6 months.",
+       "severity": "high"
+      },
+      {
+       "id": "runway-raise-window",
+       "says": "With 6-12 months of runway and not default alive, start fundraising now — it takes 3-6 months.",
+       "severity": "medium"
+      },
+      {
+       "id": "runway-long",
+       "says": "18+ months of runway gives room to execute; keep a monthly cash review.",
+       "severity": "medium"
+      },
+      {
+       "id": "default-alive",
+       "says": "Default alive: on current growth and costs you reach profitability before cash runs out, so you can raise from strength — or not at all.",
+       "severity": "medium"
+      },
+      {
+       "id": "default-dead",
+       "says": "Default dead: on the current path the money runs out first; change something — costs, revenue or funding — now.",
+       "severity": "high"
+      },
+      {
+       "id": "burn-multiple-high",
+       "says": "A burn multiple above 2 means you burn more than ₹2 for each ₹1 of new revenue — inefficient growth.",
+       "severity": "medium"
+      },
+      {
+       "id": "burn-multiple-efficient",
+       "says": "A burn multiple of 1 or lower is efficient growth.",
+       "severity": "medium"
+      }
+     ]
+    },
+    {
+     "id": "m9-l3",
+     "title": "Bootstrapping and cash discipline",
+     "minutes": 9,
+     "summary": "Many great companies are funded by customers first. Cash discipline gives you time, options and better terms if you raise later.",
+     "key_ideas": [
+      "Customer funding: annual plans paid upfront, deposits, paid pilots, services that fund product.",
+      "Keep fixed costs low; prefer variable costs early.",
+      "Every rupee should either build the product customers want or bring in revenue.",
+      "Negotiate: payment terms, startup credits for cloud and tools, shared spaces.",
+      "Bootstrapping until a milestone can raise valuation and reduce dilution later."
+     ],
+     "framework": null,
+     "checklist": [
+      "Offer annual prepaid plans with a discount",
+      "Apply for cloud and tool startup credits",
+      "Review every subscription monthly"
+     ],
+     "pitfalls": [
+      "Spending on brand and office before customers",
+      "Taking any money at any terms out of panic"
+     ],
+     "india": [],
+     "quiz": [
+      {
+       "q": "Which is customer funding?",
+       "options": [
+        "A bank loan",
+        "An annual plan paid upfront",
+        "A VC round",
+        "A government grant"
+       ],
+       "answer": 1,
+       "why": "Customers pay before you deliver, funding growth."
+      },
+      {
+       "q": "Early on, prefer costs that are:",
+       "options": [
+        "Fixed",
+        "Variable",
+        "Prepaid for 3 years",
+        "Hidden"
+       ],
+       "answer": 1,
+       "why": "Variable costs fall when revenue does, protecting runway."
+      }
+     ],
+     "sources": [
+      {
+       "title": "Paul Graham — Default Alive or Default Dead?",
+       "url": "https://paulgraham.com/aord.html"
+      },
+      {
+       "title": "Paul Graham — Do Things that Don't Scale",
+       "url": "https://paulgraham.com/ds.html"
+      }
+     ],
+     "tags": [
+      "bootstrapping",
+      "cash discipline",
+      "customer funding"
+     ],
+     "rules": [
+      {
+       "id": "pre-traction-raise",
+       "says": "With no customers and little discovery, investors have little to fund; build evidence first or raise only small, friendly money.",
+       "severity": "high"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m10",
+   "title": "Fundraising",
+   "outcome": "Know when and from whom to raise, which instrument to use in India, and how to run a raise.",
+   "lessons": [
+    {
+     "id": "m10-l1",
+     "title": "The funding ladder: when and from whom to raise",
+     "minutes": 12,
+     "summary": "Funding comes in steps — own savings, friends and family, grants, angels, seed VCs, then larger rounds. Each step funds a specific milestone and expects specific evidence.",
+     "key_ideas": [
+      "Raise to reach a milestone that makes the company more valuable, not to 'have money'.",
+      "Sources: bootstrapping and customers, friends and family, grants and government schemes, angels and angel networks, accelerators, seed and venture funds, debt.",
+      "Investors fund evidence: traction, growth rate, retention, and a team that can win.",
+      "Non-dilutive money (grants, schemes, credits) costs no equity — use what you are eligible for.",
+      "Debt suits companies with steady revenue that can repay.",
+      "Venture capital suits businesses that can grow very large; many good businesses should not take VC."
+     ],
+     "framework": {
+      "name": "Milestone-based raise",
+      "steps": [
+       "Define the next milestone",
+       "Cost it: months × burn + buffer",
+       "Raise enough for 18-24 months",
+       "Choose the right source for the stage"
+      ]
+     },
+     "checklist": [
+      "Write the milestone this round reaches",
+      "Calculate amount = 18-24 months of planned burn",
+      "List grants and schemes you qualify for"
+     ],
+     "pitfalls": [
+      "Raising before you can show any evidence",
+      "Raising too little to reach the next milestone"
+     ],
+     "india": [
+      "Government options include the Startup India Seed Fund Scheme (via incubators), state startup policy grants, and the Fund of Funds that backs SEBI-registered funds.",
+      "Angel networks such as Indian Angel Network, LetsVenture and Venture Catalysts, and university or corporate incubators are common first institutional money."
+     ],
+     "quiz": [
+      {
+       "q": "You should raise money primarily to:",
+       "options": [
+        "Feel validated",
+        "Reach a milestone that increases the company's value",
+        "Hire friends",
+        "Get press"
+       ],
+       "answer": 1,
+       "why": "Money is a tool to reach the next value-creating milestone."
+      },
+      {
+       "q": "Non-dilutive funding means:",
+       "options": [
+        "You give up equity",
+        "You don't give up equity",
+        "It's always a loan",
+        "It's from VCs"
+       ],
+       "answer": 1,
+       "why": "Grants and similar funding don't cost ownership."
+      }
+     ],
+     "sources": [
+      {
+       "title": "Y Combinator — Startup School",
+       "url": "https://www.startupschool.org/"
+      },
+      {
+       "title": "Startup India Seed Fund Scheme — eligibility and process",
+       "url": "https://www.incorpx.io/blog/startup-india-seed-fund-scheme-2026"
+      },
+      {
+       "title": "YourStory — Credit Guarantee Scheme for Startups raised to ₹20 crore",
+       "url": "https://yourstory.com/2025/05/credit-guarantee-scheme-startups-2025-update"
+      },
+      {
+       "title": "Budget 2025 — new ₹10,000 crore Fund of Funds for startups",
+       "url": "https://www.storyboard18.com/brand-makers/budget-2025-fm-announces-rs-10000-crore-fund-of-funds-to-support-indian-startups-entrepreneurship-55295.htm"
+      }
+     ],
+     "tags": [
+      "fundraising",
+      "angels",
+      "vc",
+      "grants",
+      "funding ladder"
+     ],
+     "rules": [
+      {
+       "id": "traction-fundable",
+       "says": "Ten or more paying customers growing 15%+ month on month is the kind of evidence early investors fund; raise from strength.",
+       "severity": "medium"
+      },
+      {
+       "id": "capital-intensive",
+       "says": "Hardware and deep-tech companies need capital before revenue; combine grants with early equity.",
+       "severity": "medium"
+      },
+      {
+       "id": "sisfs-window",
+       "says": "You appear eligible for the Startup India Seed Fund Scheme (grant up to ₹20 lakh, debt or convertible up to ₹50 lakh via incubators); apply before you turn two.",
+       "severity": "medium"
+      },
+      {
+       "id": "debt-no-revenue",
+       "says": "Loans need repayment from cash flow; without revenue, debt is usually the wrong tool.",
+       "severity": "high"
+      },
+      {
+       "id": "debt-with-revenue",
+       "says": "With revenue and DPIIT recognition, lenders can use the Credit Guarantee Scheme for Startups (cover up to ₹20 crore per borrower).",
+       "severity": "medium"
+      }
+     ]
+    },
+    {
+     "id": "m10-l2",
+     "title": "Instruments and terms in India: equity, CCPS, SAFEs, notes and CCDs",
+     "minutes": 14,
+     "summary": "How you raise matters as much as how much. In India, the instrument decides the paperwork, who can invest, and what happens at conversion. Always use a lawyer.",
+     "key_ideas": [
+      "Equity shares or CCPS (compulsorily convertible preference shares) at an agreed valuation are the standard for priced rounds; investors usually get CCPS.",
+      "US-style SAFEs are not directly recognised in India; India-adapted versions (e.g. iSAFE) are usually structured as CCPS with a valuation cap and discount.",
+      "Convertible notes: only DPIIT-recognised startups can issue them; at least ₹25 lakh per investor in a single tranche; repay or convert within 10 years; the investor can choose repayment.",
+      "CCDs (compulsorily convertible debentures): any private company can issue them; they must convert; a special resolution and usually a valuation report are needed.",
+      "Foreign investment follows FEMA pricing and reporting rules through your bank.",
+      "Key terms: valuation (pre/post-money), cap, discount, liquidation preference, anti-dilution, board seats, ESOP pool.",
+      "Angel tax (Section 56(2)(viib)) was abolished for all classes of investors from FY 2024-25, removing a long-standing worry for early rounds."
+     ],
+     "framework": {
+      "name": "Choosing an instrument",
+      "steps": [
+       "Valuation agreed? → priced round (equity or CCPS)",
+       "Small angel round, no valuation yet? → CCPS-based SAFE (iSAFE)",
+       "DPIIT startup and ₹25L+ per investor? → convertible note is possible",
+       "Otherwise, CCD with a valuation report"
+      ]
+     },
+     "checklist": [
+      "Decide whether you can agree a valuation now",
+      "Check DPIIT status before considering notes",
+      "Get legal and valuation advice before signing"
+     ],
+     "pitfalls": [
+      "Copying a US SAFE template",
+      "Ignoring the dilution from the ESOP pool and conversion caps"
+     ],
+     "india": [
+      "Rules on instruments and FEMA change; confirm current requirements with a company secretary or lawyer before issuing anything."
+     ],
+     "quiz": [
+      {
+       "q": "Which startups can issue convertible notes in India?",
+       "options": [
+        "Any company",
+        "DPIIT-recognised startups",
+        "Only LLPs",
+        "Only listed companies"
+       ],
+       "answer": 1,
+       "why": "Convertible notes are reserved for DPIIT-recognised startups, with a ₹25 lakh minimum per investor."
+      },
+      {
+       "q": "India-adapted SAFEs such as iSAFE are usually structured as:",
+       "options": [
+        "Loans",
+        "CCPS",
+        "Equity warrants",
+        "Bonds"
+       ],
+       "answer": 1,
+       "why": "They are built on compulsorily convertible preference shares."
+      }
+     ],
+     "sources": [
+      {
+       "title": "Treelife — Convertible notes vs CCDs in India",
+       "url": "https://treelife.in/legal/convertible-notes-cn-vs-compulsorily-convertible-debentures-ccd-in-india/"
+      },
+      {
+       "title": "Business Standard — Budget 2024 abolishes angel tax for all classes of investors",
+       "url": "https://www.business-standard.com/amp/budget/news/budget-2024-abolishes-angel-tax-on-startups-for-all-classes-of-investors-124072300667_1.html"
+      },
+      {
+       "title": "Startup India — Playbook: benefits for DPIIT-recognised startups (April 2026)",
+       "url": "https://www.startupindia.gov.in/content/dam/invest-india/HomePage/Startup-Playbook-Exclusive-Benefits-for-DPIIT-Recognised-Startups-in-India-April-2026.pdf"
+      }
+     ],
+     "tags": [
+      "instruments",
+      "ccps",
+      "safe",
+      "convertible note",
+      "ccd",
+      "term sheet",
+      "india"
+     ],
+     "rules": [
+      {
+       "id": "valuation-agreed",
+       "says": "If founders and investors agree a valuation, a priced round (equity or CCPS) gives everyone clear ownership.",
+       "severity": "medium"
+      },
+      {
+       "id": "no-valuation-early",
+       "says": "Without an agreed valuation, convertible instruments defer the price to the next round.",
+       "severity": "medium"
+      },
+      {
+       "id": "note-not-allowed",
+       "says": "Convertible notes need a DPIIT-recognised private company and at least ₹25 lakh per investor in one tranche.",
+       "severity": "high"
+      },
+      {
+       "id": "foreign-investor",
+       "says": "Foreign investors bring FEMA pricing and reporting duties; CCPS and equity are the familiar routes.",
+       "severity": "medium"
+      }
+     ]
+    },
+    {
+     "id": "m10-l3",
+     "title": "The pitch deck and the fundraising process",
+     "minutes": 13,
+     "summary": "A raise is a sales process: a clear story, a target list, a tight timeline and many conversations. The deck gets the meeting; traction and the team close it.",
+     "key_ideas": [
+      "A common deck order: problem, solution, why now, market size, product, traction, business model, competition, go-to-market, team, financials, the ask and use of funds.",
+      "Lead with your strongest evidence (often traction).",
+      "Build a target list of 50+ investors who invest in your stage and sector; warm intros convert best.",
+      "Run a tight process (6-8 weeks): batch meetings so momentum builds.",
+      "Know your numbers cold: growth, CAC, LTV, churn, runway, use of funds.",
+      "Dilution: each round typically sells 10-25% of the company; plan the ESOP pool and future rounds."
+     ],
+     "framework": {
+      "name": "Pitch narrative",
+      "steps": [
+       "Problem (who hurts and how much)",
+       "Solution and demo",
+       "Why now",
+       "Traction",
+       "Market",
+       "Business model",
+       "Competition",
+       "Team",
+       "The ask and milestones"
+      ]
+     },
+     "checklist": [
+      "Write a 12-slide deck and a one-page summary",
+      "Build a 50-investor target list with intros",
+      "Prepare a simple data room: deck, model, cap table, incorporation documents"
+     ],
+     "pitfalls": [
+      "Pitching investors who don't fund your stage",
+      "Dragging the process out for months"
+     ],
+     "india": [],
+     "quiz": [
+      {
+       "q": "A typical seed round sells about what share of the company?",
+       "options": [
+        "1-2%",
+        "10-25%",
+        "50%",
+        "75%"
+       ],
+       "answer": 1,
+       "why": "Most early rounds sell 10-25%."
+      },
+      {
+       "q": "What usually gets investors most interested?",
+       "options": [
+        "A long deck",
+        "Strong traction and growth",
+        "A big office",
+        "Many features"
+       ],
+       "answer": 1,
+       "why": "Evidence of growth is the most persuasive slide."
+      }
+     ],
+     "sources": [
+      {
+       "title": "Y Combinator — Startup School",
+       "url": "https://www.startupschool.org/"
+      }
+     ],
+     "tags": [
+      "pitch deck",
+      "fundraising process",
+      "investors",
+      "dilution"
+     ],
+     "rules": []
+    }
+   ]
+  },
+  {
+   "id": "m11",
+   "title": "Team and founders",
+   "outcome": "Choose co-founders, split equity fairly with vesting, and hire the first team well.",
+   "lessons": [
+    {
+     "id": "m11-l1",
+     "title": "Co-founders, equity splits and vesting",
+     "minutes": 13,
+     "summary": "Co-founder conflict is one of the most common reasons startups die. Agree roles, equity and vesting in writing at the start, while everyone is still friends.",
+     "key_ideas": [
+      "Pick co-founders for complementary skills, shared values and proven ability to work together.",
+      "Split equity on future contribution, not on who had the idea; equal splits are common when commitment is equal.",
+      "Always vest: the usual standard is 4 years with a 1-year cliff, so a founder who leaves early does not keep a large stake.",
+      "Write a founders' agreement: roles, vesting, IP assignment to the company, decision-making, deadlock and exit terms.",
+      "Part-time founders usually vest from when they go full-time, or get a smaller share."
+     ],
+     "framework": {
+      "name": "Founders' agreement essentials",
+      "steps": [
+       "Roles and responsibilities",
+       "Equity split",
+       "Vesting and cliff",
+       "IP assignment to the company",
+       "Decision rights and deadlocks",
+       "Good-leaver / bad-leaver terms"
+      ]
+     },
+     "checklist": [
+      "Discuss and write down roles and expectations",
+      "Agree the split and 4-year vesting with 1-year cliff",
+      "Sign IP assignment for all founders"
+     ],
+     "pitfalls": [
+      "Splitting equity without vesting",
+      "Leaving the IP with an individual founder",
+      "Avoiding the hard conversation"
+     ],
+     "india": [],
+     "quiz": [
+      {
+       "q": "The most common founder vesting schedule is:",
+       "options": [
+        "1 year, no cliff",
+        "4 years with a 1-year cliff",
+        "10 years",
+        "Immediate ownership"
+       ],
+       "answer": 1,
+       "why": "4 years with a 1-year cliff is the widely used standard."
+      },
+      {
+       "q": "Equity should mainly reflect:",
+       "options": [
+        "Who had the idea",
+        "Future contribution and commitment",
+        "Age",
+        "Who has the best college"
+       ],
+       "answer": 1,
+       "why": "Execution over years creates the value."
+      }
+     ],
+     "sources": [
+      {
+       "title": "Y Combinator — Startup School",
+       "url": "https://www.startupschool.org/"
+      },
+      {
+       "title": "Why startups fail — CB Insights post-mortem findings (LaunchRock summary)",
+       "url": "https://www.launchrock.com/library/expert-advice/why-startups-fail"
+      }
+     ],
+     "tags": [
+      "co-founders",
+      "equity",
+      "vesting",
+      "founders agreement"
+     ],
+     "rules": [
+      {
+       "id": "no-vesting",
+       "says": "Never split founder equity without vesting; the usual standard is 4 years with a 1-year cliff.",
+       "severity": "critical"
+      },
+      {
+       "id": "vesting-always",
+       "says": "With two or more founders, vesting protects everyone if someone leaves early.",
+       "severity": "medium"
+      },
+      {
+       "id": "equal-contribution",
+       "says": "When founders will contribute roughly equally from here, an equal split with vesting is simple and fair.",
+       "severity": "medium"
+      },
+      {
+       "id": "unequal-contribution",
+       "says": "When future contributions differ (time, role, risk), weight the split — still with vesting.",
+       "severity": "medium"
+      },
+      {
+       "id": "part-time-founder",
+       "says": "A part-time founder usually gets a smaller share or starts vesting when they go full-time.",
+       "severity": "medium"
+      }
+     ]
+    },
+    {
+     "id": "m11-l2",
+     "title": "Hiring the first team and ESOPs",
+     "minutes": 12,
+     "summary": "Early hires shape the company's culture and speed. Hire slowly, for ownership and learning speed, and use stock options to align people with the long term.",
+     "key_ideas": [
+      "Before product-market fit, keep the team small; founders do most of the core work.",
+      "Hire for roles that are core and that founders cannot cover; use contractors for non-core or uncertain work.",
+      "Only make long-term hires with enough runway (about 12+ months) to give them a fair chance.",
+      "ESOPs give employees a stake; a pool of about 10% is common before seed/Series A.",
+      "In India, ESOPs are issued under the Companies Act; DPIIT startups can also grant options to founders and directors for a period, and eligible startups' employees can defer tax on ESOP perquisites.",
+      "Write 90-day outcomes for every hire and check references."
+     ],
+     "framework": null,
+     "checklist": [
+      "Write the outcome the role owns in 90 days",
+      "Check runway can carry the hire for 12 months",
+      "Set up an ESOP plan before your first key hire"
+     ],
+     "pitfalls": [
+      "Hiring to feel bigger",
+      "Hiring a manager before there is work to manage",
+      "Verbal promises of equity"
+     ],
+     "india": [
+      "ESOP rules and tax treatment for startups have specific conditions; confirm the current position with a company secretary or CA."
+     ],
+     "quiz": [
+      {
+       "q": "Before product-market fit, the team should usually be:",
+       "options": [
+        "As large as possible",
+        "Small, with founders doing core work",
+        "Mostly managers",
+        "Fully outsourced"
+       ],
+       "answer": 1,
+       "why": "Small teams learn and change direction faster."
+      },
+      {
+       "q": "A non-core, uncertain task is often best given to:",
+       "options": [
+        "A full-time hire",
+        "A contractor",
+        "An investor",
+        "Nobody"
+       ],
+       "answer": 1,
+       "why": "Contractors keep commitments low while you learn."
+      }
+     ],
+     "sources": [
+      {
+       "title": "Y Combinator — Startup School",
+       "url": "https://www.startupschool.org/"
+      },
+      {
+       "title": "Startup India — Playbook: benefits for DPIIT-recognised startups (April 2026)",
+       "url": "https://www.startupindia.gov.in/content/dam/invest-india/HomePage/Startup-Playbook-Exclusive-Benefits-for-DPIIT-Recognised-Startups-in-India-April-2026.pdf"
+      }
+     ],
+     "tags": [
+      "hiring",
+      "team",
+      "esop",
+      "contractors"
+     ],
+     "rules": [
+      {
+       "id": "hire-core-gap",
+       "says": "A core role that founders cannot cover, with 12+ months of runway, is a good reason for a full-time hire.",
+       "severity": "medium"
+      },
+      {
+       "id": "hire-non-core",
+       "says": "For non-core or uncertain work, a contractor or freelancer keeps commitments low.",
+       "severity": "medium"
+      },
+      {
+       "id": "founders-cover-prepmf",
+       "says": "Before product-market fit, founders who can do the work learn the most by doing it themselves.",
+       "severity": "medium"
+      },
+      {
+       "id": "hire-runway-thin",
+       "says": "With under 12 months of runway, a long-term hire adds risk; prefer contractors or delay.",
+       "severity": "medium"
+      },
+      {
+       "id": "hire-eats-runway",
+       "says": "If the hire would cut runway below 6 months, wait or find a cheaper way.",
+       "severity": "high"
+      },
+      {
+       "id": "esop-pvt",
+       "says": "Stock options need a company; a private limited company can run an ESOP plan, an LLP or proprietorship cannot in the same way.",
+       "severity": "medium"
+      }
+     ]
+    },
+    {
+     "id": "m11-l3",
+     "title": "Leading, culture and founder resilience",
+     "minutes": 9,
+     "summary": "Culture is what the team does when founders aren't watching. Set it deliberately, make decisions quickly, and look after yourself — the company depends on it.",
+     "key_ideas": [
+      "Write down 3-5 values as behaviours, not slogans.",
+      "Decide fast on reversible choices; take time on irreversible ones.",
+      "Hold a weekly rhythm: metrics review, priorities, blockers.",
+      "Give feedback early and specifically; fire quickly when values are broken.",
+      "Founder resilience: sleep, support networks and peers matter. Burnout is a company risk."
+     ],
+     "framework": null,
+     "checklist": [
+      "Write your values as behaviours",
+      "Set a weekly team meeting with metrics",
+      "Schedule time for rest and peer support"
+     ],
+     "pitfalls": [
+      "Avoiding hard conversations",
+      "Founders as the bottleneck for every decision"
+     ],
+     "india": [],
+     "quiz": [
+      {
+       "q": "Values work best when written as:",
+       "options": [
+        "Slogans",
+        "Observable behaviours",
+        "Legal clauses",
+        "Logos"
+       ],
+       "answer": 1,
+       "why": "Behaviours can be practised and checked."
+      },
+      {
+       "q": "Reversible decisions should be made:",
+       "options": [
+        "Slowly",
+        "Quickly",
+        "Only by investors",
+        "Never"
+       ],
+       "answer": 1,
+       "why": "Speed on reversible choices keeps momentum."
+      }
+     ],
+     "sources": [
+      {
+       "title": "Y Combinator — Startup School",
+       "url": "https://www.startupschool.org/"
+      }
+     ],
+     "tags": [
+      "culture",
+      "leadership",
+      "resilience"
+     ],
+     "rules": []
+    }
+   ]
+  },
+  {
+   "id": "m12",
+   "title": "India: legal, compliance and government support",
+   "outcome": "Pick the right entity, get DPIIT recognition and its benefits, stay compliant, and use government schemes.",
+   "lessons": [
+    {
+     "id": "m12-l1",
+     "title": "Choosing a legal entity in India",
+     "minutes": 12,
+     "summary": "Your entity decides liability, compliance cost, and whether investors can invest. Most startups that plan to raise equity choose a private limited company.",
+     "key_ideas": [
+      "Sole proprietorship: quickest; no separate legal identity; unlimited personal liability; cannot take equity investment.",
+      "Partnership firm: two or more partners; unlimited liability unless an LLP.",
+      "LLP: limited liability, lighter compliance; good for services; cannot issue equity shares or a standard ESOP plan, so VCs rarely invest.",
+      "One Person Company (OPC): a company with a single owner; limited liability; convert when you add co-founders or investors.",
+      "Private limited company: separate legal entity, limited liability, can issue shares and ESOPs — the standard for venture-backed startups. Incorporate via the MCA SPICe+ form.",
+      "Choose for where you are going: converting later costs time and money."
+     ],
+     "framework": {
+      "name": "Entity chooser",
+      "steps": [
+       "Raising equity or giving ESOPs? → Private limited",
+       "Services, no outside equity, 2+ owners? → LLP",
+       "Solo, not raising yet? → OPC or proprietorship",
+       "Testing an idea with no revenue? → you may not need an entity yet"
+      ]
+     },
+     "checklist": [
+      "Decide whether you will raise equity in the next 2 years",
+      "Choose the entity and incorporate (SPICe+ for companies)",
+      "Open a current account and apply for PAN/TAN, GST and DPIIT as needed"
+     ],
+     "pitfalls": [
+      "Starting as an LLP and converting right before a raise",
+      "Mixing personal and company money"
+     ],
+     "india": [
+      "Company and LLP incorporation is done online on the MCA portal; GST, PAN and TAN can be applied for alongside."
+     ],
+     "quiz": [
+      {
+       "q": "A startup planning to raise VC money in India should usually be a:",
+       "options": [
+        "Proprietorship",
+        "Private limited company",
+        "Partnership firm",
+        "Trust"
+       ],
+       "answer": 1,
+       "why": "Investors buy shares, which needs a company."
+      },
+      {
+       "q": "An LLP is often chosen by:",
+       "options": [
+        "Startups raising VC",
+        "Services firms with several owners not raising equity",
+        "Listed companies",
+        "Charities"
+       ],
+       "answer": 1,
+       "why": "Limited liability with lighter compliance suits services partnerships."
+      }
+     ],
+     "sources": [
+      {
+       "title": "Startup India — Playbook: benefits for DPIIT-recognised startups (April 2026)",
+       "url": "https://www.startupindia.gov.in/content/dam/invest-india/HomePage/Startup-Playbook-Exclusive-Benefits-for-DPIIT-Recognised-Startups-in-India-April-2026.pdf"
+      }
+     ],
+     "tags": [
+      "legal entity",
+      "private limited",
+      "llp",
+      "opc",
+      "incorporation",
+      "india"
+     ],
+     "rules": [
+      {
+       "id": "entity-raising",
+       "says": "If you plan to raise equity from angels or VCs, a private limited company is the standard; investors rarely invest in LLPs or proprietorships.",
+       "severity": "high"
+      },
+      {
+       "id": "entity-solo-no-raise",
+       "says": "A solo founder who is not raising can start as an OPC (limited liability) or a proprietorship (simplest).",
+       "severity": "medium"
+      },
+      {
+       "id": "entity-services-no-raise",
+       "says": "Several owners running a services business without outside equity often prefer an LLP for limited liability with lighter compliance.",
+       "severity": "medium"
+      },
+      {
+       "id": "entity-benefits",
+       "says": "Private limited companies and LLPs can use the most startup benefits in India (DPIIT recognition, 80-IAC tax holiday).",
+       "severity": "medium"
+      }
+     ]
+    },
+    {
+     "id": "m12-l2",
+     "title": "DPIIT recognition, tax benefits and GST",
+     "minutes": 14,
+     "summary": "DPIIT recognition unlocks most Startup India benefits. Know the 2026 eligibility rules, the tax holiday, and when GST registration becomes mandatory.",
+     "key_ideas": [
+      "DPIIT startup definition (notified 4 February 2026, G.S.R. 108(E)): up to 10 years from incorporation and turnover not above ₹200 crore in any year; deep-tech startups up to 20 years and ₹300 crore.",
+      "Eligible entities: private limited companies, registered partnership firms, LLPs and (newly) multi-state and state cooperative societies. The business must work on innovation or a scalable model with potential for jobs or wealth.",
+      "Benefits include self-certification for several labour and environment laws, faster patent examination with fee rebates, easier public procurement norms, and access to schemes like SISFS and CGSS.",
+      "Section 80-IAC tax holiday: 100% deduction of profits for any 3 consecutive years out of the first 10, for DPIIT-recognised private companies and LLPs incorporated by 31 March 2030, with turnover up to ₹100 crore in the claim year and an Inter-Ministerial Board certificate.",
+      "Angel tax was abolished for all investors from FY 2024-25.",
+      "GST registration: services above ₹20 lakh turnover (₹10 lakh in special category states); goods above ₹40 lakh where the state has opted in (₹20 lakh in special category states). Registration is mandatory regardless of turnover for inter-state supply of goods, e-commerce sellers and some other cases."
+     ],
+     "framework": null,
+     "checklist": [
+      "Check DPIIT eligibility and apply on the Startup India portal",
+      "If profitable soon, plan the 80-IAC application",
+      "Track turnover against GST thresholds; register before you cross them"
+     ],
+     "pitfalls": [
+      "Missing GST registration for inter-state goods sales",
+      "Assuming tax and scheme figures never change"
+     ],
+     "india": [
+      "Figures checked November 2026. The new Income-tax Act, 2025 renumbers many sections; confirm current section numbers and conditions with a CA.",
+      "Special category states for GST thresholds include Arunachal Pradesh, Manipur, Meghalaya, Mizoram, Nagaland, Sikkim, Tripura and Uttarakhand."
+     ],
+     "quiz": [
+      {
+       "q": "Under the 2026 DPIIT definition, a regular startup's turnover must not exceed:",
+       "options": [
+        "₹25 crore",
+        "₹100 crore",
+        "₹200 crore",
+        "₹500 crore"
+       ],
+       "answer": 2,
+       "why": "The limit rose to ₹200 crore (₹300 crore for deep tech) in February 2026."
+      },
+      {
+       "q": "A Delhi company sells goods to customers in Karnataka with ₹5 lakh turnover. GST registration is:",
+       "options": [
+        "Not needed until ₹40 lakh",
+        "Required, because it supplies goods inter-state",
+        "Optional forever",
+        "Only needed for exports"
+       ],
+       "answer": 1,
+       "why": "Inter-state taxable supply of goods requires registration regardless of turnover."
+      }
+     ],
+     "sources": [
+      {
+       "title": "Taxmann — DPIIT revises startup definition, deep-tech framework (G.S.R. 108(E), 4 Feb 2026)",
+       "url": "https://www.taxmann.com/post/blog/dpiit-revises-startup-definition-introduces-deep-tech-framework/"
+      },
+      {
+       "title": "K&S — DPIIT overhauls startup recognition norms",
+       "url": "https://ksandk.com/newsletter/dpiit-revamps-startup-rules-deep-tech-gets-boost/"
+      },
+      {
+       "title": "Section 80-IAC guide (tax holiday for startups)",
+       "url": "https://www.setindiabiz.com/blog/section-80-iac-tax-exemption-startups-guide"
+      },
+      {
+       "title": "Business Standard — Budget 2024 abolishes angel tax for all classes of investors",
+       "url": "https://www.business-standard.com/amp/budget/news/budget-2024-abolishes-angel-tax-on-startups-for-all-classes-of-investors-124072300667_1.html"
+      },
+      {
+       "title": "Tally — GST registration thresholds in India",
+       "url": "https://tallysolutions.com/gst/gst-limit-registration-threshold-india/"
+      },
+      {
+       "title": "Startup India — Playbook: benefits for DPIIT-recognised startups (April 2026)",
+       "url": "https://www.startupindia.gov.in/content/dam/invest-india/HomePage/Startup-Playbook-Exclusive-Benefits-for-DPIIT-Recognised-Startups-in-India-April-2026.pdf"
+      }
+     ],
+     "tags": [
+      "dpiit",
+      "80-iac",
+      "gst",
+      "angel tax",
+      "compliance",
+      "india"
+     ],
+     "rules": [
+      {
+       "id": "dpiit-apply",
+       "says": "You appear eligible for DPIIT recognition but don't have it; apply — it unlocks tax, IP, procurement and scheme benefits.",
+       "severity": "medium"
+      }
+     ]
+    },
+    {
+     "id": "m12-l3",
+     "title": "Government schemes and the startup ecosystem",
+     "minutes": 12,
+     "summary": "India has a large support system for startups: seed grants, credit guarantees, funds of funds, incubators and mentors. Knowing what you qualify for can save months and equity.",
+     "key_ideas": [
+      "Startup India Seed Fund Scheme (SISFS): up to ₹20 lakh grant for proof of concept or prototype, and up to ₹50 lakh as debt or convertible for market entry, given through empanelled incubators.",
+      "SISFS eligibility: DPIIT-recognised; not more than 2 years old at application; private limited, LLP or registered partnership; not more than ₹10 lakh of prior government monetary support.",
+      "Credit Guarantee Scheme for Startups (CGSS): cover up to ₹20 crore per borrower — 85% for loans up to ₹10 crore, 75% above — with a reduced 1% fee for champion sectors.",
+      "Fund of Funds for Startups: the government invests in SEBI-registered funds that invest in startups; Budget 2025 announced a new ₹10,000 crore fund of funds.",
+      "Budget 2025 also announced term loans up to ₹2 crore for first-time women, SC and ST entrepreneurs.",
+      "Incubators (university, government and corporate), accelerators, state startup missions and the MAARG mentorship portal add mentoring and networks."
+     ],
+     "framework": null,
+     "checklist": [
+      "List the schemes you qualify for today",
+      "Shortlist 3 incubators that run SISFS in your sector",
+      "Check your state's startup policy for grants and reimbursements"
+     ],
+     "pitfalls": [
+      "Missing the SISFS two-year window",
+      "Applying with a weak business plan or no prototype evidence"
+     ],
+     "india": [
+      "Scheme budgets and windows change; check seedfund.startupindia.gov.in and startupindia.gov.in for current status before applying."
+     ],
+     "quiz": [
+      {
+       "q": "SISFS gives up to how much as a grant for proof of concept?",
+       "options": [
+        "₹5 lakh",
+        "₹20 lakh",
+        "₹1 crore",
+        "₹50 crore"
+       ],
+       "answer": 1,
+       "why": "The grant is up to ₹20 lakh; debt or convertible support goes up to ₹50 lakh."
+      },
+      {
+       "q": "How do you apply for SISFS?",
+       "options": [
+        "Directly to DPIIT",
+        "Through an empanelled incubator",
+        "Through a bank",
+        "Through a VC"
+       ],
+       "answer": 1,
+       "why": "Incubators select startups and disburse the funds."
+      }
+     ],
+     "sources": [
+      {
+       "title": "Startup India Seed Fund Scheme — eligibility and process",
+       "url": "https://www.incorpx.io/blog/startup-india-seed-fund-scheme-2026"
+      },
+      {
+       "title": "myScheme — Startup India Seed Fund Scheme",
+       "url": "https://myscheme.gov.in/schemes/sisfs-fs"
+      },
+      {
+       "title": "YourStory — Credit Guarantee Scheme for Startups raised to ₹20 crore",
+       "url": "https://yourstory.com/2025/05/credit-guarantee-scheme-startups-2025-update"
+      },
+      {
+       "title": "Startup India — Credit Guarantee Scheme for Startups",
+       "url": "https://www.startupindia.gov.in/content/sih/en/credit-guarantee-scheme-for-startups.html"
+      },
+      {
+       "title": "Budget 2025 — new ₹10,000 crore Fund of Funds for startups",
+       "url": "https://www.storyboard18.com/brand-makers/budget-2025-fm-announces-rs-10000-crore-fund-of-funds-to-support-indian-startups-entrepreneurship-55295.htm"
+      }
+     ],
+     "tags": [
+      "sisfs",
+      "cgss",
+      "fund of funds",
+      "incubators",
+      "government schemes",
+      "india"
+     ],
+     "rules": [
+      {
+       "id": "cgss-mention",
+       "says": "As a DPIIT startup you can ask lenders about guarantee cover under CGSS.",
+       "severity": "medium"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "m13",
+   "title": "Decisions and strategy",
+   "outcome": "Make better decisions under uncertainty: when to pivot, when to scale, and how to think clearly.",
+   "lessons": [
+    {
+     "id": "m13-l1",
+     "title": "Decision-making under uncertainty",
+     "minutes": 11,
+     "summary": "Founders make hundreds of decisions with incomplete information. Good process — not perfect information — is what improves results over time.",
+     "key_ideas": [
+      "One-way vs two-way doors: decide reversible choices fast; slow down for irreversible ones (a framing popularised by Amazon's 2015 shareholder letter).",
+      "Write the decision, options, evidence and expected outcome before deciding; review later (a decision journal).",
+      "Pre-mortem: imagine the decision failed and list why — it surfaces risks people hesitate to raise.",
+      "Judge decisions by the process and information available, not only by outcome (luck plays a part).",
+      "Decide with the data you have when waiting costs more than being wrong; name what would change your mind.",
+      "Separate facts, assumptions and opinions in every discussion."
+     ],
+     "framework": {
+      "name": "Decision record",
+      "steps": [
+       "Decision and deadline",
+       "Options considered",
+       "Evidence and assumptions",
+       "Choice and confidence",
+       "What would change our mind",
+       "Review date and actual outcome"
+      ]
+     },
+     "checklist": [
+      "Start a decision journal",
+      "Run a 15-minute pre-mortem on your next big decision",
+      "Review decisions monthly against outcomes"
+     ],
+     "pitfalls": [
+      "Treating every decision as irreversible",
+      "Judging a good decision as bad because of bad luck"
+     ],
+     "india": [],
+     "quiz": [
+      {
+       "q": "A 'two-way door' decision is one that:",
+       "options": [
+        "Needs board approval",
+        "Can be reversed fairly easily",
+        "Has two options",
+        "Is always risky"
+       ],
+       "answer": 1,
+       "why": "Reversible decisions should be made quickly."
+      },
+      {
+       "q": "A pre-mortem asks the team to:",
+       "options": [
+        "Celebrate early",
+        "Imagine the project failed and explain why",
+        "Write the press release",
+        "Cut costs"
+       ],
+       "answer": 1,
+       "why": "It surfaces risks before they happen."
+      }
+     ],
+     "sources": [
+      {
+       "title": "Gary Klein — Performing a Project Premortem (HBR)",
+       "url": "https://hbr.org/2007/09/performing-a-project-premortem"
+      }
+     ],
+     "tags": [
+      "decision making",
+      "pre-mortem",
+      "uncertainty"
+     ],
+     "rules": []
+    },
+    {
+     "id": "m13-l2",
+     "title": "Pivot or persevere",
+     "minutes": 12,
+     "summary": "Every startup reaches moments where the plan isn't working. Decide on evidence, at a set time, and if you pivot, keep what you learned.",
+     "key_ideas": [
+      "Schedule pivot-or-persevere reviews (e.g. every 8-12 weeks) instead of deciding in a panic.",
+      "Signals to persevere: improving retention, a group of users who love the product, growth in the key metric.",
+      "Signals to pivot: flat metrics after several real iterations, weak Sean Ellis scores, customers who like it but won't pay.",
+      "Pivot types: zoom-in (one feature becomes the product), customer segment, customer need, platform, business model, channel, technology.",
+      "A pivot changes one fundamental part of the plan while keeping what you learned.",
+      "With little runway and weak signals, consider pausing or winding down responsibly."
+     ],
+     "framework": {
+      "name": "Pivot types (Lean Startup)",
+      "steps": [
+       "Zoom-in",
+       "Zoom-out",
+       "Customer segment",
+       "Customer need",
+       "Platform",
+       "Business architecture",
+       "Value capture",
+       "Channel",
+       "Technology"
+      ]
+     },
+     "checklist": [
+      "Set the next pivot-or-persevere date",
+      "Write the metric thresholds for each outcome now",
+      "List what you have learned that stays true after any pivot"
+     ],
+     "pitfalls": [
+      "Endless small tweaks with no decision",
+      "Pivoting so often nothing is tested properly"
+     ],
+     "india": [],
+     "quiz": [
+      {
+       "q": "A 'zoom-in' pivot means:",
+       "options": [
+        "Targeting a bigger market",
+        "Turning one feature into the whole product",
+        "Changing the founders",
+        "Raising more money"
+       ],
+       "answer": 1,
+       "why": "A single valued feature becomes the product."
+      },
+      {
+       "q": "Why schedule pivot-or-persevere reviews in advance?",
+       "options": [
+        "To please investors",
+        "To decide on evidence instead of in a panic",
+        "Because law requires it",
+        "To delay decisions"
+       ],
+       "answer": 1,
+       "why": "A set review with thresholds avoids emotional decisions."
+      }
+     ],
+     "sources": [
+      {
+       "title": "Eric Ries — The Lean Startup principles",
+       "url": "https://theleanstartup.com/principles"
+      },
+      {
+       "title": "The Sean Ellis product-market fit survey (40% test)",
+       "url": "https://learningloop.io/plays/product-market-fit-survey"
+      }
+     ],
+     "tags": [
+      "pivot",
+      "persevere",
+      "strategy"
+     ],
+     "rules": [
+      {
+       "id": "flat-growth-long",
+       "says": "Little or no growth after nine months in market usually means the current plan needs a fundamental change.",
+       "severity": "medium"
+      },
+      {
+       "id": "growing-well",
+       "says": "Revenue growing 10%+ month on month is a strong reason to persevere.",
+       "severity": "medium"
+      },
+      {
+       "id": "weak-and-out-of-cash",
+       "says": "Weak traction with under 3 months of runway: plan a responsible pause or wind-down, or a drastic pivot you can afford.",
+       "severity": "high"
+      }
+     ]
+    },
+    {
+     "id": "m13-l3",
+     "title": "When and how to scale",
+     "minutes": 10,
+     "summary": "Scaling too early is a top cause of failure; scaling too late lets competitors win. Scale when the engine is proven, then build the organisation around it.",
+     "key_ideas": [
+      "Scale when you have product-market fit, LTV:CAC of 3+ and a channel that pays back predictably.",
+      "Premature scaling: hiring, spending and expanding before fit — it multiplies burn without multiplying learning.",
+      "Crossing the chasm: early adopters are not the mainstream; you need references and a complete solution for a focused segment to cross.",
+      "Build systems: playbooks, metrics dashboards, managers for functions founders still run.",
+      "Expand to adjacent segments one at a time from your beachhead.",
+      "Protect culture and unit economics as you grow."
+     ],
+     "framework": null,
+     "checklist": [
+      "Check the scale gate: PMF, LTV:CAC ≥ 3, payback ≤ 12-18 months",
+      "Write the playbook for your main channel",
+      "Pick the next adjacent segment"
+     ],
+     "pitfalls": [
+      "Expanding to new cities or segments before the first one works",
+      "Hiring faster than you can onboard"
+     ],
+     "india": [],
+     "quiz": [
+      {
+       "q": "Which is a sign you're ready to scale?",
+       "options": [
+        "A big funding round alone",
+        "PMF plus LTV:CAC of 3+ and a predictable channel",
+        "A lot of press",
+        "A new office"
+       ],
+       "answer": 1,
+       "why": "Scale a proven engine, not a hope."
+      },
+      {
+       "q": "'Crossing the chasm' refers to moving from:",
+       "options": [
+        "Seed to Series A",
+        "Early adopters to the mainstream market",
+        "India to the US",
+        "B2B to B2C"
+       ],
+       "answer": 1,
+       "why": "Mainstream buyers need references and complete solutions."
+      }
+     ],
+     "sources": [
+      {
+       "title": "Geoffrey Moore — Crossing the Chasm",
+       "url": null
+      },
+      {
+       "title": "Weflow — B2B SaaS metrics and benchmarks",
+       "url": "https://www.weflow.ai/blog/b2b-saas-metrics-benchmarks-guide"
+      }
+     ],
+     "tags": [
+      "scaling",
+      "premature scaling",
+      "crossing the chasm"
+     ],
+     "rules": []
+    }
+   ]
+  }
+ ],
+ "glossary": {
+  "ARPU": "Average revenue per user or customer, usually per month.",
+  "CAC": "Customer acquisition cost: sales and marketing spend divided by new paying customers.",
+  "LTV": "Lifetime value: the gross profit a customer brings over their lifetime.",
+  "Churn": "The share of customers (or revenue) lost in a period.",
+  "Runway": "Months until cash runs out at the current net burn.",
+  "Burn multiple": "Net burn divided by net new revenue in the same period.",
+  "MVP": "Minimum viable product: the smallest product that tests whether real users want it.",
+  "PMF": "Product-market fit: a product that satisfies strong demand, shown by retention and user love.",
+  "TAM / SAM / SOM": "Total, serviceable and obtainable market sizes.",
+  "DPIIT": "Department for Promotion of Industry and Internal Trade, which recognises startups under Startup India.",
+  "SISFS": "Startup India Seed Fund Scheme: grants and debt for early startups through incubators.",
+  "CGSS": "Credit Guarantee Scheme for Startups: government guarantees on loans to DPIIT startups.",
+  "CCPS": "Compulsorily convertible preference shares: the usual instrument for investors in Indian startups.",
+  "CCD": "Compulsorily convertible debentures: debentures that must convert to equity.",
+  "Vesting": "Earning shares over time, so people who leave early don't keep all their equity.",
+  "ESOP": "Employee stock option plan.",
+  "Beachhead": "The first focused market segment you aim to dominate.",
+  "JTBD": "Jobs to be done: the progress a customer is trying to make."
+ },
+ "decisions": {
+  "focus": {
+   "label": "What to focus on next",
+   "examples": [
+    "What should I focus on next?",
+    "What is my priority this month?"
+   ],
+   "key_facts": [
+    "interviews_done",
+    "commitments",
+    "has_mvp",
+    "paying_customers",
+    "pmf_score"
+   ],
+   "options": [
+    {
+     "id": "focus.find_problem",
+     "label": "Find a problem worth solving",
+     "summary": "Talk to customers until you can state a painful, frequent, unsolved problem for a specific segment.",
+     "lessons": [
+      "m2-l1",
+      "m3-l3"
+     ]
+    },
+    {
+     "id": "focus.validate_solution",
+     "label": "Validate the solution before building",
+     "summary": "Prove people want your solution by getting commitments (time, reputation or money) before you build much.",
+     "lessons": [
+      "m4-l1",
+      "m4-l2"
+     ]
+    },
+    {
+     "id": "focus.reach_pmf",
+     "label": "Reach product-market fit",
+     "summary": "Iterate with your users until retention flattens and 40%+ would be very disappointed without you.",
+     "lessons": [
+      "m5-l2",
+      "m5-l3"
+     ]
+    },
+    {
+     "id": "focus.build_engine",
+     "label": "Build a repeatable growth engine",
+     "summary": "Find one or two channels that bring customers profitably and predictably.",
+     "lessons": [
+      "m8-l1",
+      "m7-l3"
+     ]
+    },
+    {
+     "id": "focus.scale_up",
+     "label": "Scale what works",
+     "summary": "Pour resources into the proven engine while protecting unit economics and culture.",
+     "lessons": [
+      "m9-l2",
+      "m11-l2"
+     ]
+    }
+   ]
+  },
+  "build_or_validate": {
+   "label": "Build now or validate first",
+   "examples": [
+    "Should we start building the app now?",
+    "Is it time to build the MVP?"
+   ],
+   "key_facts": [
+    "interviews_done",
+    "commitments",
+    "has_mvp",
+    "paying_customers"
+   ],
+   "options": [
+    {
+     "id": "build_or_validate.discover",
+     "label": "Do customer discovery first",
+     "summary": "You do not yet know enough about the problem; building now risks making something nobody needs.",
+     "lessons": [
+      "m3-l3",
+      "m3-l1"
+     ]
+    },
+    {
+     "id": "build_or_validate.smoke_test",
+     "label": "Run a cheap demand test",
+     "summary": "The problem looks real; now test if people will commit to your solution before you build it.",
+     "lessons": [
+      "m4-l2",
+      "m4-l3"
+     ]
+    },
+    {
+     "id": "build_or_validate.build_mvp",
+     "label": "Build the smallest MVP",
+     "summary": "You have evidence of demand; build the smallest product that tests the riskiest assumption with real users.",
+     "lessons": [
+      "m4-l3",
+      "m5-l3"
+     ]
+    },
+    {
+     "id": "build_or_validate.build_full",
+     "label": "Build the full product",
+     "summary": "Build the complete product. Right only when demand is proven and the MVP is limiting growth.",
+     "lessons": [
+      "m5-l3"
+     ]
+    }
+   ]
+  },
+  "pivot_or_persevere": {
+   "label": "Pivot or persevere",
+   "examples": [
+    "Should we pivot?",
+    "Is it time to change direction?"
+   ],
+   "key_facts": [
+    "months_since_launch",
+    "pmf_score",
+    "revenue_growth_mom_pct",
+    "retention_flattening",
+    "paying_customers",
+    "runway_months"
+   ],
+   "options": [
+    {
+     "id": "pivot_or_persevere.persevere",
+     "label": "Persevere",
+     "summary": "The signals are good enough; keep going and focus on the bottleneck.",
+     "lessons": [
+      "m13-l2",
+      "m5-l2"
+     ]
+    },
+    {
+     "id": "pivot_or_persevere.iterate",
+     "label": "Iterate (change one thing)",
+     "summary": "There are real signals but not enough; change one variable (segment, feature, price, channel) and measure.",
+     "lessons": [
+      "m13-l2",
+      "m4-l1"
+     ]
+    },
+    {
+     "id": "pivot_or_persevere.pivot",
+     "label": "Pivot",
+     "summary": "The current direction is not working; keep what you learned and change a fundamental part of the plan.",
+     "lessons": [
+      "m13-l2",
+      "m3-l3"
+     ]
+    },
+    {
+     "id": "pivot_or_persevere.wind_down",
+     "label": "Pause or wind down",
+     "summary": "Low traction and little runway left; protect people and money and decide calmly.",
+     "lessons": [
+      "m13-l2",
+      "m9-l2"
+     ]
+    }
+   ]
+  },
+  "pricing": {
+   "label": "Pricing",
+   "examples": [
+    "Should we raise our prices?",
+    "How should we price the product?"
+   ],
+   "key_facts": [
+    "willingness_to_pay_tested",
+    "customers_complain_price",
+    "sales_conversion_pct",
+    "gross_margin_pct",
+    "price_vs_competitors"
+   ],
+   "options": [
+    {
+     "id": "pricing.raise_price",
+     "label": "Raise prices",
+     "summary": "Signals say you are under-priced; raise prices for new customers and watch conversion.",
+     "lessons": [
+      "m7-l2"
+     ]
+    },
+    {
+     "id": "pricing.test_value_pricing",
+     "label": "Run a pricing experiment",
+     "summary": "You do not yet know what customers will pay; test price points against the value you deliver.",
+     "lessons": [
+      "m7-l2",
+      "m5-l1"
+     ]
+    },
+    {
+     "id": "pricing.keep_price",
+     "label": "Keep current pricing",
+     "summary": "Price is working; spend energy elsewhere.",
+     "lessons": [
+      "m7-l2"
+     ]
+    },
+    {
+     "id": "pricing.lower_price",
+     "label": "Lower prices",
+     "summary": "Price is the real blocker for a price-sensitive segment. Rarely the right first move.",
+     "lessons": [
+      "m7-l2"
+     ]
+    }
+   ]
+  },
+  "scale_growth": {
+   "label": "Spend on growth",
+   "examples": [
+    "Should we spend more on ads to grow?",
+    "Is it time to scale marketing?"
+   ],
+   "key_facts": [
+    "ltv_cac",
+    "cac_payback_months",
+    "monthly_churn_pct",
+    "pmf_score",
+    "gross_margin_pct",
+    "runway_months"
+   ],
+   "options": [
+    {
+     "id": "scale_growth.scale_paid",
+     "label": "Scale paid acquisition",
+     "summary": "Unit economics work; increase spend on the channels that pay back.",
+     "lessons": [
+      "m7-l3",
+      "m8-l1"
+     ]
+    },
+    {
+     "id": "scale_growth.fix_unit_economics",
+     "label": "Fix unit economics first",
+     "summary": "Each customer costs more than they return; scaling would multiply losses.",
+     "lessons": [
+      "m7-l3",
+      "m7-l2"
+     ]
+    },
+    {
+     "id": "scale_growth.improve_retention",
+     "label": "Improve retention first",
+     "summary": "Customers leave too fast; fix the leaky bucket before pouring in more.",
+     "lessons": [
+      "m5-l2",
+      "m8-l3"
+     ]
+    },
+    {
+     "id": "scale_growth.find_channel",
+     "label": "Keep testing channels",
+     "summary": "You have not yet found a channel that works predictably.",
+     "lessons": [
+      "m8-l1"
+     ]
+    }
+   ]
+  },
+  "channel": {
+   "label": "Go-to-market channel",
+   "examples": [
+    "How do we get our first customers?",
+    "Which marketing channel should we use?"
+   ],
+   "key_facts": [
+    "customer_type",
+    "arpu_monthly_inr",
+    "paying_customers",
+    "has_distribution_partner"
+   ],
+   "options": [
+    {
+     "id": "channel.founder_led_sales",
+     "label": "Founder-led sales",
+     "summary": "Founders sell directly: outreach, demos, closing. Best for B2B and for the first customers of any startup.",
+     "lessons": [
+      "m8-l2",
+      "m3-l1"
+     ]
+    },
+    {
+     "id": "channel.content_community",
+     "label": "Content and community",
+     "summary": "Build trust and organic demand where your customers already gather.",
+     "lessons": [
+      "m8-l1"
+     ]
+    },
+    {
+     "id": "channel.paid_acquisition",
+     "label": "Paid acquisition",
+     "summary": "Buy attention with ads. Works only when you know LTV and the payback is short.",
+     "lessons": [
+      "m8-l1",
+      "m7-l3"
+     ]
+    },
+    {
+     "id": "channel.partnerships",
+     "label": "Partnerships and distribution",
+     "summary": "Reach customers through someone who already has them.",
+     "lessons": [
+      "m8-l1"
+     ]
+    }
+   ]
+  },
+  "fundraise_timing": {
+   "label": "Whether to raise money now",
+   "examples": [
+    "Should we raise a seed round now?",
+    "Do we need investors?"
+   ],
+   "key_facts": [
+    "runway_months",
+    "paying_customers",
+    "revenue_growth_mom_pct",
+    "pmf_score",
+    "interviews_done",
+    "dpiit_recognized"
+   ],
+   "options": [
+    {
+     "id": "fundraise_timing.raise_now",
+     "label": "Start raising now",
+     "summary": "You have the evidence investors fund (traction, growth) or you must raise to survive; start the process now.",
+     "lessons": [
+      "m10-l1",
+      "m10-l3"
+     ]
+    },
+    {
+     "id": "fundraise_timing.build_traction_first",
+     "label": "Build traction first",
+     "summary": "Investors fund evidence. Get more proof first so you raise on better terms, or never need to.",
+     "lessons": [
+      "m10-l1",
+      "m9-l3"
+     ]
+    },
+    {
+     "id": "fundraise_timing.non_dilutive_first",
+     "label": "Use non-dilutive money first",
+     "summary": "Grants and schemes give money without giving up equity; use them while you are eligible.",
+     "lessons": [
+      "m12-l3",
+      "m10-l1"
+     ]
+    },
+    {
+     "id": "fundraise_timing.debt",
+     "label": "Take a loan",
+     "summary": "Debt suits businesses with steady revenue that can repay; it keeps equity.",
+     "lessons": [
+      "m12-l3",
+      "m9-l1"
+     ]
+    }
+   ]
+  },
+  "funding_instrument": {
+   "label": "Funding instrument",
+   "examples": [
+    "Should we use a SAFE or a convertible note?",
+    "What instrument should our angel round use?"
+   ],
+   "key_facts": [
+    "valuation_agreed",
+    "dpiit_recognized",
+    "entity_type",
+    "raise_amount_per_investor_inr",
+    "investor_type"
+   ],
+   "options": [
+    {
+     "id": "funding_instrument.priced_equity",
+     "label": "Priced equity round (equity shares or CCPS at a set valuation)",
+     "summary": "Investors buy shares at an agreed valuation. Clear ownership; more legal work and a valuation report.",
+     "lessons": [
+      "m10-l2"
+     ]
+    },
+    {
+     "id": "funding_instrument.ccps_safe",
+     "label": "India-style SAFE (CCPS-based, e.g. iSAFE)",
+     "summary": "Shares that convert later at a cap or discount; quick for small angel rounds without agreeing a valuation today.",
+     "lessons": [
+      "m10-l2"
+     ]
+    },
+    {
+     "id": "funding_instrument.convertible_note",
+     "label": "Convertible note",
+     "summary": "Debt that converts to equity later. In India only DPIIT-recognised startups can issue it, with at least ₹25 lakh per investor in one tranche.",
+     "lessons": [
+      "m10-l2"
+     ]
+    },
+    {
+     "id": "funding_instrument.ccd",
+     "label": "Compulsorily convertible debentures (CCD)",
+     "summary": "Debentures that must convert to equity; any private company can issue them, usually with a valuation report.",
+     "lessons": [
+      "m10-l2"
+     ]
+    }
+   ]
+  },
+  "runway_burn": {
+   "label": "Runway and burn",
+   "examples": [
+    "We have 5 months of cash, what do we do?",
+    "Should we cut costs?"
+   ],
+   "key_facts": [
+    "runway_months",
+    "default_alive",
+    "revenue_growth_mom_pct",
+    "burn_multiple"
+   ],
+   "options": [
+    {
+     "id": "runway_burn.cut_burn",
+     "label": "Cut burn now",
+     "summary": "Reduce spending to buy time; the cheapest money is the money you do not spend.",
+     "lessons": [
+      "m9-l2",
+      "m9-l3"
+     ]
+    },
+    {
+     "id": "runway_burn.raise_bridge",
+     "label": "Raise a bridge",
+     "summary": "Raise a small round from existing investors to reach the next milestone.",
+     "lessons": [
+      "m10-l1",
+      "m9-l2"
+     ]
+    },
+    {
+     "id": "runway_burn.grow_revenue",
+     "label": "Push revenue",
+     "summary": "Grow revenue faster: sell to existing customers, raise prices, collect payments sooner.",
+     "lessons": [
+      "m9-l3",
+      "m7-l2"
+     ]
+    },
+    {
+     "id": "runway_burn.stay_course",
+     "label": "Stay the course",
+     "summary": "Runway and trajectory are healthy; keep executing.",
+     "lessons": [
+      "m9-l2"
+     ]
+    }
+   ]
+  },
+  "hiring": {
+   "label": "Hiring",
+   "examples": [
+    "Should we hire a full-time developer?",
+    "Do we need a marketing hire?"
+   ],
+   "key_facts": [
+    "runway_months",
+    "role_is_core",
+    "founders_can_cover_role",
+    "pmf_score"
+   ],
+   "options": [
+    {
+     "id": "hiring.hire_full_time",
+     "label": "Hire full-time",
+     "summary": "The role is core and you can afford it for a year; hire a strong, committed person.",
+     "lessons": [
+      "m11-l2"
+     ]
+    },
+    {
+     "id": "hiring.contractor",
+     "label": "Use a contractor or freelancer",
+     "summary": "Get the work done without a long commitment; good for non-core or uncertain work.",
+     "lessons": [
+      "m11-l2"
+     ]
+    },
+    {
+     "id": "hiring.founders_cover",
+     "label": "Founders do it for now",
+     "summary": "Before product-market fit, founders learn the most by doing the work themselves.",
+     "lessons": [
+      "m11-l2",
+      "m8-l2"
+     ]
+    },
+    {
+     "id": "hiring.delay",
+     "label": "Delay the hire",
+     "summary": "Not needed yet or not affordable; revisit at the next milestone.",
+     "lessons": [
+      "m11-l2"
+     ]
+    }
+   ]
+  },
+  "cofounder_equity": {
+   "label": "Co-founder equity",
+   "examples": [
+    "How should we split equity between co-founders?",
+    "Do we need vesting?"
+   ],
+   "key_facts": [
+    "founders_count",
+    "vesting_in_place",
+    "cofounder_contribution_equal",
+    "cofounder_full_time"
+   ],
+   "options": [
+    {
+     "id": "cofounder_equity.equal_with_vesting",
+     "label": "Equal split with vesting",
+     "summary": "Founders who will contribute equally from here split equally, with 4-year vesting and a 1-year cliff.",
+     "lessons": [
+      "m11-l1"
+     ]
+    },
+    {
+     "id": "cofounder_equity.weighted_with_vesting",
+     "label": "Weighted split with vesting",
+     "summary": "Contributions differ (time, role, risk); split to reflect future contribution, still with vesting.",
+     "lessons": [
+      "m11-l1"
+     ]
+    },
+    {
+     "id": "cofounder_equity.no_vesting",
+     "label": "Split without vesting",
+     "summary": "Shares fully owned from day one. Risky: a founder who leaves keeps everything.",
+     "lessons": [
+      "m11-l1"
+     ]
+    }
+   ]
+  },
+  "legal_entity": {
+   "label": "Legal entity",
+   "examples": [
+    "Should we register as a private limited company or an LLP?",
+    "Which company type should we choose?"
+   ],
+   "key_facts": [
+    "needs_external_funding",
+    "founders_count",
+    "wants_esops",
+    "is_service_business"
+   ],
+   "options": [
+    {
+     "id": "legal_entity.private_limited",
+     "label": "Private limited company",
+     "summary": "The standard for startups that will raise equity or give ESOPs.",
+     "lessons": [
+      "m12-l1"
+     ]
+    },
+    {
+     "id": "legal_entity.llp",
+     "label": "Limited liability partnership (LLP)",
+     "summary": "Limited liability with lighter compliance; good for services firms that will not raise equity.",
+     "lessons": [
+      "m12-l1"
+     ]
+    },
+    {
+     "id": "legal_entity.proprietorship",
+     "label": "Sole proprietorship or partnership",
+     "summary": "Fastest and cheapest, but unlimited liability and no equity investment.",
+     "lessons": [
+      "m12-l1"
+     ]
+    },
+    {
+     "id": "legal_entity.opc",
+     "label": "One person company (OPC)",
+     "summary": "A company with a single owner; limited liability for a solo founder who is not raising yet.",
+     "lessons": [
+      "m12-l1"
+     ]
+    }
+   ]
+  }
+ },
+ "facts": {
+  "interviews_done": {
+   "kind": "number",
+   "label": "Problem interviews done",
+   "ask": "How many customer problem interviews have you done?"
+  },
+  "commitments": {
+   "kind": "number",
+   "label": "Commitments (LOIs, pre-orders, deposits, pilots)",
+   "ask": "How many prospects have committed something (LOI, pre-order, deposit, paid pilot)?"
+  },
+  "has_mvp": {
+   "kind": "bool",
+   "label": "Has an MVP in users' hands",
+   "ask": "Do real users have an MVP in their hands today?"
+  },
+  "paying_customers": {
+   "kind": "number",
+   "label": "Paying customers",
+   "ask": "How many paying customers do you have?"
+  },
+  "months_since_launch": {
+   "kind": "number",
+   "label": "Months since launch",
+   "ask": "How many months since you launched to users?"
+  },
+  "pmf_score": {
+   "kind": "number",
+   "label": "Sean Ellis score (% 'very disappointed')",
+   "ask": "In a Sean Ellis survey, what % of active users would be 'very disappointed' without your product?"
+  },
+  "retention_flattening": {
+   "kind": "bool",
+   "label": "Retention curve flattens",
+   "ask": "Does your cohort retention curve flatten (a stable share keeps using it) rather than fall to zero?"
+  },
+  "monthly_revenue_inr": {
+   "kind": "number",
+   "label": "Monthly revenue (₹)",
+   "ask": "What is your monthly recurring revenue in ₹?"
+  },
+  "revenue_growth_mom_pct": {
+   "kind": "number",
+   "label": "Revenue growth month-on-month (%)",
+   "ask": "By what % does revenue grow month on month?"
+  },
+  "monthly_burn_inr": {
+   "kind": "number",
+   "label": "Net monthly burn (₹, spend minus revenue)",
+   "ask": "What is your net monthly burn in ₹ (spend minus revenue)?"
+  },
+  "cash_in_bank_inr": {
+   "kind": "number",
+   "label": "Cash in bank (₹)",
+   "ask": "How much cash is in the bank (₹)?"
+  },
+  "gross_margin_pct": {
+   "kind": "number",
+   "label": "Gross margin (%)",
+   "ask": "What is your gross margin (%)?"
+  },
+  "cac_inr": {
+   "kind": "number",
+   "label": "Customer acquisition cost (₹)",
+   "ask": "What does it cost to acquire one paying customer (₹, all sales and marketing spend / new customers)?"
+  },
+  "arpu_monthly_inr": {
+   "kind": "number",
+   "label": "Revenue per customer per month (₹)",
+   "ask": "What is the average monthly revenue per paying customer (₹)?"
+  },
+  "monthly_churn_pct": {
+   "kind": "number",
+   "label": "Monthly customer churn (%)",
+   "ask": "What % of paying customers cancel each month?"
+  },
+  "sales_conversion_pct": {
+   "kind": "number",
+   "label": "Sales conversion (%)",
+   "ask": "What % of qualified prospects who see the price buy?"
+  },
+  "customers_complain_price": {
+   "kind": "bool",
+   "label": "Customers push back on price",
+   "ask": "Do prospects regularly push back on the price?"
+  },
+  "willingness_to_pay_tested": {
+   "kind": "bool",
+   "label": "Willingness to pay tested",
+   "ask": "Have you tested willingness to pay (asked for money at different price points)?"
+  },
+  "price_vs_competitors": {
+   "kind": "enum",
+   "values": [
+    "lower",
+    "similar",
+    "higher"
+   ],
+   "label": "Price vs competitors",
+   "ask": "Is your price lower, similar or higher than the alternatives?"
+  },
+  "customer_type": {
+   "kind": "enum",
+   "values": [
+    "b2b",
+    "b2c",
+    "b2g"
+   ],
+   "label": "Customer type",
+   "ask": "Do you sell to businesses (b2b), consumers (b2c) or government (b2g)?"
+  },
+  "business_model": {
+   "kind": "enum",
+   "values": [
+    "saas",
+    "marketplace",
+    "d2c",
+    "consumer_app",
+    "services",
+    "hardware",
+    "deeptech",
+    "other"
+   ],
+   "label": "Business model",
+   "ask": "What kind of business is it (saas, marketplace, d2c, consumer_app, services, hardware, deeptech, other)?"
+  },
+  "has_distribution_partner": {
+   "kind": "bool",
+   "label": "Has a distribution partner who owns your customers",
+   "ask": "Is there a partner who already reaches your customers and wants to distribute you?"
+  },
+  "founders_count": {
+   "kind": "number",
+   "label": "Number of founders",
+   "ask": "How many founders are there?"
+  },
+  "vesting_in_place": {
+   "kind": "bool",
+   "label": "Founder vesting agreed",
+   "ask": "Do the founders have vesting on their shares?"
+  },
+  "cofounder_contribution_equal": {
+   "kind": "bool",
+   "label": "Founders contribute roughly equally",
+   "ask": "Will the founders contribute roughly equally from here on (time, risk, role)?"
+  },
+  "cofounder_full_time": {
+   "kind": "bool",
+   "label": "All founders full-time",
+   "ask": "Are all founders working on this full-time?"
+  },
+  "role_is_core": {
+   "kind": "bool",
+   "label": "The hire is core to the product or customers",
+   "ask": "Is the role core to building the product or winning customers?"
+  },
+  "founders_can_cover_role": {
+   "kind": "bool",
+   "label": "Founders can cover the role for now",
+   "ask": "Can a founder cover this work for the next 3-6 months?"
+  },
+  "new_hire_monthly_cost_inr": {
+   "kind": "number",
+   "label": "Monthly cost of the hire (₹)",
+   "ask": "What would the hire cost per month (₹, fully loaded)?"
+  },
+  "country": {
+   "kind": "enum",
+   "values": [
+    "IN",
+    "other"
+   ],
+   "label": "Country",
+   "ask": "Is the company in India (IN) or elsewhere?"
+  },
+  "state": {
+   "kind": "text",
+   "label": "Indian state or UT",
+   "ask": "Which Indian state or UT is the business registered in?"
+  },
+  "entity_type": {
+   "kind": "enum",
+   "values": [
+    "none",
+    "proprietorship",
+    "partnership",
+    "llp",
+    "private_limited",
+    "opc",
+    "cooperative"
+   ],
+   "label": "Legal entity",
+   "ask": "What legal entity is it (none, proprietorship, partnership, llp, private_limited, opc, cooperative)?"
+  },
+  "months_since_incorporation": {
+   "kind": "number",
+   "label": "Months since incorporation",
+   "ask": "How many months since the entity was incorporated?"
+  },
+  "incorporation_date": {
+   "kind": "date",
+   "label": "Incorporation date (YYYY-MM-DD)",
+   "ask": "On what date was the entity incorporated?"
+  },
+  "dpiit_recognized": {
+   "kind": "bool",
+   "label": "DPIIT-recognised startup",
+   "ask": "Is the company recognised as a startup by DPIIT?"
+  },
+  "annual_turnover_inr": {
+   "kind": "number",
+   "label": "Annual turnover (₹)",
+   "ask": "What was turnover in the last financial year (₹)?"
+  },
+  "govt_funding_received_inr": {
+   "kind": "number",
+   "label": "Government monetary support received (₹)",
+   "ask": "How much monetary support have you received from central or state government schemes (₹)?"
+  },
+  "is_deeptech": {
+   "kind": "bool",
+   "label": "Deep-tech (significant R&D and own novel IP)",
+   "ask": "Is it deep tech (significant R&D spend and novel IP you own)?"
+  },
+  "sells_goods": {
+   "kind": "bool",
+   "label": "Sells goods",
+   "ask": "Do you sell physical goods?"
+  },
+  "sells_services": {
+   "kind": "bool",
+   "label": "Sells services (incl. software)",
+   "ask": "Do you sell services (including software)?"
+  },
+  "sells_interstate_goods": {
+   "kind": "bool",
+   "label": "Supplies goods to other states",
+   "ask": "Do you supply goods to customers in other states?"
+  },
+  "sells_via_ecommerce": {
+   "kind": "bool",
+   "label": "Sells through e-commerce marketplaces",
+   "ask": "Do you sell through e-commerce marketplaces (Amazon, Flipkart, ONDC sellers apps)?"
+  },
+  "needs_external_funding": {
+   "kind": "bool",
+   "label": "Plans to raise equity from investors",
+   "ask": "Do you plan to raise equity from angels or VCs?"
+  },
+  "wants_esops": {
+   "kind": "bool",
+   "label": "Wants an ESOP pool",
+   "ask": "Do you want to give employees stock options?"
+  },
+  "is_service_business": {
+   "kind": "bool",
+   "label": "Mainly a services / consulting business",
+   "ask": "Is it mainly a services or consulting business?"
+  },
+  "raise_amount_per_investor_inr": {
+   "kind": "number",
+   "label": "Cheque size per investor (₹)",
+   "ask": "How much will each investor put in (₹)?"
+  },
+  "investor_type": {
+   "kind": "enum",
+   "values": [
+    "friends_family",
+    "angel",
+    "vc",
+    "foreign"
+   ],
+   "label": "Main investor type",
+   "ask": "Who is investing (friends_family, angel, vc, foreign)?"
+  },
+  "valuation_agreed": {
+   "kind": "bool",
+   "label": "Investors and founders agree a valuation",
+   "ask": "Have you and the investors agreed a valuation?"
+  },
+  "seeking_debt": {
+   "kind": "bool",
+   "label": "Considering a loan",
+   "ask": "Are you considering a bank or NBFC loan?"
+  }
+ },
+ "derived": {
+  "runway_months": "Cash ÷ net monthly burn",
+  "ltv_inr": "Revenue per customer per month × gross margin ÷ monthly churn (capped at 60 months)",
+  "ltv_cac": "Lifetime value ÷ customer acquisition cost",
+  "cac_payback_months": "CAC ÷ (monthly revenue per customer × gross margin)",
+  "acv_inr": "Annual contract value: monthly revenue per customer × 12",
+  "burn_multiple": "Net burn ÷ net new monthly revenue",
+  "default_alive": "Reaches break-even on current growth and spend before the cash runs out",
+  "stage": "idea, problem_solution_fit, mvp_traction, product_market_fit or scale",
+  "age_months": "Months since incorporation",
+  "capital_intensive": "Hardware or deep tech"
+ }
+}
